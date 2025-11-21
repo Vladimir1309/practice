@@ -4,6 +4,30 @@
              xmlns:local="clr-namespace:Practice"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+
+        <Style TargetType="TextBox">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="13" />
+                </Style>
+            </Style.Resources>
+        </Style>
+
+        <Style TargetType="Button">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="13" />
+                </Style>
+            </Style.Resources>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="E_mail">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="13" />
+                </Style>
+            </Style.Resources>
+        </Style>
+
     </Application.Resources>
 </Application>

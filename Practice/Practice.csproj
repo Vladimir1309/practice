@@ -8,4 +8,14 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Telegram.png" />
+    <None Remove="VK Circled.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Telegram.png" />
+    <Resource Include="VK Circled.png" />
+  </ItemGroup>
+
 </Project>
