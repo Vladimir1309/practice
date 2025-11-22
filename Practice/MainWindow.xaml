@@ -6,15 +6,15 @@
         xmlns:local="clr-namespace:Practice"
         mc:Ignorable="d"
         Title="MainWindow" Height="1024" Width="1440">
-    <Grid Margin="0,-20,0,20">
+    <Grid Margin="0,-20,0,20" Cursor="">
 
-        <TextBlock HorizontalAlignment="Left" Height="66" Margin="558,256,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="280" FontSize="48"><Run Language="ru-ru" Text="Регистрация"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Height="66" Margin="558,256,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="280" FontSize="48" Text="Регистрация"/>
 
-        <Image Height="100" Width="100" Margin="558,345,782,563" Source="/VK Circled.png"/>
-        <Image Height="100" Width="100" Margin="738,345,602,563" Source="/Telegram.png"/>
+        <Image Height="100" Width="100" Margin="558,345,782,563" Source="/VK Circled.png" MouseLeftButtonDown="MLBD_VK_TG" Cursor="Hand"/>
+        <Image Height="100" Width="100" Margin="738,345,602,563" Source="/Telegram.png" MouseLeftButtonDown="MLBD_VK_TG" Cursor="Hand"/>
 
-        <TextBlock x:Name="Phone" HorizontalAlignment="Left" Height="34" Margin="524,469,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="191" FontSize="24" Foreground="#FFB70000" Cursor=""><Run Language="ru-ru" Text="Номер телефона" MouseLeftButtonDown="MLBD_Phone" Cursor="Hand" MouseEnter="Phone_MouseEnter" MouseLeave="Phone_MouseLeave"/></TextBlock>
-        <TextBlock x:Name="E_mail" HorizontalAlignment="Left" Height="34" Margin="720,469,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="72" FontSize="24" Text="E-mail" MouseLeftButtonDown="MLBD_Email" Cursor="Hand" MouseEnter="E_mail_MouseEnter" MouseLeave="E_mail_MouseLeave" Opacity="0.13"/>
+        <TextBlock x:Name="Phone" HorizontalAlignment="Left" Height="34" Margin="524,469,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="191" FontSize="24" Foreground="#B70000" MouseLeftButtonDown="MLBD_Phone"><Run Language="ru-ru" Text="Номер телефона" Cursor="Hand"/></TextBlock>
+        <TextBlock x:Name="E_mail" HorizontalAlignment="Left" Height="34" Margin="720,469,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="72" FontSize="24" Text="E-mail" MouseLeftButtonDown="MLBD_Email" Cursor="Hand"/>
 
         <TextBox HorizontalAlignment="Left" Height="37" Margin="524,533,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="348" VerticalContentAlignment="Center"/>
         <Label x:Name="E_P_Label" Content="Номер телефона" HorizontalAlignment="Left" Margin="531,508,0,0" VerticalAlignment="Top" Width="313" Height="33" Opacity="0.13"/>
@@ -24,9 +24,20 @@
         <Label Content="Повторите пароль" HorizontalAlignment="Left" Margin="531,632,0,0" VerticalAlignment="Top" Width="312" Height="33" Opacity="0.13"/>
 
         <Button Content="Зарегистрироваться" HorizontalAlignment="Left" Height="34" Margin="525,725,0,0" VerticalAlignment="Top" Width="346" Background="#FFB70000" Foreground="White" Cursor="Hand"/>
-        <Label x:Name="AlreadyAccount" Content="Уже есть аккаунт?" HorizontalAlignment="Left" Height="29" Margin="643,764,0,0" VerticalAlignment="Top" Width="109" Opacity="0.13" Cursor="Hand" MouseEnter ="AlreadyAccount_MouseEnter" MouseLeave ="AlreadyAccount_MouseLeave"/>
+        <Label x:Name="AlreadyAccount" Content="Уже есть аккаунт?" HorizontalAlignment="Left" Height="29" Margin="643,764,0,0" VerticalAlignment="Top" Width="109" Opacity="0.13" Cursor="Hand" MouseEnter ="AlreadyAccount_MouseEnter" MouseLeave ="AlreadyAccount_MouseLeave" MouseLeftButtonDown="MLBD_Already"/>
         <Label Content="* Регистрируясь на нашем сервисе, вы&#xD;&#xA;подтверждаете своё согласие на обработку&#xD;&#xA;персональных данных" HorizontalAlignment="Left" Height="61" Margin="524,798,0,0" VerticalAlignment="Top" Width="268" Opacity="0.13"/>
 
+
+        <!--<RadioButton x:Name="E_mail_button" Content="Button" HorizontalAlignment="Left" Height="21" Margin="720,475,0,0" VerticalAlignment="Top" Width="65" Opacity="0.1" Cursor="Hand" VerticalContentAlignment="Center"/>
+        <RadioButton x:Name="Phone_button" Content="Button" HorizontalAlignment="Left" Height="25" Margin="525,476,0,0" VerticalAlignment="Top" Width="186" Opacity="0.1" Cursor="Hand" VerticalContentAlignment="Center"/>-->
+
+        <Label x:Name="GWAN" Content="GWAN" HorizontalAlignment="Left" Height="70" Margin="100,91,0,0" VerticalAlignment="Top" Width="323" FontSize="48" Foreground="#FFB70000" MouseLeftButtonDown="MLBD_GWAN" Cursor="Hand"/>
+        <Image HorizontalAlignment="Left" Height="44" Margin="783,92,0,0" VerticalAlignment="Top" Width="44" Source="/Favorite.png"/>
+        <Label Content="Избранное" HorizontalAlignment="Left" Height="44" Margin="832,93,0,0" VerticalAlignment="Top" Width="136" FontSize="24"/>
+        <Image HorizontalAlignment="Left" Height="44" Margin="1058,92,0,0" VerticalAlignment="Top" Width="44" Source="/Shopping Basket.png"/>
+        <Label Content="Корзина" HorizontalAlignment="Left" Height="44" Margin="1103,93,0,0" VerticalAlignment="Top" Width="136" FontSize="24"/>
+        <Image HorizontalAlignment="Left" Height="31" Margin="1309,98,0,0" VerticalAlignment="Top" Width="31" Source="/Collaborator Male.png"/>
+        <Image HorizontalAlignment="Left" Height="44" Margin="1302,91,0,0" VerticalAlignment="Top" Width="44" Source="/Collaborator Male-1.png"/>
 
     </Grid>
 </Window>

@@ -1,0 +1,103 @@
+﻿<Window x:Class="Practice.Main1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Practice"
+        mc:Ignorable="d"
+        Title="Main1" Height="1640" >
+    <Grid Height="1640" Width="1440" Background="White">
+        <Label x:Name="GWAN" Content="GWAN" HorizontalAlignment="Left" Height="70" Margin="100,91,0,0" VerticalAlignment="Top" Width="323" FontSize="48" Foreground="#FFB70000" FontFamily="Inria Serif" MouseLeftButtonDown="MLBD_GWAN" Cursor="Hand"/>
+        <Image HorizontalAlignment="Left" Height="44" Margin="783,92,0,0" VerticalAlignment="Top" Width="44" Source="/Favorite.png"/>
+        <Label Content="Избранное" HorizontalAlignment="Left" Height="44" Margin="832,93,0,0" VerticalAlignment="Top" Width="136" FontSize="24"/>
+        <Image HorizontalAlignment="Left" Height="44" Margin="1058,92,0,0" VerticalAlignment="Top" Width="44" Source="/Shopping Basket.png"/>
+        <Label Content="Корзина" HorizontalAlignment="Left" Height="44" Margin="1103,93,0,0" VerticalAlignment="Top" Width="136" FontSize="24"/>
+        <Image HorizontalAlignment="Left" Height="44" Margin="1302,91,0,0" VerticalAlignment="Top" Width="44" Source="/Collaborator Male-1.png"/>
+        <Border BorderThickness="1" HorizontalAlignment="Left" Height="200" Margin="205,609,0,0" VerticalAlignment="Top" Width="200" Cursor="">
+            <Border.Background>
+                <ImageBrush ImageSource="/11.png"/>
+            </Border.Background>
+        </Border>
+        <Border BorderThickness="1" HorizontalAlignment="Left" Height="200" Margin="484,609,0,0" VerticalAlignment="Top" Width="200">
+            <Border.Background>
+                <ImageBrush ImageSource="/2.png"/>
+            </Border.Background>
+        </Border>
+        <Border BorderThickness="1" HorizontalAlignment="Left" Height="200" Margin="763,609,0,0" VerticalAlignment="Top" Width="200">
+            <Border.Background>
+                <ImageBrush ImageSource="/3.png"/>
+            </Border.Background>
+        </Border>
+        <Border BorderThickness="1" HorizontalAlignment="Left" Height="200" Margin="1042,609,0,0" VerticalAlignment="Top" Width="200">
+            <Border.Background>
+                <ImageBrush ImageSource="/4.png"/>
+            </Border.Background>
+        </Border>
+        <Border BorderThickness="1" HorizontalAlignment="Center" Height="328" Margin="0,216,0,0" VerticalAlignment="Top" Width="1248">
+            <Border.Background>
+                <ImageBrush ImageSource="/4.bmp" Stretch="UniformToFill"/>
+            </Border.Background>
+        </Border>
+        <Label Content="Вино" HorizontalAlignment="Left" Height="40" Margin="205,814,0,0" VerticalAlignment="Top" Width="200" FontSize="24" HorizontalContentAlignment="Center"/>
+        <Label Content="Шампанское" HorizontalAlignment="Left" Height="40" Margin="484,814,0,0" VerticalAlignment="Top" Width="200" FontSize="24" HorizontalContentAlignment="Center"/>
+        <Label Content="Водка" HorizontalAlignment="Left" Height="40" Margin="763,814,0,0" VerticalAlignment="Top" Width="200" FontSize="24" HorizontalContentAlignment="Center"/>
+        <Label Content="Пиво" HorizontalAlignment="Left" Height="40" Margin="1042,814,0,0" VerticalAlignment="Top" Width="200" FontSize="24" HorizontalContentAlignment="Center"/>
+        <Label Content="Успей купить" HorizontalAlignment="Left" Height="78" Margin="100,919,0,0" VerticalAlignment="Top" Width="323" FontSize="48" FontWeight="Bold"/>
+        <Image HorizontalAlignment="Left" Height="311" Margin="138,1038,0,0" VerticalAlignment="Top" Width="300" Source="/Rectangle 1.png"/>
+        <Label Content="Syrah Toscana IGT Tenuta&#xD;&#xA;         Mordini, 0.75 л" HorizontalAlignment="Left" Height="76" Margin="146,1343,0,0" VerticalAlignment="Top" Width="284" FontSize="24" HorizontalContentAlignment="Center"/>
+        <Label Content="4 869 ₽" HorizontalAlignment="Left" Height="41" Margin="190,1424,0,0" VerticalAlignment="Top" Width="93" FontSize="24" Foreground="#FFB70000" FontWeight="Bold"/>
+        <Label Content="9 737 ₽" HorizontalAlignment="Left" Height="41" Margin="288,1424,0,0" VerticalAlignment="Top" Width="95" FontSize="24" Foreground="Black" FontWeight="Bold"/>
+        <Rectangle HorizontalAlignment="Left" Height="1" Margin="292,1448,0,0" Stroke="Black" VerticalAlignment="Top" Width="64"/>
+        <Label Content="В наличии" HorizontalAlignment="Left" Height="33" Margin="238,1454,0,0" VerticalAlignment="Top" Width="100" FontSize="16" Foreground="#FF00AA14" FontWeight="Bold"/>
+        <Border BorderBrush="#FF00AA14" BorderThickness="5,5,5,5" HorizontalAlignment="Left" Height="10" Margin="232,1466,0,0" VerticalAlignment="Top" Width="10"/>
+        <Border BorderBrush="#FFCECECE" BorderThickness="1" HorizontalAlignment="Left" Height="32" Margin="190,1497,0,0" VerticalAlignment="Top" Width="32" CornerRadius="0" Background="#FFEDEDED"/>
+        <Border BorderBrush="#FFCECECE" BorderThickness="1" HorizontalAlignment="Left" Height="32" Margin="222,1497,0,0" VerticalAlignment="Top" Width="52" CornerRadius="0">
+            <Label Content="1" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+        <Border BorderBrush="#FFCECECE" BorderThickness="1" HorizontalAlignment="Left" Height="32" Margin="274,1497,0,0" VerticalAlignment="Top" Width="32" CornerRadius="0" Background="#FFEDEDED"/>
+        <Button x:Name="minus"  Content="-" HorizontalAlignment="Left" Height="30" Margin="191,1498,0,0" VerticalAlignment="Top" Width="30" BorderBrush="#FFEDEDED" Background="#FFEDEDED"/>
+        <Button x:Name="plus" Content="+" HorizontalAlignment="Left" Height="30" Margin="275,1498,0,0" VerticalAlignment="Top" Width="30" BorderBrush="#FFEDEDED" Background="#FFEDEDED"/>
+        <Button Content="В корзину" HorizontalAlignment="Left" Height="31" Margin="306,1498,0,0" VerticalAlignment="Top" Width="84" BorderBrush="White" Background="#FFB70000" Foreground="White"/>
+        <Button HorizontalAlignment="Left" Height="31" Margin="390,1498,0,0" VerticalAlignment="Top" Width="33" BorderBrush="White" Background="#FFB70000" Foreground="White">
+            <Image Height="20" Width="20" Source="/Favorite_filled.png"/>
+        </Button>
+        <Image HorizontalAlignment="Left" Height="311" Margin="560,1038,0,0" VerticalAlignment="Top" Width="300" Source="/Vodka_7Zlakov.png"/>
+        <Label Content="7 Zlakov, 0.5 л" HorizontalAlignment="Left" Height="76" Margin="568,1343,0,0" VerticalAlignment="Top" Width="284" FontSize="24" HorizontalContentAlignment="Center"/>
+        <Label Content="522 ₽" HorizontalAlignment="Left" Height="41" Margin="628,1424,0,0" VerticalAlignment="Top" Width="93" FontSize="24" Foreground="#FFB70000" FontWeight="Bold"/>
+        <Label Content="653 ₽" HorizontalAlignment="Left" Height="41" Margin="698,1424,0,0" VerticalAlignment="Top" Width="96" FontSize="24" Foreground="Black" FontWeight="Bold"/>
+        <Rectangle HorizontalAlignment="Left" Height="1" Margin="700,1448,0,0" Stroke="Black" VerticalAlignment="Top" Width="48"/>
+        <Label Content="В наличии" HorizontalAlignment="Left" Height="33" Margin="660,1454,0,0" VerticalAlignment="Top" Width="100" FontSize="16" Foreground="#FF00AA14" FontWeight="Bold"/>
+        <Border BorderBrush="#FF00AA14" BorderThickness="5,5,5,5" HorizontalAlignment="Left" Height="10" Margin="654,1466,0,0" VerticalAlignment="Top" Width="10"/>
+        <Border BorderBrush="#FFCECECE" BorderThickness="1" HorizontalAlignment="Left" Height="32" Margin="612,1497,0,0" VerticalAlignment="Top" Width="32" CornerRadius="0" Background="#FFEDEDED"/>
+        <Border BorderBrush="#FFCECECE" BorderThickness="1" HorizontalAlignment="Left" Height="32" Margin="644,1497,0,0" VerticalAlignment="Top" Width="52" CornerRadius="0">
+            <Label Content="1" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+        <Border BorderBrush="#FFCECECE" BorderThickness="1" HorizontalAlignment="Left" Height="32" Margin="696,1497,0,0" VerticalAlignment="Top" Width="32" CornerRadius="0" Background="#FFEDEDED"/>
+        <Button x:Name="minus_Копировать"  Content="-" HorizontalAlignment="Left" Height="30" Margin="613,1498,0,0" VerticalAlignment="Top" Width="30" BorderBrush="#FFEDEDED" Background="#FFEDEDED"/>
+        <Button x:Name="plus_Копировать" Content="+" HorizontalAlignment="Left" Height="30" Margin="697,1498,0,0" VerticalAlignment="Top" Width="30" BorderBrush="#FFEDEDED" Background="#FFEDEDED"/>
+        <Button Content="В корзину" HorizontalAlignment="Left" Height="31" Margin="728,1498,0,0" VerticalAlignment="Top" Width="84" BorderBrush="White" Background="#FFB70000" Foreground="White"/>
+        <Button HorizontalAlignment="Left" Height="31" Margin="812,1498,0,0" VerticalAlignment="Top" Width="33" BorderBrush="White" Background="#FFB70000" Foreground="White">
+            <Image Height="20" Width="20" Source="/Favorite_empty.png"/>
+        </Button>
+        <Image HorizontalAlignment="Left" Height="311" Margin="976,1038,0,0" VerticalAlignment="Top" Width="300" Source="/Vodka_Polugar.png"/>
+        <Label Content="Vodka Polugar, 0.7 л" HorizontalAlignment="Left" Height="76" Margin="984,1343,0,0" VerticalAlignment="Top" Width="284" FontSize="24" HorizontalContentAlignment="Center"/>
+        <Label Content="1 793 ₽" HorizontalAlignment="Left" Height="41" Margin="1028,1424,0,0" VerticalAlignment="Top" Width="94" FontSize="24" Foreground="#FFB70000" FontWeight="Bold"/>
+        <Label Content="2 988 ₽" HorizontalAlignment="Left" Height="41" Margin="1126,1424,0,0" VerticalAlignment="Top" Width="96" FontSize="24" Foreground="Black" FontWeight="Bold"/>
+        <Rectangle HorizontalAlignment="Left" Height="1" Margin="1130,1448,0,0" Stroke="Black" VerticalAlignment="Top" Width="64"/>
+        <Label Content="В наличии" HorizontalAlignment="Left" Height="33" Margin="1076,1454,0,0" VerticalAlignment="Top" Width="100" FontSize="16" Foreground="#FF00AA14" FontWeight="Bold"/>
+        <Border BorderBrush="#FF00AA14" BorderThickness="5,5,5,5" HorizontalAlignment="Left" Height="10" Margin="1070,1466,0,0" VerticalAlignment="Top" Width="10"/>
+        <Border BorderBrush="#FFCECECE" BorderThickness="1" HorizontalAlignment="Left" Height="32" Margin="1028,1497,0,0" VerticalAlignment="Top" Width="32" CornerRadius="0" Background="#FFEDEDED"/>
+        <Border BorderBrush="#FFCECECE" BorderThickness="1" HorizontalAlignment="Left" Height="32" Margin="1060,1497,0,0" VerticalAlignment="Top" Width="52" CornerRadius="0">
+            <Label Content="1" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+        <Border BorderBrush="#FFCECECE" BorderThickness="1" HorizontalAlignment="Left" Height="32" Margin="1112,1497,0,0" VerticalAlignment="Top" Width="32" CornerRadius="0" Background="#FFEDEDED"/>
+        <Button x:Name="minus_Копировать1"  Content="-" HorizontalAlignment="Left" Height="30" Margin="1030,1498,0,0" VerticalAlignment="Top" Width="30" BorderBrush="#FFEDEDED" Background="#FFEDEDED"/>
+        <Button x:Name="plus_Копировать1" Content="+" HorizontalAlignment="Left" Height="30" Margin="1114,1498,0,0" VerticalAlignment="Top" Width="30" BorderBrush="#FFEDEDED" Background="#FFEDEDED"/>
+        <Button Content="В корзину" HorizontalAlignment="Left" Height="31" Margin="1144,1498,0,0" VerticalAlignment="Top" Width="84" BorderBrush="White" Background="#FFB70000" Foreground="White"/>
+        <Button HorizontalAlignment="Left" Height="31" Margin="1228,1498,0,0" VerticalAlignment="Top" Width="34" BorderBrush="White" Background="#FFB70000" Foreground="White">
+            <Image Height="20" Width="20" Source="/Favorite_empty.png"/>
+        </Button>
+
+
+    </Grid>
+</Window>

@@ -9,13 +9,57 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="1.png" />
+    <None Remove="11.png" />
+    <None Remove="11111.png" />
+    <None Remove="111112.png" />
+    <None Remove="2.png" />
+    <None Remove="3.png" />
+    <None Remove="4 — копия.bmp" />
+    <None Remove="4.bmp" />
+    <None Remove="4.png" />
+    <None Remove="Collaborator Male-1.png" />
+    <None Remove="Collaborator Male.png" />
+    <None Remove="Favorite %282%29.png" />
+    <None Remove="Favorite %283%29.png" />
+    <None Remove="Favorite.png" />
+    <None Remove="Favorite_empty.png" />
+    <None Remove="Favorite_filled.png" />
+    <None Remove="Fonts\InriaSerif\InriaSerif-Regular.ttf" />
+    <None Remove="Rectangle 1.png" />
+    <None Remove="Shopping Basket.png" />
     <None Remove="Telegram.png" />
     <None Remove="VK Circled.png" />
+    <None Remove="Vodka_7Zlakov.png" />
+    <None Remove="Vodka_Polugar.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="11.png" />
+    <Resource Include="11111.png" />
+    <Resource Include="111112.png" />
+    <Resource Include="2.png" />
+    <Resource Include="3.png" />
+    <Resource Include="4 — копия.bmp" />
+    <Resource Include="4.bmp" />
+    <Resource Include="4.png" />
+    <Resource Include="Collaborator Male-1.png" />
+    <Resource Include="Collaborator Male.png" />
+    <Resource Include="Favorite (2).png" />
+    <Resource Include="Favorite (3).png" />
+    <Resource Include="Favorite.png" />
+    <Resource Include="Favorite_empty.png" />
+    <Resource Include="Favorite_filled.png" />
+    <Resource Include="Fonts\InriaSerif\InriaSerif-Regular.ttf" />
+    <Resource Include="Rectangle 1.png" />
+    <Resource Include="Shopping Basket.png" />
     <Resource Include="Telegram.png" />
     <Resource Include="VK Circled.png" />
+    <Resource Include="Vodka_7Zlakov.png" />
+    <Resource Include="Vodka_Polugar.png" />
   </ItemGroup>
 
 </Project>
