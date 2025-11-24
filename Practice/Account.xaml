@@ -1,0 +1,25 @@
+﻿<Window x:Class="Practice.Account"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Practice"
+        mc:Ignorable="d"
+        Title="Account">
+    <Grid>
+        <Label x:Name="GWAN" Content="GWAN" HorizontalAlignment="Left" Height="70" Margin="100,91,0,0" VerticalAlignment="Top" Width="323" FontSize="48" Foreground="#FFB70000" MouseLeftButtonDown="MLBD_GWAN" Cursor="Hand"/>
+        <Image HorizontalAlignment="Left" Height="44" Margin="783,92,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Favorite.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Favourite"/>
+        <Label Content="Избранное" HorizontalAlignment="Left" Height="44" Margin="832,93,0,0" VerticalAlignment="Top" Width="136" FontSize="24" Cursor="Hand" MouseLeftButtonDown="MLBD_Favourite"/>
+        <Image HorizontalAlignment="Left" Height="44" Margin="1058,92,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Shopping Basket.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Basket"/>
+        <Label Content="Корзина" HorizontalAlignment="Left" Height="44" Margin="1103,93,0,0" VerticalAlignment="Top" Width="136" FontSize="24" Cursor="Hand" MouseLeftButtonDown="MLBD_Basket"/>
+        <Image HorizontalAlignment="Left" Height="31" Margin="1309,98,0,0" VerticalAlignment="Top" Width="31" Source="/materials/Collaborator Male.png"/>
+        <Image HorizontalAlignment="Left" Height="44" Margin="1302,91,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Collaborator Male-1.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Account"/>
+
+        <Label Content="Личный кабинет" HorizontalAlignment="Center" Margin="0,250,0,0" VerticalAlignment="Top" FontSize="36"/>
+        <Label Content="Контактная информация" HorizontalAlignment="Left" Height="62" Margin="100,364,0,0" VerticalAlignment="Top" Width="450" FontSize="36" FontWeight="Bold"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="336" Margin="100,472,0,0" VerticalAlignment="Top" Width="800">
+            <Button Content="Редактировать" HorizontalAlignment="Center" Height="31" VerticalAlignment="Top" Width="282" BorderBrush="White" Background="#FFB70000" Foreground="White" Cursor="Hand" Margin="0,273,0,0"/>
+        </Border>
+
+    </Grid>
+</Window>

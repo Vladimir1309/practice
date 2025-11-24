@@ -26,6 +26,8 @@
     <None Remove="Favorite_empty.png" />
     <None Remove="Favorite_filled.png" />
     <None Remove="Fonts\InriaSerif\InriaSerif-Regular.ttf" />
+    <None Remove="Location.png" />
+    <None Remove="materials\Location.png" />
     <None Remove="Rectangle 1.png" />
     <None Remove="Shopping Basket.png" />
     <None Remove="Telegram.png" />
@@ -54,6 +56,7 @@
     <Resource Include="materials\Favorite_empty.png" />
     <Resource Include="materials\Favorite_filled.png" />
     <Resource Include="Fonts\InriaSerif\InriaSerif-Regular.ttf" />
+    <Resource Include="materials\Location.png" />
     <Resource Include="materials\Rectangle 1.png" />
     <Resource Include="materials\Shopping Basket.png" />
     <Resource Include="materials\Telegram.png" />

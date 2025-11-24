@@ -8,15 +8,16 @@
         Title="Main1" Height="1640" >
     <ScrollViewer>
     <Grid Height="1640" Width="1440" Background="White">
-        
+
         <Label x:Name="GWAN" Content="GWAN" HorizontalAlignment="Left" Height="70" Margin="100,91,0,0" VerticalAlignment="Top" Width="323" FontSize="48" Foreground="#FFB70000" FontFamily="Inria Serif" MouseLeftButtonDown="MLBD_GWAN" Cursor="Hand"/>
-        <Image HorizontalAlignment="Left" Height="44" Margin="783,92,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Favorite.png"/>
-        <Label Content="Избранное" HorizontalAlignment="Left" Height="44" Margin="832,93,0,0" VerticalAlignment="Top" Width="136" FontSize="24"/>
-        <Image HorizontalAlignment="Left" Height="44" Margin="1058,92,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Shopping Basket.png"/>
-        <Label Content="Корзина" HorizontalAlignment="Left" Height="44" Margin="1103,93,0,0" VerticalAlignment="Top" Width="136" FontSize="24"/>
-        <Image HorizontalAlignment="Left" Height="44" Margin="1302,91,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Collaborator Male-1.png"/>
-        <Border BorderThickness="1" HorizontalAlignment="Left" Height="200" Margin="205,609,0,0" VerticalAlignment="Top" Width="200" Cursor="">
-            <Border.Background>
+        <Image HorizontalAlignment="Left" Height="44" Margin="783,92,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Favorite.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Favourite"/>
+        <Label Content="Избранное" HorizontalAlignment="Left" Height="44" Margin="832,93,0,0" VerticalAlignment="Top" Width="136" FontSize="24" Cursor="Hand" MouseLeftButtonDown="MLBD_Favourite"/>
+        <Image HorizontalAlignment="Left" Height="44" Margin="1058,92,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Shopping Basket.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Basket"/>
+        <Label Content="Корзина" HorizontalAlignment="Left" Height="44" Margin="1103,93,0,0" VerticalAlignment="Top" Width="136" FontSize="24" Cursor="Hand" MouseLeftButtonDown="MLBD_Basket"/>
+        <Image HorizontalAlignment="Left" Height="44" Margin="1302,91,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Collaborator Male-1.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Account"/>
+            <Border BorderThickness="1" HorizontalAlignment="Left" Height="200" Margin="205,609,0,0" VerticalAlignment="Top" Width="200" Cursor="">
+
+                <Border.Background>
                 <ImageBrush ImageSource="/materials/11.png"/>
             </Border.Background>
         </Border>

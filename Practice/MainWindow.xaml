@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Practice"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1024" Width="1440">
+        Title="MainWindow">
     <Grid Margin="0,-20,0,20" Cursor="">
 
         <TextBlock HorizontalAlignment="Left" Height="66" Margin="558,256,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="280" FontSize="48" Text="Регистрация"/>
@@ -32,12 +32,12 @@
         <RadioButton x:Name="Phone_button" Content="Button" HorizontalAlignment="Left" Height="25" Margin="525,476,0,0" VerticalAlignment="Top" Width="186" Opacity="0.1" Cursor="Hand" VerticalContentAlignment="Center"/>-->
 
         <Label x:Name="GWAN" Content="GWAN" HorizontalAlignment="Left" Height="70" Margin="100,91,0,0" VerticalAlignment="Top" Width="323" FontSize="48" Foreground="#FFB70000" MouseLeftButtonDown="MLBD_GWAN" Cursor="Hand"/>
-        <Image HorizontalAlignment="Left" Height="44" Margin="783,92,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Favorite.png"/>
-        <Label Content="Избранное" HorizontalAlignment="Left" Height="44" Margin="832,93,0,0" VerticalAlignment="Top" Width="136" FontSize="24"/>
-        <Image HorizontalAlignment="Left" Height="44" Margin="1058,92,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Shopping Basket.png"/>
-        <Label Content="Корзина" HorizontalAlignment="Left" Height="44" Margin="1103,93,0,0" VerticalAlignment="Top" Width="136" FontSize="24"/>
+        <Image HorizontalAlignment="Left" Height="44" Margin="783,92,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Favorite.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Favourite"/>
+        <Label Content="Избранное" HorizontalAlignment="Left" Height="44" Margin="832,93,0,0" VerticalAlignment="Top" Width="136" FontSize="24" Cursor="Hand" MouseLeftButtonDown="MLBD_Favourite"/>
+        <Image HorizontalAlignment="Left" Height="44" Margin="1058,92,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Shopping Basket.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Basket"/>
+        <Label Content="Корзина" HorizontalAlignment="Left" Height="44" Margin="1103,93,0,0" VerticalAlignment="Top" Width="136" FontSize="24" Cursor="Hand" MouseLeftButtonDown="MLBD_Basket"/>
         <Image HorizontalAlignment="Left" Height="31" Margin="1309,98,0,0" VerticalAlignment="Top" Width="31" Source="/materials/Collaborator Male.png"/>
-        <Image HorizontalAlignment="Left" Height="44" Margin="1302,91,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Collaborator Male-1.png"/>
+        <Image HorizontalAlignment="Left" Height="44" Margin="1302,91,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Collaborator Male-1.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Account"/>
 
     </Grid>
 </Window>

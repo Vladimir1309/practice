@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace Practice
 {
     /// <summary>
-    /// Логика взаимодействия для Basket.xaml
+    /// Логика взаимодействия для Account.xaml
     /// </summary>
-    public partial class Basket : Window
+    public partial class Account : Window
     {
-        public Basket()
+        public Account()
         {
             InitializeComponent();
         }
@@ -29,6 +29,7 @@ namespace Practice
             main1.Show();
             this.Close();
         }
+
         private void MLBD_Basket(object sender, EventArgs e)
         {
             Basket basket = new Basket();
@@ -49,15 +50,5 @@ namespace Practice
             account.Show();
             this.Close();
         }
-
-        private void Pay_Click(object sender, RoutedEventArgs e)
-        {
-            total.Content = $" ₽";
-        }
-
-        //private void Delivery_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Store_Button.Background = "#FFA9A9A9";
-        //}
     }
 }

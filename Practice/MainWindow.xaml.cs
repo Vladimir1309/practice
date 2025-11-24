@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Printing;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -99,6 +100,27 @@ namespace Practice
         {
             Main1 main1 = new Main1();
             main1.Show();
+            this.Close();
+        }
+
+        private void MLBD_Basket(object sender, EventArgs e)
+        {
+            Basket basket = new Basket();
+            basket.Show();
+            this.Close();
+        }
+
+        private void MLBD_Favourite(object sender, EventArgs e) 
+        { 
+            Favourite favourite = new Favourite();
+            favourite.Show();
+            this.Close();
+        }
+
+        private void MLBD_Account(object sender, EventArgs e)
+        {
+            Account account = new Account();
+            account.Show();
             this.Close();
         }
     }
