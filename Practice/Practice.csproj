@@ -35,31 +35,31 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="1.png">
+    <Resource Include="materials\1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="11.png" />
-    <Resource Include="11111.png" />
-    <Resource Include="111112.png" />
-    <Resource Include="2.png" />
-    <Resource Include="3.png" />
-    <Resource Include="4 — копия.bmp" />
-    <Resource Include="4.bmp" />
-    <Resource Include="4.png" />
-    <Resource Include="Collaborator Male-1.png" />
-    <Resource Include="Collaborator Male.png" />
-    <Resource Include="Favorite (2).png" />
-    <Resource Include="Favorite (3).png" />
-    <Resource Include="Favorite.png" />
-    <Resource Include="Favorite_empty.png" />
-    <Resource Include="Favorite_filled.png" />
+    <Resource Include="materials\11.png" />
+    <Resource Include="materials\11111.png" />
+    <Resource Include="materials\111112.png" />
+    <Resource Include="materials\2.png" />
+    <Resource Include="materials\3.png" />
+    <Resource Include="materials\4 — копия.bmp" />
+    <Resource Include="materials\4.bmp" />
+    <Resource Include="materials\4.png" />
+    <Resource Include="materials\Collaborator Male-1.png" />
+    <Resource Include="materials\Collaborator Male.png" />
+    <Resource Include="materials\Favorite %282%29.png" />
+    <Resource Include="materials\Favorite %283%29.png" />
+    <Resource Include="materials\Favorite.png" />
+    <Resource Include="materials\Favorite_empty.png" />
+    <Resource Include="materials\Favorite_filled.png" />
     <Resource Include="Fonts\InriaSerif\InriaSerif-Regular.ttf" />
-    <Resource Include="Rectangle 1.png" />
-    <Resource Include="Shopping Basket.png" />
-    <Resource Include="Telegram.png" />
-    <Resource Include="VK Circled.png" />
-    <Resource Include="Vodka_7Zlakov.png" />
-    <Resource Include="Vodka_Polugar.png" />
+    <Resource Include="materials\Rectangle 1.png" />
+    <Resource Include="materials\Shopping Basket.png" />
+    <Resource Include="materials\Telegram.png" />
+    <Resource Include="materials\VK Circled.png" />
+    <Resource Include="materials\Vodka_7Zlakov.png" />
+    <Resource Include="materials\Vodka_Polugar.png" />
   </ItemGroup>
 
 </Project>
