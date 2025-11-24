@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="1 794 2.png" />
+    <None Remove="1 794 3.png" />
+    <None Remove="1 794 4.png" />
+    <None Remove="1 794.png" />
     <None Remove="1.png" />
     <None Remove="11.png" />
     <None Remove="11111.png" />
@@ -18,6 +22,9 @@
     <None Remove="4 — копия.bmp" />
     <None Remove="4.bmp" />
     <None Remove="4.png" />
+    <None Remove="44.png" />
+    <None Remove="666.png" />
+    <None Remove="777.png" />
     <None Remove="Collaborator Male-1.png" />
     <None Remove="Collaborator Male.png" />
     <None Remove="Favorite %282%29.png" />
@@ -27,19 +34,33 @@
     <None Remove="Favorite_filled.png" />
     <None Remove="Fonts\InriaSerif\InriaSerif-Regular.ttf" />
     <None Remove="Location.png" />
+    <None Remove="materials\1 794 2.png" />
+    <None Remove="materials\1 794 3.png" />
+    <None Remove="materials\1 794 4.png" />
+    <None Remove="materials\1 794.png" />
     <None Remove="materials\Location.png" />
     <None Remove="Rectangle 1.png" />
+    <None Remove="Rectangle 12.png" />
+    <None Remove="Rectangle 3 %282%29.png" />
+    <None Remove="Rectangle 3.png" />
+    <None Remove="Rectangle 4 %282%29.png" />
+    <None Remove="Rectangle 4 %283%29.png" />
+    <None Remove="Rectangle 4.png" />
     <None Remove="Shopping Basket.png" />
     <None Remove="Telegram.png" />
     <None Remove="VK Circled.png" />
-    <None Remove="Vodka_7Zlakov.png" />
     <None Remove="Vodka_Polugar.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="materials\1.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="materials\1 794 4.png" />
+    <Resource Include="materials\666.png" />
+    <Resource Include="materials\777.png" />
+    <Resource Include="materials\44.png" />
+    <Resource Include="materials\1 794 2.png" />
+    <Resource Include="materials\1 794 3.png" />
+    <Resource Include="materials\1 794.png" />
+    <Resource Include="materials\1.png" />
     <Resource Include="materials\11.png" />
     <Resource Include="materials\11111.png" />
     <Resource Include="materials\111112.png" />
@@ -57,12 +78,32 @@
     <Resource Include="materials\Favorite_filled.png" />
     <Resource Include="Fonts\InriaSerif\InriaSerif-Regular.ttf" />
     <Resource Include="materials\Location.png" />
-    <Resource Include="materials\Rectangle 1.png" />
+    <Resource Include="materials\Rectangle 1 (2).png" />
+    <Resource Include="materials\Rectangle 12.png" />
     <Resource Include="materials\Shopping Basket.png" />
     <Resource Include="materials\Telegram.png" />
     <Resource Include="materials\VK Circled.png" />
     <Resource Include="materials\Vodka_7Zlakov.png" />
     <Resource Include="materials\Vodka_Polugar.png" />
+    <Resource Include="materials\Rectangle 1 %281%29.png" />
+    <Resource Include="materials\Rectangle 3 %282%29.png" />
+    <Resource Include="materials\Rectangle 3.png" />
+    <Resource Include="materials\Rectangle 4 %282%29.png" />
+    <Resource Include="materials\Rectangle 4 %283%29.png" />
+    <Resource Include="materials\Rectangle 4.png" />
+    <Resource Include="materials\Rectangle 1.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Vodka.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Champagne.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Beer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
 </Project>

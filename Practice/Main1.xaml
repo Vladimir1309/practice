@@ -9,29 +9,29 @@
     <ScrollViewer>
     <Grid Height="1640" Width="1440" Background="White">
 
-        <Label x:Name="GWAN" Content="GWAN" HorizontalAlignment="Left" Height="70" Margin="100,91,0,0" VerticalAlignment="Top" Width="323" FontSize="48" Foreground="#FFB70000" FontFamily="Inria Serif" MouseLeftButtonDown="MLBD_GWAN" Cursor="Hand"/>
+        <Label x:Name="GWAN" Content="GWAN" HorizontalAlignment="Left" Height="70" Margin="100,91,0,0" VerticalAlignment="Top" Width="323" FontSize="48" Foreground="#FFB70000" FontFamily="Georgia" MouseLeftButtonDown="MLBD_GWAN" Cursor="Hand"/>
         <Image HorizontalAlignment="Left" Height="44" Margin="783,92,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Favorite.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Favourite"/>
         <Label Content="Избранное" HorizontalAlignment="Left" Height="44" Margin="832,93,0,0" VerticalAlignment="Top" Width="136" FontSize="24" Cursor="Hand" MouseLeftButtonDown="MLBD_Favourite"/>
         <Image HorizontalAlignment="Left" Height="44" Margin="1058,92,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Shopping Basket.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Basket"/>
         <Label Content="Корзина" HorizontalAlignment="Left" Height="44" Margin="1103,93,0,0" VerticalAlignment="Top" Width="136" FontSize="24" Cursor="Hand" MouseLeftButtonDown="MLBD_Basket"/>
         <Image HorizontalAlignment="Left" Height="44" Margin="1302,91,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Collaborator Male-1.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Account"/>
-            <Border BorderThickness="1" HorizontalAlignment="Left" Height="200" Margin="205,609,0,0" VerticalAlignment="Top" Width="200" Cursor="">
+            <Border BorderThickness="1" HorizontalAlignment="Left" Height="200" Margin="205,609,0,0" VerticalAlignment="Top" Width="200" Cursor="Hand" MouseLeftButtonDown="MLBD_Wine">
 
                 <Border.Background>
                 <ImageBrush ImageSource="/materials/11.png"/>
             </Border.Background>
         </Border>
-        <Border BorderThickness="1" HorizontalAlignment="Left" Height="200" Margin="484,609,0,0" VerticalAlignment="Top" Width="200">
+            <Border BorderThickness="1" HorizontalAlignment="Left" Height="200" Margin="484,609,0,0" VerticalAlignment="Top" Width="200" Cursor="Hand" MouseLeftButtonDown="MLBD_Champagne">
             <Border.Background>
                 <ImageBrush ImageSource="/materials/2.png"/>
             </Border.Background>
         </Border>
-        <Border BorderThickness="1" HorizontalAlignment="Left" Height="200" Margin="763,609,0,0" VerticalAlignment="Top" Width="200">
+            <Border BorderThickness="1" HorizontalAlignment="Left" Height="200" Margin="763,609,0,0" VerticalAlignment="Top" Width="200" Cursor="Hand" MouseLeftButtonDown="MLBD_Vodka">
             <Border.Background>
                 <ImageBrush ImageSource="/materials/3.png"/>
             </Border.Background>
         </Border>
-        <Border BorderThickness="1" HorizontalAlignment="Left" Height="200" Margin="1042,609,0,0" VerticalAlignment="Top" Width="200">
+            <Border BorderThickness="1" HorizontalAlignment="Left" Height="200" Margin="1042,609,0,0" VerticalAlignment="Top" Width="200" Cursor="Hand" MouseLeftButtonDown="MLBD_Beer">
             <Border.Background>
                 <ImageBrush ImageSource="/materials/4.png"/>
             </Border.Background>
@@ -41,12 +41,12 @@
                 <ImageBrush ImageSource="/materials/4.bmp" Stretch="UniformToFill"/>
             </Border.Background>
         </Border>
-        <Label Content="Вино" HorizontalAlignment="Left" Height="40" Margin="205,814,0,0" VerticalAlignment="Top" Width="200" FontSize="24" HorizontalContentAlignment="Center"/>
-        <Label Content="Шампанское" HorizontalAlignment="Left" Height="40" Margin="484,814,0,0" VerticalAlignment="Top" Width="200" FontSize="24" HorizontalContentAlignment="Center"/>
-        <Label Content="Водка" HorizontalAlignment="Left" Height="40" Margin="763,814,0,0" VerticalAlignment="Top" Width="200" FontSize="24" HorizontalContentAlignment="Center"/>
-        <Label Content="Пиво" HorizontalAlignment="Left" Height="40" Margin="1042,814,0,0" VerticalAlignment="Top" Width="200" FontSize="24" HorizontalContentAlignment="Center"/>
+        <Label Content="Вино" HorizontalAlignment="Left" Height="40" Margin="205,814,0,0" VerticalAlignment="Top" Width="200" FontSize="24" HorizontalContentAlignment="Center" Cursor="Hand"/>
+            <Label Content="Шампанское" HorizontalAlignment="Left" Height="40" Margin="484,814,0,0" VerticalAlignment="Top" Width="200" FontSize="24" HorizontalContentAlignment="Center" Cursor="Hand"/>
+            <Label Content="Водка" HorizontalAlignment="Left" Height="40" Margin="763,814,0,0" VerticalAlignment="Top" Width="200" FontSize="24" HorizontalContentAlignment="Center" Cursor="Hand"/>
+            <Label Content="Пиво" HorizontalAlignment="Left" Height="40" Margin="1042,814,0,0" VerticalAlignment="Top" Width="200" FontSize="24" HorizontalContentAlignment="Center" Cursor="Hand"/>
         <Label Content="Успей купить" HorizontalAlignment="Left" Height="78" Margin="100,919,0,0" VerticalAlignment="Top" Width="323" FontSize="48" FontWeight="Bold"/>
-        <Image HorizontalAlignment="Left" Height="311" Margin="138,1038,0,0" VerticalAlignment="Top" Width="300" Source="/materials/Rectangle 1.png"/>
+        <Image HorizontalAlignment="Left" Height="311" Margin="138,1038,0,0" VerticalAlignment="Top" Width="300" Source="/materials/Rectangle 12.png"/>
         <Label Content="Syrah Toscana IGT Tenuta&#xD;&#xA;         Mordini, 0.75 л" HorizontalAlignment="Left" Height="76" Margin="146,1343,0,0" VerticalAlignment="Top" Width="284" FontSize="24" HorizontalContentAlignment="Center"/>
         <Label Content="4 869 ₽" HorizontalAlignment="Left" Height="41" Margin="190,1424,0,0" VerticalAlignment="Top" Width="93" FontSize="24" Foreground="#FFB70000" FontWeight="Bold"/>
         <Label Content="9 737 ₽" HorizontalAlignment="Left" Height="41" Margin="288,1424,0,0" VerticalAlignment="Top" Width="95" FontSize="24" Foreground="Black" FontWeight="Bold"/>

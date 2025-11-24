@@ -15,14 +15,15 @@ using System.Windows.Shapes;
 namespace Practice
 {
     /// <summary>
-    /// Логика взаимодействия для Main1.xaml
+    /// Логика взаимодействия для Wine.xaml
     /// </summary>
-    public partial class Main1 : Window
+    public partial class Vodka : Window
     {
-        public Main1()
+        public Vodka()
         {
             InitializeComponent();
         }
+
         private void MLBD_GWAN(object sender, EventArgs e)
         {
             Main1 main1 = new Main1();
@@ -47,34 +48,6 @@ namespace Practice
         {
             Account account = new Account();
             account.Show();
-            this.Close();
-        }
-
-        private void MLBD_Wine(object sender, EventArgs e)
-        {
-            Wine wine = new Wine();
-            wine.Show();
-            this.Close();
-        }
-
-        private void MLBD_Champagne(object sender, EventArgs e)
-        {
-            Champagne champagne = new Champagne();
-            champagne.Show();
-            this.Close();
-        }
-
-        private void MLBD_Vodka(object sender, EventArgs e)
-        {
-            Vodka vodka = new Vodka();
-            vodka.Show();
-            this.Close();
-        }
-
-        private void MLBD_Beer(object sender, EventArgs e)
-        {
-            Beer beer = new Beer();
-            beer.Show();
             this.Close();
         }
     }

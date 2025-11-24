@@ -31,7 +31,7 @@
         <!--<RadioButton x:Name="E_mail_button" Content="Button" HorizontalAlignment="Left" Height="21" Margin="720,475,0,0" VerticalAlignment="Top" Width="65" Opacity="0.1" Cursor="Hand" VerticalContentAlignment="Center"/>
         <RadioButton x:Name="Phone_button" Content="Button" HorizontalAlignment="Left" Height="25" Margin="525,476,0,0" VerticalAlignment="Top" Width="186" Opacity="0.1" Cursor="Hand" VerticalContentAlignment="Center"/>-->
 
-        <Label x:Name="GWAN" Content="GWAN" HorizontalAlignment="Left" Height="70" Margin="100,91,0,0" VerticalAlignment="Top" Width="323" FontSize="48" Foreground="#FFB70000" MouseLeftButtonDown="MLBD_GWAN" Cursor="Hand"/>
+        <Label x:Name="GWAN" Content="GWAN" HorizontalAlignment="Left" Height="70" Margin="100,91,0,0" VerticalAlignment="Top" Width="323" FontSize="48" Foreground="#FFB70000" MouseLeftButtonDown="MLBD_GWAN" Cursor="Hand" FontFamily="Georgia"/>
         <Image HorizontalAlignment="Left" Height="44" Margin="783,92,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Favorite.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Favourite"/>
         <Label Content="Избранное" HorizontalAlignment="Left" Height="44" Margin="832,93,0,0" VerticalAlignment="Top" Width="136" FontSize="24" Cursor="Hand" MouseLeftButtonDown="MLBD_Favourite"/>
         <Image HorizontalAlignment="Left" Height="44" Margin="1058,92,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Shopping Basket.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Basket"/>
