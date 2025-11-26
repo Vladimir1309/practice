@@ -77,5 +77,70 @@ namespace Practice
             beer.Show();
             this.Close();
         }
+
+        private void ME_Wine(Object sender, EventArgs e)
+        {
+            BorderWine.Opacity = 0.5;
+        }
+        private void ML_Wine(Object sender, EventArgs e)
+        {
+            BorderWine.Opacity = 1;
+        }
+        private void ME_Champagne(Object sender, EventArgs e)
+        {
+            BorderChampagne.Opacity = 0.5;
+        }
+        private void ML_Champagne(Object sender, EventArgs e)
+        {
+            BorderChampagne.Opacity = 1;
+        }
+        private void ME_Vodka(Object sender, EventArgs e)
+        {
+            BorderVodka.Opacity = 0.5;
+        }
+        private void ML_Vodka(Object sender, EventArgs e)
+        {
+            BorderVodka.Opacity = 1;
+        }
+        private void ME_Beer(Object sender, EventArgs e)
+        {
+            BorderBeer.Opacity = 0.5;
+        }
+        private void ML_Beer(Object sender, EventArgs e)
+        {
+            BorderBeer.Opacity = 1;
+        }
+        private void ME_WineLabel(Object sender, EventArgs e)
+        {
+            BorderWine.Opacity = 0.5;
+        }
+        private void ML_WineLabel(Object sender, EventArgs e)
+        {
+            BorderWine.Opacity = 1;
+        }
+        private void ME_ChampagneLabel(Object sender, EventArgs e)
+        {
+            BorderChampagne.Opacity = 0.5;
+        }
+        private void ML_ChampagneLabel(Object sender, EventArgs e)
+        {
+            BorderChampagne.Opacity = 1;
+        }
+        private void ME_VodkaLabel(Object sender, EventArgs e)
+        {
+            BorderVodka.Opacity = 0.5;
+        }
+        private void ML_VodkaLabel(Object sender, EventArgs e)
+        {
+            BorderVodka.Opacity = 1;
+        }
+        private void ME_BeerLabel(Object sender, EventArgs e)
+        {
+            BorderBeer.Opacity = 0.5;
+        }
+        private void ML_BeerLabel(Object sender, EventArgs e)
+        {
+            BorderBeer.Opacity = 1;
+        }
     }
 }

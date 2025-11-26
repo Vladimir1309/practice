@@ -37,6 +37,9 @@
         <Style TargetType="Border">
             <Setter Property="CornerRadius" Value="13" />
         </Style>
+        <!--<Style TargetType="Border" x:Key="BR1">
+            <Setter Property="CornerRadius" Value="13" />
+        </Style>-->
 
         <!--<Style TargetType="TextBlock" x:Key="E_mail_button">
             <Setter Property="Opacity" Value="0.13"/>

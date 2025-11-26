@@ -55,9 +55,21 @@ namespace Practice
             total.Content = $" ₽";
         }
 
-        //private void Delivery_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Store_Button.Background = "#FFA9A9A9";
-        //}
+        private void Delivery_Click(object sender, RoutedEventArgs e)
+        {
+            var converter = new BrushConverter();
+            Brush myBrush = (Brush)converter.ConvertFrom("#B70000");
+            Store_Button.Background = Brushes.DarkGray;
+            Delivery_Button.Background = myBrush;
+            Address.Content = "Адрес доставки";
+        }
+        private void Store_Click(object sender, RoutedEventArgs e)
+        {
+            var converter = new BrushConverter();
+            Brush myBrush = (Brush)converter.ConvertFrom("#B70000");
+            Delivery_Button.Background = Brushes.DarkGray;
+            Store_Button.Background = myBrush;
+            Address.Content = "Адрес магазина";
+        }
     }
 }

@@ -39,6 +39,9 @@
     <None Remove="materials\1 794 4.png" />
     <None Remove="materials\1 794.png" />
     <None Remove="materials\Location.png" />
+    <None Remove="materials\Rectangle 2 %282%29.png" />
+    <None Remove="materials\Rectangle 2 %283%29.png" />
+    <None Remove="materials\Rectangle 2.png" />
     <None Remove="Rectangle 1.png" />
     <None Remove="Rectangle 12.png" />
     <None Remove="Rectangle 3 %282%29.png" />
@@ -80,6 +83,9 @@
     <Resource Include="materials\Location.png" />
     <Resource Include="materials\Rectangle 1 (2).png" />
     <Resource Include="materials\Rectangle 12.png" />
+    <Resource Include="materials\Rectangle 2 (2).png" />
+    <Resource Include="materials\Rectangle 2 (3).png" />
+    <Resource Include="materials\Rectangle 2.png" />
     <Resource Include="materials\Shopping Basket.png" />
     <Resource Include="materials\Telegram.png" />
     <Resource Include="materials\VK Circled.png" />

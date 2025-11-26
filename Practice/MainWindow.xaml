@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Practice"
         mc:Ignorable="d"
         Title="MainWindow">
-    <Grid Margin="0,-20,0,20" Cursor="">
+    <Grid>
 
         <TextBlock HorizontalAlignment="Left" Height="66" Margin="558,256,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="280" FontSize="48" Text="Регистрация"/>
 

@@ -28,11 +28,11 @@
             <Label Content="1" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Border>
         <Border BorderBrush="#FFCECECE" BorderThickness="1" HorizontalAlignment="Left" Height="32" Margin="356,941,0,0" VerticalAlignment="Top" Width="32" CornerRadius="0" Background="#FFEDEDED"/>
-        <Button x:Name="minus"  Content="-" HorizontalAlignment="Left" Height="30" Margin="272,941,0,0" VerticalAlignment="Top" Width="30" BorderBrush="#FFEDEDED" Background="#FFEDEDED"/>
-        <Button x:Name="plus" Content="+" HorizontalAlignment="Left" Height="30" Margin="356,941,0,0" VerticalAlignment="Top" Width="30" BorderBrush="#FFEDEDED" Background="#FFEDEDED"/>
-        <Button Content="В корзину" HorizontalAlignment="Left" Height="32" Margin="388,941,0,0" VerticalAlignment="Top" Width="84" BorderBrush="White" Background="#FFB70000" Foreground="White"/>
-        <Button HorizontalAlignment="Left" Height="32" Margin="472,941,0,0" VerticalAlignment="Top" Width="32" BorderBrush="White" Background="#FFB70000" Foreground="White">
-            <Image Height="20" Width="20" Source="/materials/Favorite_filled.png"/>
+        <Button x:Name="minus"  Content="-" HorizontalAlignment="Left" Height="29" Margin="273,942,0,0" VerticalAlignment="Top" Width="29" BorderBrush="#FFEDEDED" Background="#FFEDEDED" Cursor="Hand"/>
+        <Button x:Name="plus" Content="+" HorizontalAlignment="Left" Height="29" Margin="357,942,0,0" VerticalAlignment="Top" Width="29" BorderBrush="#FFEDEDED" Background="#FFEDEDED" Cursor="Hand"/>
+        <Button Content="В корзину" HorizontalAlignment="Left" Height="32" Margin="388,941,0,0" VerticalAlignment="Top" Width="84" BorderBrush="White" Background="#FFB70000" Foreground="White" Cursor="Hand"/>
+        <Button HorizontalAlignment="Left" Height="32" Margin="472,941,0,0" VerticalAlignment="Top" Width="32" BorderBrush="White" Background="#FFB70000" Foreground="White" Cursor="Hand">
+            <Image Height="20" Width="20" Source="/materials/Favorite_empty.png"/>
         </Button>
         <Image HorizontalAlignment="Left" Height="312" Margin="586,481,0,0" VerticalAlignment="Top" Width="300" Source="/materials/Rectangle 2 (3).png"/>
         <Label Content="Morize Brut Tradition&#xD;&#xA;Champagne AOC 0.75 л" HorizontalAlignment="Left" Height="76" Margin="594,787,0,0" VerticalAlignment="Top" Width="284" FontSize="24" HorizontalContentAlignment="Center"/>
@@ -46,11 +46,11 @@
             <Label Content="1" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Border>
         <Border BorderBrush="#FFCECECE" BorderThickness="1" HorizontalAlignment="Left" Height="32" Margin="722,941,0,0" VerticalAlignment="Top" Width="32" CornerRadius="0" Background="#FFEDEDED"/>
-        <Button x:Name="minus1"  Content="-" HorizontalAlignment="Left" Height="30" Margin="638,941,0,0" VerticalAlignment="Top" Width="30" BorderBrush="#FFEDEDED" Background="#FFEDEDED"/>
-        <Button x:Name="plus1" Content="+" HorizontalAlignment="Left" Height="30" Margin="722,941,0,0" VerticalAlignment="Top" Width="30" BorderBrush="#FFEDEDED" Background="#FFEDEDED"/>
-        <Button Content="В корзину" HorizontalAlignment="Left" Height="32" Margin="754,941,0,0" VerticalAlignment="Top" Width="84" BorderBrush="White" Background="#FFB70000" Foreground="White"/>
-        <Button HorizontalAlignment="Left" Height="32" Margin="838,941,0,0" VerticalAlignment="Top" Width="32" BorderBrush="White" Background="#FFB70000" Foreground="White">
-            <Image Height="20" Width="20" Source="/materials/Favorite_filled.png"/>
+        <Button x:Name="minus1"  Content="-" HorizontalAlignment="Left" Height="29" Margin="639,942,0,0" VerticalAlignment="Top" Width="29" BorderBrush="#FFEDEDED" Background="#FFEDEDED" Cursor="Hand"/>
+        <Button x:Name="plus1" Content="+" HorizontalAlignment="Left" Height="29" Margin="723,942,0,0" VerticalAlignment="Top" Width="29" BorderBrush="#FFEDEDED" Background="#FFEDEDED" Cursor="Hand"/>
+        <Button Content="В корзину" HorizontalAlignment="Left" Height="32" Margin="754,941,0,0" VerticalAlignment="Top" Width="84" BorderBrush="White" Background="#FFB70000" Foreground="White" Cursor="Hand"/>
+        <Button HorizontalAlignment="Left" Height="32" Margin="838,941,0,0" VerticalAlignment="Top" Width="32" BorderBrush="White" Background="#FFB70000" Foreground="White" Cursor="Hand">
+            <Image Height="20" Width="20" Source="/materials/Favorite_empty.png"/>
         </Button>
         <Image HorizontalAlignment="Left" Height="312" Margin="957,481,0,0" VerticalAlignment="Top" Width="300" Source="/materials/Rectangle 2 (2).png"/>
         <Label Content="Ultradition Brut&#xD;&#xA;Champagne AOС Laherte Freres 0.75 л" HorizontalAlignment="Left" Height="101" Margin="929,791,0,0" VerticalAlignment="Top" Width="417" FontSize="24" HorizontalContentAlignment="Center"/>
@@ -62,11 +62,11 @@
             <Label Content="1" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Border>
         <Border BorderBrush="#FFCECECE" BorderThickness="1" HorizontalAlignment="Left" Height="32" Margin="1093,941,0,0" VerticalAlignment="Top" Width="32" CornerRadius="0" Background="#FFEDEDED"/>
-        <Button x:Name="minus2"  Content="-" HorizontalAlignment="Left" Height="30" Margin="1009,941,0,0" VerticalAlignment="Top" Width="30" BorderBrush="#FFEDEDED" Background="#FFEDEDED"/>
-        <Button x:Name="plus2" Content="+" HorizontalAlignment="Left" Height="30" Margin="1093,941,0,0" VerticalAlignment="Top" Width="30" BorderBrush="#FFEDEDED" Background="#FFEDEDED"/>
-        <Button Content="В корзину" HorizontalAlignment="Left" Height="32" Margin="1125,941,0,0" VerticalAlignment="Top" Width="84" BorderBrush="White" Background="#FFB70000" Foreground="White"/>
-        <Button HorizontalAlignment="Left" Height="32" Margin="1209,941,0,0" VerticalAlignment="Top" Width="32" BorderBrush="White" Background="#FFB70000" Foreground="White">
-            <Image Height="20" Width="20" Source="/materials/Favorite_filled.png"/>
+        <Button x:Name="minus2"  Content="-" HorizontalAlignment="Left" Height="29" Margin="1010,942,0,0" VerticalAlignment="Top" Width="29" BorderBrush="#FFEDEDED" Background="#FFEDEDED" Cursor="Hand"/>
+        <Button x:Name="plus2" Content="+" HorizontalAlignment="Left" Height="29" Margin="1094,942,0,0" VerticalAlignment="Top" Width="29" BorderBrush="#FFEDEDED" Background="#FFEDEDED" Cursor="Hand"/>
+        <Button Content="В корзину" HorizontalAlignment="Left" Height="32" Margin="1125,941,0,0" VerticalAlignment="Top" Width="84" BorderBrush="White" Background="#FFB70000" Foreground="White" Cursor="Hand"/>
+        <Button HorizontalAlignment="Left" Height="32" Margin="1209,941,0,0" VerticalAlignment="Top" Width="32" BorderBrush="White" Background="#FFB70000" Foreground="White" Cursor="Hand">
+            <Image Height="20" Width="20" Source="/materials/Favorite_empty.png"/>
         </Button>
 
 
