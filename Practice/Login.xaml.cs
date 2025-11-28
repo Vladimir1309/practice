@@ -55,10 +55,73 @@ namespace Practice
             AlreadyAccount.Opacity = 0.13;
         }
 
+        private void AdminPanel_MouseEnter(object sender, MouseEventArgs e)
+        {
+            var converter = new BrushConverter();
+            Brush myBrush = (Brush)converter.ConvertFrom("#B70000");
+            Admin.Foreground = myBrush;
+            Admin.Opacity = 0.5;
+        }
+
+        private void AdminPanel_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Admin.Foreground = Brushes.Black;
+            Admin.Opacity = 0.13;
+        }
+
+        private void SalesPanel_MouseEnter(object sender, MouseEventArgs e)
+        {
+            var converter = new BrushConverter();
+            Brush myBrush = (Brush)converter.ConvertFrom("#B70000");
+            Sales.Foreground = myBrush;
+            Sales.Opacity = 0.5;
+        }
+
+        private void SalesPanel_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Sales.Foreground = Brushes.Black;
+            Sales.Opacity = 0.13;
+        }
+
+        private void DeliveryPanel_MouseEnter(object sender, MouseEventArgs e)
+        {
+            var converter = new BrushConverter();
+            Brush myBrush = (Brush)converter.ConvertFrom("#B70000");
+            Delivery.Foreground = myBrush;
+            Delivery.Opacity = 0.5;
+        }
+
+        private void DeliveryPanel_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Delivery.Foreground = Brushes.Black;
+            Delivery.Opacity = 0.13;
+        }
+
         private void MLBD_Already(object sender, EventArgs e)
         {
             MainWindow mainwindow = new MainWindow();
             mainwindow.Show();
+            this.Close();
+        }
+
+        private void MLBD_AdminPanel(object sender, EventArgs e)
+        {
+            Admin_Main adminMain = new Admin_Main();
+            adminMain.Show();
+            this.Close();
+        }
+
+        private void MLBD_SalesPanel(object sender, EventArgs e)
+        {
+            Sales_Main salesMain = new Sales_Main();
+            salesMain.Show();
+            this.Close();
+        }
+
+        private void MLBD_DeliveryPanel(object sender, EventArgs e)
+        {
+            Delivery_Main deliveryMain = new Delivery_Main();
+            deliveryMain.Show();
             this.Close();
         }
 

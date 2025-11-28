@@ -22,35 +22,51 @@ namespace Practice
             InitializeComponent();
         }
 
-        //private void E_mail_MouseEnter(object sender, MouseEventArgs e)
-        //{
-        //    var converter = new BrushConverter();
-        //    Brush myBrush = (Brush)converter.ConvertFrom("#B70000");
-        //    E_mail.Foreground = myBrush;
-        //    E_mail.Opacity = 0.5;
-        //}
+        private void E_mail_MouseEnter(object sender, MouseEventArgs e)
+        {
+            //var converter = new BrushConverter();
+            //Brush myBrush = (Brush)converter.ConvertFrom("#B70000");
+            //if (this.Foreground == Brushes.Black)
+            //{
+            //    E_mail.Opacity = 0.5;
+            //}
+            E_mail.Opacity = 0.5;
+        }
 
-        //private void E_mail_MouseLeave(object sender, MouseEventArgs e)
-        //{
-        //    E_mail.Foreground = Brushes.Black;
-        //    E_mail.Opacity = 0.13;
-        //}
+        private void E_mail_MouseLeave(object sender, MouseEventArgs e)
+        {
+            //var converter = new BrushConverter();
+            //Brush myBrush = (Brush)converter.ConvertFrom("#B70000");
+            //if (this.Foreground == Brushes.Black) 
+            //{
+            //    E_mail.Opacity = 1;
+            //}
+            E_mail.Opacity = 1;
+        }
 
-        //private void Phone_MouseEnter(object sender, MouseEventArgs e)
-        //{
-        //    var converter = new BrushConverter();
-        //    Brush myBrush = (Brush)converter.ConvertFrom("#B70000");
+        private void Phone_MouseEnter(object sender, MouseEventArgs e)
+        {
+            //var converter = new BrushConverter();
+            //Brush myBrush = (Brush)converter.ConvertFrom("#B70000");
+            //if (E_mail.Foreground == myBrush) 
+            //{
+            //    Phone.Foreground = myBrush;
+            //    Phone.Opacity = 0.5;
+            //}
+            Phone.Opacity = 0.5;
+        }
 
-        //    Phone.Foreground = myBrush;
-        //    Phone.Opacity = 0.5;
-
-        //}
-
-        //private void Phone_MouseLeave(object sender, MouseEventArgs e)
-        //{
-        //    Phone.Foreground = Brushes.Black;
-        //    Phone.Opacity = 0.13;
-        //}
+        private void Phone_MouseLeave(object sender, MouseEventArgs e)
+        {
+            //var converter = new BrushConverter();
+            //Brush myBrush = (Brush)converter.ConvertFrom("#B70000");
+            //if (E_mail.Foreground == myBrush) 
+            //{
+            //    Phone.Foreground = Brushes.Black;
+            //    Phone.Opacity = 1;
+            //}
+            Phone.Opacity = 1;
+        }
 
         private void MLBD_Email(object sender, MouseButtonEventArgs e)
         {

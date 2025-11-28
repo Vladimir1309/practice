@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,11 +16,11 @@ using System.Windows.Shapes;
 namespace Practice
 {
     /// <summary>
-    /// Логика взаимодействия для Basket.xaml
+    /// Логика взаимодействия для Wine.xaml
     /// </summary>
-    public partial class Basket : Window
+    public partial class Wine : Window
     {
-        public Basket()
+        public Wine()
         {
             InitializeComponent();
         }
@@ -49,27 +50,38 @@ namespace Practice
             account.Show();
             this.Close();
         }
-
-        private void Pay_Click(object sender, RoutedEventArgs e)
+        int i = 1;
+        private void minus1(object sender, EventArgs e)
         {
-            total.Content = $" ₽";
+            if (i > 0) i--;
+            count1.Content = i;
         }
-
-        private void Delivery_Click(object sender, RoutedEventArgs e)
+        private void plus1(object sender, EventArgs e)
         {
-            var converter = new BrushConverter();
-            Brush myBrush = (Brush)converter.ConvertFrom("#B70000");
-            Store_Button.Background = Brushes.DarkGray;
-            Delivery_Button.Background = myBrush;
-            Address.Content = "Адрес доставки";
+            if (i >= 0) i++;
+            count1.Content = i;
         }
-        private void Store_Click(object sender, RoutedEventArgs e)
+        int j = 1;
+        private void minus2(object sender, EventArgs e)
         {
-            var converter = new BrushConverter();
-            Brush myBrush = (Brush)converter.ConvertFrom("#B70000");
-            Delivery_Button.Background = Brushes.DarkGray;
-            Store_Button.Background = myBrush;
-            Address.Content = "Адрес магазина";
+            if (j > 0) j--;
+            count2.Content = j;
+        }
+        private void plus2(object sender, EventArgs e)
+        {
+            if (j >= 0) j++;
+            count2.Content = j;
+        }
+        int m = 1;
+        private void minus3(object sender, EventArgs e)
+        {
+            if (m > 0) m--;
+            count3.Content = m;
+        }
+        private void plus3(object sender, EventArgs e)
+        {
+            if (m >= 0) m++;
+            count3.Content = m;
         }
     }
 }

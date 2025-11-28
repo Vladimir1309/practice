@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace Practice
 {
     /// <summary>
-    /// Логика взаимодействия для Wine.xaml
+    /// Логика взаимодействия для Basket.xaml
     /// </summary>
-    public partial class Champagne : Window
+    public partial class Basket : Window
     {
-        public Champagne()
+        public Basket()
         {
             InitializeComponent();
         }
@@ -48,6 +48,30 @@ namespace Practice
             Account account = new Account();
             account.Show();
             this.Close();
+        }
+
+        private void Pay_Click(object sender, RoutedEventArgs e)
+        {
+            total.Content = $" ₽";
+            PopUps.SucceedPay succeedPay = new PopUps.SucceedPay();
+            succeedPay.Show();
+        }
+
+        private void Delivery_Click(object sender, RoutedEventArgs e)
+        {
+            var converter = new BrushConverter();
+            Brush myBrush = (Brush)converter.ConvertFrom("#B70000");
+            Store_Button.Background = Brushes.DarkGray;
+            Delivery_Button.Background = myBrush;
+            Address.Content = "Адрес доставки";
+        }
+        private void Store_Click(object sender, RoutedEventArgs e)
+        {
+            var converter = new BrushConverter();
+            Brush myBrush = (Brush)converter.ConvertFrom("#B70000");
+            Delivery_Button.Background = Brushes.DarkGray;
+            Store_Button.Background = myBrush;
+            Address.Content = "Адрес магазина";
         }
     }
 }

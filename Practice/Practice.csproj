@@ -34,10 +34,12 @@
     <None Remove="Favorite_filled.png" />
     <None Remove="Fonts\InriaSerif\InriaSerif-Regular.ttf" />
     <None Remove="Location.png" />
+    <None Remove="Logout.png" />
     <None Remove="materials\1 794 2.png" />
     <None Remove="materials\1 794 3.png" />
     <None Remove="materials\1 794 4.png" />
     <None Remove="materials\1 794.png" />
+    <None Remove="materials\2\3\Logout.png" />
     <None Remove="materials\Location.png" />
     <None Remove="materials\Rectangle 2 %282%29.png" />
     <None Remove="materials\Rectangle 2 %283%29.png" />
@@ -56,6 +58,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="materials\2\3\Logout.png" />
     <Resource Include="materials\1 794 4.png" />
     <Resource Include="materials\666.png" />
     <Resource Include="materials\777.png" />
@@ -101,15 +109,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Vodka.xaml.cs">
+    <Compile Update="Categories\Vodka.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Champagne.xaml.cs">
+    <Compile Update="Categories\Champagne.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Beer.xaml.cs">
+    <Compile Update="Categories\Beer.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="App.xaml" />
   </ItemGroup>
 
 </Project>

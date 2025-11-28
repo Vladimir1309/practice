@@ -20,7 +20,7 @@
 
         <Label Content="Личный кабинет" HorizontalAlignment="Center" Margin="0,250,0,0" VerticalAlignment="Top" FontSize="36"/>
         <Label Content="Контактная информация" HorizontalAlignment="Left" Height="62" Margin="185,360,0,0" VerticalAlignment="Top" Width="450" FontSize="36" FontWeight="Bold"/>
-        <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left" Height="537" Margin="100,445,0,0" VerticalAlignment="Top" Width="620"/>
+        <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left" Height="537" Margin="100,445,0,0" VerticalAlignment="Top" Width="620" CornerRadius="13"/>
         <Button Content="Редактировать" HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="282" BorderBrush="White" Background="#FFB70000" Foreground="White" Cursor="Hand" Margin="159,928,0,0"/>
         <TextBox HorizontalAlignment="Left" Height="38" Margin="159,487,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="394" VerticalContentAlignment="Center"/>
         <Label x:Name="E_P_Label" Content="Фамилия" HorizontalAlignment="Left" VerticalAlignment="Top" Width="314" Height="26" Opacity="0.13" Margin="172,461,0,0" RenderTransformOrigin="0.489,-0.063"/>
@@ -38,7 +38,7 @@
         <Label x:Name="E_P_Label_Копировать5" Content="Адрес" HorizontalAlignment="Left" VerticalAlignment="Top" Width="314" Height="26" Opacity="0.13" Margin="172,845,0,0" RenderTransformOrigin="0.489,-0.063"/>
 
         <Label Content="Заказы" HorizontalAlignment="Left" Height="62" Margin="924,360,0,0" VerticalAlignment="Top" Width="450" FontSize="36" FontWeight="Bold"/>
-        <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left" Height="106" Margin="900,445,0,0" VerticalAlignment="Top" Width="446"/>
+        <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left" Height="106" Margin="900,445,0,0" VerticalAlignment="Top" Width="446" CornerRadius="13"/>
         <Label Content="Пока вы не сделали ни&#xD;&#xA;одного заказа" HorizontalAlignment="Left" Height="68" VerticalAlignment="Top" Width="358" FontSize="20" Margin="916,464,0,0"/>
 
 

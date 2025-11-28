@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,12 +18,13 @@ namespace Practice
     /// <summary>
     /// Логика взаимодействия для Wine.xaml
     /// </summary>
-    public partial class Beer : Window
+    public partial class Vodka : Window
     {
-        public Beer()
+        public Vodka()
         {
             InitializeComponent();
         }
+
         private void MLBD_GWAN(object sender, EventArgs e)
         {
             Main1 main1 = new Main1();
@@ -48,6 +50,39 @@ namespace Practice
             Account account = new Account();
             account.Show();
             this.Close();
+        }
+        int i = 1;
+        private void minus1(object sender, EventArgs e)
+        {
+            if (i > 0) i--;
+            count1.Content = i;
+        }
+        private void plus1(object sender, EventArgs e)
+        {
+            if (i >= 0) i++;
+            count1.Content = i;
+        }
+        int j = 1;
+        private void minus2(object sender, EventArgs e)
+        {
+            if (j > 0) j--;
+            count2.Content = j;
+        }
+        private void plus2(object sender, EventArgs e)
+        {
+            if (j >= 0) j++;
+            count2.Content = j;
+        }
+        int m = 1;
+        private void minus3(object sender, EventArgs e)
+        {
+            if (m > 0) m--;
+            count3.Content = m;
+        }
+        private void plus3(object sender, EventArgs e)
+        {
+            if (m >= 0) m++;
+            count3.Content = m;
         }
     }
 }

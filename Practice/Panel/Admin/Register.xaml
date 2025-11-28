@@ -1,0 +1,50 @@
+﻿<Window x:Class="Practice.Panel.Admin.Register"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Practice.Panel.Admin"
+        mc:Ignorable="d"
+        Title="Register">
+    <Grid>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="133" VerticalAlignment="Top" Width="391" Background="#FFB70000"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="875" VerticalAlignment="Top" Width="391" Background="#33343D" Margin="0,133,0,0"/>
+        <Label x:Name="GWAN" Content="GWAN-Admin" HorizontalAlignment="Left" Height="65" Margin="32,34,0,0" VerticalAlignment="Top" Width="327" FontSize="48" Foreground="Black" FontFamily="Georgia"/>
+
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="48" Margin="-1,161,0,0" VerticalAlignment="Top" Width="392" Background="#FFB70000"/>
+
+        <Button Content="Зарегистрировать пользователя" HorizontalAlignment="Left" Margin="6,167,0,0" VerticalAlignment="Top" Width="380" Height="36" Background="White" FontSize="20" Cursor="Hand" Click="Registration"/>
+        <Button Content="Изменить данные пользователя" HorizontalAlignment="Left" Margin="6,213,0,0" VerticalAlignment="Top" Width="380" Height="36" Background="White" FontSize="20" Cursor="Hand" Click="Edit"/>
+        <Button Content="Удалить пользователя" HorizontalAlignment="Left" Margin="6,259,0,0" VerticalAlignment="Top" Width="380" Height="36" Background="White" FontSize="20" Cursor="Hand" Click="Remove"/>
+
+        <Button Content="Список клиентов" HorizontalAlignment="Left" Margin="6,330,0,0" VerticalAlignment="Top" Width="380" Height="36" Background="White" FontSize="20" Cursor="Hand" Click="Clients"/>
+        <Button Content="Список сотрудников" HorizontalAlignment="Left" Margin="6,377,0,0" VerticalAlignment="Top" Width="380" Height="36" Background="White" FontSize="20" Cursor="Hand" Click="Employees"/>
+
+        <Button Content="История заказов" HorizontalAlignment="Left" Margin="6,444,0,0" VerticalAlignment="Top" Width="380" Height="36" Background="White" FontSize="20" Cursor="Hand" Click="Orders"/>
+        <Button Content="История поставок" HorizontalAlignment="Left" Margin="6,491,0,0" VerticalAlignment="Top" Width="380" Height="36" Background="White" FontSize="20" Cursor="Hand" Click="Supplies"/>
+
+        <Image HorizontalAlignment="Left" Height="56" Margin="174,941,0,0" VerticalAlignment="Top" Width="56" Source="/materials/2/3/Logout.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Exit"/>
+
+        <Label Content="Введите данные: " HorizontalAlignment="Left" Height="70" Margin="521,145,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
+        <Label Content="Фамилия: " HorizontalAlignment="Left" Height="70" Margin="521,277,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
+        <Label Content="Имя: " HorizontalAlignment="Left" Height="70" Margin="521,347,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
+        <Label Content="Отчество: " HorizontalAlignment="Left" Height="70" Margin="521,417,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
+        <Label Content="День рождения: " HorizontalAlignment="Left" Height="70" Margin="521,487,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
+        <Label Content="Телефон: " HorizontalAlignment="Left" Height="70" Margin="521,557,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
+        <Label Content="Зарплата: " HorizontalAlignment="Left" Height="70" Margin="521,627,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
+        <Label Content="Должность: " HorizontalAlignment="Left" Height="70" Margin="521,697,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
+
+        <Button Content="Зарегистрировать" HorizontalAlignment="Left" Height="34" Margin="521,836,0,0" VerticalAlignment="Top" Width="251" Background="#FFB70000" Foreground="White" Cursor="Hand" FontSize="20"/>
+        <Button Content="Отмена" HorizontalAlignment="Left" Height="34" Margin="521,875,0,0" VerticalAlignment="Top" Width="251" Background="#FFB70000" Foreground="White" Cursor="Hand" FontSize="20"/>
+
+        <TextBox x:Name="LastName" HorizontalAlignment="Left" Margin="930,295,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
+        <TextBox x:Name="FirstName" HorizontalAlignment="Left" Margin="930,365,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
+        <TextBox x:Name="Patronymic" HorizontalAlignment="Left" Margin="930,435,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
+        <TextBox x:Name="Birthday" HorizontalAlignment="Left" Margin="930,505,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
+        <TextBox x:Name="Phone" HorizontalAlignment="Left" Margin="930,575,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
+        <TextBox x:Name="Salary" HorizontalAlignment="Left" Margin="930,645,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
+        <TextBox x:Name="Post" HorizontalAlignment="Left" Margin="930,715,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
+
+
+    </Grid>
+</Window>

@@ -8,6 +8,6 @@
         Title="InWork" Height="365" Width="513">
     <Grid>
         <Label Content="Скоро сделаем!" HorizontalAlignment="Center" Height="80" Margin="0,102,0,0" VerticalAlignment="Top" Width="356" FontSize="48"/>
-        <Button Content="ОК" HorizontalAlignment="Center" Height="34" Margin="0,187,0,0" VerticalAlignment="Top" Width="178" Background="#FFB70000" Foreground="White" Cursor="Hand" Click="Button_Click"/>
+        <Button Content="ОК" HorizontalAlignment="Center" Height="34" Margin="0,201,0,0" VerticalAlignment="Top" Width="178" Background="#FFB70000" Foreground="White" Cursor="Hand" Click="Button_Click"/>
     </Grid>
 </Window>

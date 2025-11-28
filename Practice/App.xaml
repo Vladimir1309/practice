@@ -16,6 +16,7 @@
                     <Setter Property="CornerRadius" Value="13" />
                 </Style>
             </Style.Resources>
+            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
         </Style>
 
         <Style TargetType="Button">
@@ -26,17 +27,22 @@
             </Style.Resources>
         </Style>
 
-        <Style TargetType="Button" x:Key="blockbutt">
+        <!--<Style TargetType="Button" x:Key="blockbutt">
             <Style.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="0" />
                 </Style>
             </Style.Resources>
-        </Style>
+        </Style>-->
+        
+        
 
-        <Style TargetType="Border">
+        <!--<Style TargetType="Border">
             <Setter Property="CornerRadius" Value="13" />
-        </Style>
+        </Style>-->
+        
+        
+        
         <!--<Style TargetType="Border" x:Key="BR1">
             <Setter Property="CornerRadius" Value="13" />
         </Style>-->

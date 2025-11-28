@@ -13,8 +13,8 @@
         <Image Height="100" Width="100" Margin="558,345,782,563" Source="/materials/VK Circled.png" MouseLeftButtonDown="MLBD_VK_TG" Cursor="Hand"/>
         <Image Height="100" Width="100" Margin="738,345,602,563" Source="/materials/Telegram.png" MouseLeftButtonDown="MLBD_VK_TG" Cursor="Hand"/>
 
-        <TextBlock x:Name="Phone" HorizontalAlignment="Left" Height="34" Margin="524,469,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="191" FontSize="24" Foreground="#B70000" MouseLeftButtonDown="MLBD_Phone"><Run Language="ru-ru" Text="Номер телефона" Cursor="Hand"/></TextBlock>
-        <TextBlock x:Name="E_mail" HorizontalAlignment="Left" Height="34" Margin="720,469,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="72" FontSize="24" Text="E-mail" MouseLeftButtonDown="MLBD_Email" Cursor="Hand"/>
+        <TextBlock x:Name="Phone" HorizontalAlignment="Left" Height="34" Margin="524,469,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="191" FontSize="24" Foreground="#B70000" MouseLeftButtonDown="MLBD_Phone" MouseEnter="Phone_MouseEnter" MouseLeave="Phone_MouseLeave"><Run Language="ru-ru" Text="Номер телефона" Cursor="Hand"/></TextBlock>
+        <TextBlock x:Name="E_mail" HorizontalAlignment="Left" Height="34" Margin="720,469,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="72" FontSize="24" Text="E-mail" MouseLeftButtonDown="MLBD_Email" Cursor="Hand" MouseEnter="E_mail_MouseEnter" MouseLeave="E_mail_MouseLeave"/>
 
         <TextBox HorizontalAlignment="Left" Height="37" Margin="524,533,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="348" VerticalContentAlignment="Center"/>
         <Label x:Name="E_P_Label" Content="Номер телефона" HorizontalAlignment="Left" Margin="531,508,0,0" VerticalAlignment="Top" Width="313" Height="33" Opacity="0.13"/>
