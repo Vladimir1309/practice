@@ -53,34 +53,34 @@ namespace Practice
         int i = 1;
         private void minus1(object sender, EventArgs e)
         {
-            if (i > 0) i--;
+            if (i > 1) i--;
             count1.Content = i;
         }
         private void plus1(object sender, EventArgs e)
         {
-            if (i >= 0) i++;
+            if (i > 0) i++;
             count1.Content = i;
         }
         int j = 1;
         private void minus2(object sender, EventArgs e)
         {
-            if (j > 0) j--;
+            if (j > 1) j--;
             count2.Content = j;
         }
         private void plus2(object sender, EventArgs e)
         {
-            if (j >= 0) j++;
+            if (j > 0) j++;
             count2.Content = j;
         }
         int m = 1;
         private void minus3(object sender, EventArgs e)
         {
-            if (m > 0) m--;
+            if (m > 1) m--;
             count3.Content = m;
         }
         private void plus3(object sender, EventArgs e)
         {
-            if (m >= 0) m++;
+            if (m > 0) m++;
             count3.Content = m;
         }
 

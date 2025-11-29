@@ -25,7 +25,7 @@
 
         <Image HorizontalAlignment="Left" Height="56" Margin="174,941,0,0" VerticalAlignment="Top" Width="56" Source="/materials/2/3/Logout.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Exit"/>
 
-        <Label Content="Table" HorizontalAlignment="Left" Margin="834,324,0,0" VerticalAlignment="Top" FontSize="48"/>
+        <DataGrid Margin="435,167,33,147" Name="OrdersDataGrid" ItemsSource="{Binding Orderss}" ColumnWidth="180" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserAddRows="False" IsReadOnly="True"/>
 
 
     </Grid>

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Practice.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +21,31 @@ namespace Practice.Panel.Admin
     /// </summary>
     public partial class HistoryOrders : Window
     {
+        public ObservableCollection<Order> Orderss { get; set; }
         public HistoryOrders()
         {
             InitializeComponent();
+
+            Orderss = new ObservableCollection<Order>()
+            {
+                new Order
+                {
+                    IdOrder = 1,
+                    IdUserClient = 4,
+                    Check = 1600,
+                    Delivery = true,
+                    IsCompleted = true
+                },
+                new Order
+                {
+                    IdOrder = 2,
+                    IdUserClient = 2,
+                    Check = 2000,
+                    Delivery = false,
+                    IsCompleted = true
+                }
+            };
+            DataContext = this;
         }
         private void Registration(object sender, RoutedEventArgs e)
         {

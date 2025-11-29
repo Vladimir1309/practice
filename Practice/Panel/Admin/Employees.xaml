@@ -25,7 +25,21 @@
 
         <Image HorizontalAlignment="Left" Height="56" Margin="174,941,0,0" VerticalAlignment="Top" Width="56" Source="/materials/2/3/Logout.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Exit"/>
 
-        <Label Content="Table" HorizontalAlignment="Left" Margin="834,324,0,0" VerticalAlignment="Top" FontSize="48"/>
+        <DataGrid Margin="435,167,33,147" Name="UsersDataGrid" ItemsSource="{Binding Users}" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserAddRows="False" IsReadOnly="True" AutoGenerateColumns="False">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="IdUser" Binding="{Binding IdUser}" Width="50"/>
+                <DataGridTextColumn Header="Login" Binding="{Binding Login}" Width="60"/>
+                <DataGridTextColumn Header="Password" Binding="{Binding Password}" Width="60"/>
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="100"/>
+                <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" Width="100"/>
+                <DataGridTextColumn Header="Отчество" Binding="{Binding Patronymic}" Width="100"/>
+                <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" Width="100"/>
+                <DataGridTextColumn Header="Почта" Binding="{Binding Email}" Width="130"/>
+                <DataGridTextColumn Header="День рождения" Binding="{Binding Birthday}" Width="100"/>
+                <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" Width="140"/>
+            </DataGrid.Columns>
+        </DataGrid>
 
 
     </Grid>

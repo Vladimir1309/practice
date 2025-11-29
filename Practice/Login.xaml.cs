@@ -55,47 +55,47 @@ namespace Practice
             AlreadyAccount.Opacity = 0.13;
         }
 
-        private void AdminPanel_MouseEnter(object sender, MouseEventArgs e)
-        {
-            var converter = new BrushConverter();
-            Brush myBrush = (Brush)converter.ConvertFrom("#B70000");
-            Admin.Foreground = myBrush;
-            Admin.Opacity = 0.5;
-        }
+        //private void AdminPanel_MouseEnter(object sender, MouseEventArgs e)
+        //{
+        //    var converter = new BrushConverter();
+        //    Brush myBrush = (Brush)converter.ConvertFrom("#B70000");
+        //    Admin.Foreground = myBrush;
+        //    Admin.Opacity = 0.5;
+        //}
 
-        private void AdminPanel_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Admin.Foreground = Brushes.Black;
-            Admin.Opacity = 0.13;
-        }
+        //private void AdminPanel_MouseLeave(object sender, MouseEventArgs e)
+        //{
+        //    Admin.Foreground = Brushes.Black;
+        //    Admin.Opacity = 0.13;
+        //}
 
-        private void SalesPanel_MouseEnter(object sender, MouseEventArgs e)
-        {
-            var converter = new BrushConverter();
-            Brush myBrush = (Brush)converter.ConvertFrom("#B70000");
-            Sales.Foreground = myBrush;
-            Sales.Opacity = 0.5;
-        }
+        //private void SalesPanel_MouseEnter(object sender, MouseEventArgs e)
+        //{
+        //    var converter = new BrushConverter();
+        //    Brush myBrush = (Brush)converter.ConvertFrom("#B70000");
+        //    Sales.Foreground = myBrush;
+        //    Sales.Opacity = 0.5;
+        //}
 
-        private void SalesPanel_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Sales.Foreground = Brushes.Black;
-            Sales.Opacity = 0.13;
-        }
+        //private void SalesPanel_MouseLeave(object sender, MouseEventArgs e)
+        //{
+        //    Sales.Foreground = Brushes.Black;
+        //    Sales.Opacity = 0.13;
+        //}
 
-        private void DeliveryPanel_MouseEnter(object sender, MouseEventArgs e)
-        {
-            var converter = new BrushConverter();
-            Brush myBrush = (Brush)converter.ConvertFrom("#B70000");
-            Delivery.Foreground = myBrush;
-            Delivery.Opacity = 0.5;
-        }
+        //private void DeliveryPanel_MouseEnter(object sender, MouseEventArgs e)
+        //{
+        //    var converter = new BrushConverter();
+        //    Brush myBrush = (Brush)converter.ConvertFrom("#B70000");
+        //    Delivery.Foreground = myBrush;
+        //    Delivery.Opacity = 0.5;
+        //}
 
-        private void DeliveryPanel_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Delivery.Foreground = Brushes.Black;
-            Delivery.Opacity = 0.13;
-        }
+        //private void DeliveryPanel_MouseLeave(object sender, MouseEventArgs e)
+        //{
+        //    Delivery.Foreground = Brushes.Black;
+        //    Delivery.Opacity = 0.13;
+        //}
 
         private void MLBD_Already(object sender, EventArgs e)
         {
@@ -104,26 +104,26 @@ namespace Practice
             this.Close();
         }
 
-        private void MLBD_AdminPanel(object sender, EventArgs e)
-        {
-            Admin_Main adminMain = new Admin_Main();
-            adminMain.Show();
-            this.Close();
-        }
+        //private void MLBD_AdminPanel(object sender, EventArgs e)
+        //{
+        //    Admin_Main adminMain = new Admin_Main();
+        //    adminMain.Show();
+        //    this.Close();
+        //}
 
-        private void MLBD_SalesPanel(object sender, EventArgs e)
-        {
-            Sales_Main salesMain = new Sales_Main();
-            salesMain.Show();
-            this.Close();
-        }
+        //private void MLBD_SalesPanel(object sender, EventArgs e)
+        //{
+        //    Sales_Main salesMain = new Sales_Main();
+        //    salesMain.Show();
+        //    this.Close();
+        //}
 
-        private void MLBD_DeliveryPanel(object sender, EventArgs e)
-        {
-            Delivery_Main deliveryMain = new Delivery_Main();
-            deliveryMain.Show();
-            this.Close();
-        }
+        //private void MLBD_DeliveryPanel(object sender, EventArgs e)
+        //{
+        //    Delivery_Main deliveryMain = new Delivery_Main();
+        //    deliveryMain.Show();
+        //    this.Close();
+        //}
 
         private void MLBD_VK_TG(object sender, EventArgs e)
         {
@@ -155,6 +155,79 @@ namespace Practice
             Account account = new Account();
             account.Show();
             this.Close();
+        }
+
+        private void LoginButton(object sender, RoutedEventArgs e)
+        {
+            if (LoginText.Text == "admin" && PasswordText.Text == "admin")
+            {
+                Admin_Main adminMain = new Admin_Main();
+                adminMain.Show();
+                this.Close();
+            }
+            if (LoginText.Text == "sales" && PasswordText.Text == "sales")
+            {
+                Sales_Main salesMain = new Sales_Main();
+                salesMain.Show();
+                this.Close();
+            }
+            if (LoginText.Text == "delivery" && PasswordText.Text == "delivery")
+            {
+                Delivery_Main deliveryMain = new Delivery_Main();
+                deliveryMain.Show();
+                this.Close();
+            }
+            if (LoginText.Text == "user" && PasswordText.Text == "user")
+            {
+                Account account = new Account();
+                account.Show();
+                this.Close();
+            }
+        }
+        private void E_mail_MouseEnter(object sender, MouseEventArgs e)
+        {
+            //var converter = new BrushConverter();
+            //Brush myBrush = (Brush)converter.ConvertFrom("#B70000");
+            //if (this.Foreground == Brushes.Black)
+            //{
+            //    E_mail.Opacity = 0.5;
+            //}
+            E_mail.Opacity = 0.5;
+        }
+
+        private void E_mail_MouseLeave(object sender, MouseEventArgs e)
+        {
+            //var converter = new BrushConverter();
+            //Brush myBrush = (Brush)converter.ConvertFrom("#B70000");
+            //if (this.Foreground == Brushes.Black) 
+            //{
+            //    E_mail.Opacity = 1;
+            //}
+            E_mail.Opacity = 1;
+        }
+
+        private void Phone_MouseEnter(object sender, MouseEventArgs e)
+        {
+            //var converter = new BrushConverter();
+            //Brush myBrush = (Brush)converter.ConvertFrom("#B70000");
+            //if (E_mail.Foreground == myBrush) 
+            //{
+            //    Phone.Foreground = myBrush;
+            //    Phone.Opacity = 0.5;
+            //}
+            Phone.Opacity = 0.5;
+        }
+
+        private void Phone_MouseLeave(object sender, MouseEventArgs e)
+        {
+            //var converter = new BrushConverter();
+            //Brush myBrush = (Brush)converter.ConvertFrom("#B70000");
+            //if (E_mail.Foreground == myBrush) 
+            //{
+            //    Phone.Foreground = Brushes.Black;
+            //    Phone.Opacity = 1;
+            //}
+            Phone.Opacity = 1;
         }
     }
 }

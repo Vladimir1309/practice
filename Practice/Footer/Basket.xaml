@@ -7,6 +7,9 @@
         mc:Ignorable="d"
         Title="Basket">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
         <Label x:Name="GWAN" Content="GWAN" HorizontalAlignment="Left" Height="70" Margin="100,91,0,0" VerticalAlignment="Top" Width="323" FontSize="48" Foreground="#FFB70000" FontFamily="Georgia" MouseLeftButtonDown="MLBD_GWAN" Cursor="Hand"/>
         <Image HorizontalAlignment="Left" Height="44" Margin="783,92,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Favorite.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Favourite"/>
         <Label Content="Избранное" HorizontalAlignment="Left" Height="44" Margin="832,93,0,0" VerticalAlignment="Top" Width="136" FontSize="24" Cursor="Hand" MouseLeftButtonDown="MLBD_Favourite"/>
@@ -15,8 +18,27 @@
         <Label Content="Корзина" HorizontalAlignment="Left" Height="44" Margin="1103,93,0,0" VerticalAlignment="Top" Width="136" FontSize="24" Cursor="Hand" MouseLeftButtonDown="MLBD_Basket" Foreground="#FFB70000"/>
         <Image HorizontalAlignment="Left" Height="44" Margin="1302,91,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Collaborator Male-1.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Account"/>
 
-        <DataGrid Name="BasketDataGrid" Margin="100,324,540,114">
-            
+        <DataGrid Name="BasketDataGrid" Margin="100,324,540,114" ItemsSource="{Binding Order_Products}" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserAddRows="False" IsReadOnly="True" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <!--<DataGridTextColumn Header="ID" Binding="{Binding Id}" IsReadOnly="True"/>-->
+                <DataGridTextColumn Header="Название" Binding="{Binding Products.Name}" Width="180"/>
+                <DataGridTextColumn Header="Количество" Binding="{Binding Amount}" Width="180"/>
+                <DataGridTextColumn Header="Ценник" Binding="{Binding Products.Price}" Width="180"/>
+                <DataGridTextColumn Header="Избранное?" Binding="{Binding IsFavourited}" Width="180"/>
+
+                <DataGridTemplateColumn Header="Удалить" Width="78">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="❌" Margin="2"
+                                        Command="{Binding DataContext.DeleteItemCommand, 
+                                        RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                        CommandParameter="{Binding}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
         </DataGrid>
 
         <Label Content="Корзина" HorizontalAlignment="Left" Margin="100,213,0,0" VerticalAlignment="Top" Height="64" Width="426" FontSize="36" FontStyle="Italic" FontWeight="Bold"/>

@@ -9,7 +9,7 @@
     <Grid>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="133" VerticalAlignment="Top" Width="391" Background="#FFB70000"/>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="875" VerticalAlignment="Top" Width="391" Background="#33343D" Margin="0,133,0,0"/>
-        <Label x:Name="GWAN" Content="GWAN-Admin" HorizontalAlignment="Left" Height="65" Margin="32,34,0,0" VerticalAlignment="Top" Width="327" FontSize="48" Foreground="Black" FontFamily="Georgia"/>
+        <Label x:Name="GWAN" Content="GWAN-Delivery" HorizontalAlignment="Left" Height="65" Margin="16,34,0,0" VerticalAlignment="Top" Width="360" FontSize="48" Foreground="Black" FontFamily="Georgia"/>
 
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="48" Margin="-1,207,0,0" VerticalAlignment="Top" Width="392" Background="#FFB70000"/>
 

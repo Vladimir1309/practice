@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Practice.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +21,21 @@ namespace Practice.Panel.Admin
     /// </summary>
     public partial class HistorySupplies : Window
     {
+        public ObservableCollection<Accounting> Accountings { get; set; }
         public HistorySupplies()
         {
             InitializeComponent();
+            Accountings = new ObservableCollection<Accounting>()
+            {
+                new Accounting
+                {
+                    IdAccounting = 1,
+                    IdProduct = 1,
+                    IdStorage = 1,
+                    AmountOfProduct = 1
+                }
+            };
+            DataContext = this;
         }
         private void Registration(object sender, RoutedEventArgs e)
         {

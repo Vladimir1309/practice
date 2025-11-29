@@ -1,6 +1,8 @@
-﻿using Practice.Panel.Delivery;
+﻿using Practice.Models;
+using Practice.Panel.Delivery;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +22,30 @@ namespace Practice.Panel.Sales
     /// </summary>
     public partial class HistoryOrdersSales : Window
     {
+        public ObservableCollection<Order> Orderss { get; set; }
         public HistoryOrdersSales()
         {
             InitializeComponent();
+            Orderss = new ObservableCollection<Order>()
+            {
+                new Order
+                {
+                    IdOrder = 1,
+                    IdUserClient = 4,
+                    Check = 1600,
+                    Delivery = true,
+                    IsCompleted = true
+                },
+                new Order
+                {
+                    IdOrder = 2,
+                    IdUserClient = 2,
+                    Check = 2000,
+                    Delivery = false,
+                    IsCompleted = true
+                }
+            };
+            DataContext = this;
         }
         private void Hitt(object sender, RoutedEventArgs e)
         {

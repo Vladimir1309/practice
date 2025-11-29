@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Practice.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +21,43 @@ namespace Practice.Panel.Admin
     /// </summary>
     public partial class Clients : Window
     {
+        public ObservableCollection<User> Users { get; set; }
         public Clients()
         {
             InitializeComponent();
+
+            Users = new ObservableCollection<User>()
+            {
+                new User
+                {
+                    IdUser = 1,
+                    IdPost = 4,
+                    Login = "nope",
+                    Password = "nope1",
+                    LastName = "Сусович",
+                    FirstName = "Сус",
+                    Patronymic = "Суснов",
+                    Phone = "89119998473",
+                    Email = "sus@gmail.com",
+                    Birthday = "2004-09-14",
+                    Address = "Улица Бобова, д. 7, кв. 66"
+                },
+                new User
+                {
+                    IdUser = 2,
+                    IdPost = 5,
+                    Login = "bob",
+                    Password = "bob1",
+                    LastName = "Великий",
+                    FirstName = "Владимир",
+                    Patronymic = "Павлович",
+                    Phone = "89112410026",
+                    Email = "megabob@gmail.com",
+                    Birthday = "2006-09-14",
+                    Address = "Шоссе Гвардейцев, д. 7, кв. 66"
+                }
+            };
+            DataContext = this;
         }
 
         private void Registration(object sender, RoutedEventArgs e)

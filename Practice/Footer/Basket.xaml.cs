@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Practice.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,10 +21,52 @@ namespace Practice
     /// </summary>
     public partial class Basket : Window
     {
+        public ObservableCollection<Order_Product> Order_Products { get; set; }
+        public ObservableCollection<Order> Orders { get; set; }
+        public ObservableCollection<Product> Products { get; set; }
         public Basket()
         {
             InitializeComponent();
+            //DataContext = new MainViewModel();
+
+            Order_Products = new ObservableCollection<Order_Product>()
+            {
+                new Order_Product
+                {
+                    IdOrderProduct = 1,
+                    IdOrder = 1,
+                    IdProduct = 1,
+                    Amount = 1,
+                    IsFavourited = false
+                }
+            };
+
+            Orders = new ObservableCollection<Order>()
+            {
+                new Order
+                {
+                    IdOrder = 1,
+                    IdUserClient = 4,
+                    Check = 1600,
+                    Delivery = true,
+                    IsCompleted = true
+                }
+            };
+
+            Products = new ObservableCollection<Product>()
+            {
+                 new Product
+                 {
+                     IdProduct = 1,
+                     IdCategory = 1,
+                     Name = "Красное вино",
+                     Price = 1000
+                 }
+            };
+
+            DataContext = this;
         }
+
         private void MLBD_GWAN(object sender, EventArgs e)
         {
             Main1 main1 = new Main1();
@@ -73,5 +117,7 @@ namespace Practice
             Store_Button.Background = myBrush;
             Address.Content = "Адрес магазина";
         }
+
+
     }
 }
