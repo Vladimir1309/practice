@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Functions\ApplicationContext.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="1 794 2.png" />
     <None Remove="1 794 3.png" />
     <None Remove="1 794 4.png" />

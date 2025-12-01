@@ -25,18 +25,51 @@
 
         <Image HorizontalAlignment="Left" Height="56" Margin="174,941,0,0" VerticalAlignment="Top" Width="56" Source="/materials/2/3/Logout.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Exit"/>
 
-        <Label Content="Введите данные: " HorizontalAlignment="Left" Height="70" Margin="521,145,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
-        <Label Content="UserID: " HorizontalAlignment="Left" Height="70" Margin="510,268,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
-        <Label Content="Фамилия: " HorizontalAlignment="Left" Height="70" Margin="510,343,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
-        <Label Content="Имя: " HorizontalAlignment="Left" Height="70" Margin="510,413,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
-        <Label Content="Отчество: " HorizontalAlignment="Left" Height="70" Margin="510,483,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
-        <Label Content="День рождения: " HorizontalAlignment="Left" Height="70" Margin="510,553,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
-        <Label Content="Телефон: " HorizontalAlignment="Left" Height="70" Margin="510,623,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
-        <Label Content="Зарплата: " HorizontalAlignment="Left" Height="70" Margin="510,693,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
-        <Label Content="Должность: " HorizontalAlignment="Left" Height="70" Margin="510,763,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
+        <Label x:Name="UserIDLabel" Content="UserID: " HorizontalAlignment="Left" Height="70" Margin="510,268,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
+        <Label x:Name="LastNameLabel" Content="Фамилия: " HorizontalAlignment="Left" Height="70" Margin="510,343,0,0" VerticalAlignment="Top" Width="336" FontSize="40" Visibility="Hidden"/>
+        <Label x:Name="FirstNameLabel" Content="Имя: " HorizontalAlignment="Left" Height="70" Margin="510,413,0,0" VerticalAlignment="Top" Width="336" FontSize="40" Visibility="Hidden"/>
+        <Label x:Name="PatronymicLabel" Content="Отчество: " HorizontalAlignment="Left" Height="70" Margin="510,483,0,0" VerticalAlignment="Top" Width="336" FontSize="40" Visibility="Hidden"/>
+        <Label x:Name="BirthdayLabel" Content="День рождения: " HorizontalAlignment="Left" Height="70" Margin="510,553,0,0" VerticalAlignment="Top" Width="336" FontSize="40" Visibility="Hidden"/>
+        <Label x:Name="PhoneLabel" Content="Телефон: " HorizontalAlignment="Left" Height="70" Margin="510,623,0,0" VerticalAlignment="Top" Width="336" FontSize="40" Visibility="Hidden"/>
+        <Label x:Name="SalaryLabel" Content="Зарплата: " HorizontalAlignment="Left" Height="70" Margin="510,693,0,0" VerticalAlignment="Top" Width="336" FontSize="40" Visibility="Hidden"/>
+        <Label x:Name="PostLabel" Content="Должность: " HorizontalAlignment="Left" Height="70" Margin="510,763,0,0" VerticalAlignment="Top" Width="336" FontSize="40" Visibility="Hidden"/>
 
-        <Button Content="Изменить" HorizontalAlignment="Left" Height="34" Margin="521,877,0,0" VerticalAlignment="Top" Width="251" Background="#FFB70000" Foreground="White" Cursor="Hand" FontSize="20"/>
-        <Button Content="Отмена" HorizontalAlignment="Left" Height="34" Margin="521,916,0,0" VerticalAlignment="Top" Width="251" Background="#FFB70000" Foreground="White" Cursor="Hand" FontSize="20"/>
+        <Button x:Name="EditButton" 
+                Content="Изменить" 
+                HorizontalAlignment="Left" 
+                Height="34" 
+                Margin="521,877,0,0" 
+                VerticalAlignment="Top" 
+                Width="251" 
+                Background="#FFB70000" 
+                Foreground="White" 
+                Cursor="Hand" 
+                FontSize="20"
+                Click="EditButton_Click"
+                Visibility="Hidden"/>
+
+        <Button x:Name="CancelEditButton" 
+                Content="Отмена" 
+                HorizontalAlignment="Left" 
+                Height="34" 
+                Margin="521,916,0,0" 
+                VerticalAlignment="Top" 
+                Width="251" 
+                Background="#FFB70000" 
+                Foreground="White" 
+                Cursor="Hand" 
+                FontSize="20"
+                Click="CancelEditButton_Click"
+                Visibility="Hidden"/>
+
+
+        <TextBlock x:Name="EnterID"
+                   Text="Введите ID" 
+                   HorizontalAlignment="Left" 
+                   Margin="920,320,0,0" 
+                   VerticalAlignment="Top" 
+                   Foreground="Gray" 
+                   FontSize="12"/>
 
         <TextBox x:Name="UserID" HorizontalAlignment="Left" Margin="920,286,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
         <TextBox x:Name="LastName" HorizontalAlignment="Left" Margin="920,361,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
@@ -46,5 +79,18 @@
         <TextBox x:Name="Phone" HorizontalAlignment="Left" Margin="920,641,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
         <TextBox x:Name="Salary" HorizontalAlignment="Left" Margin="920,711,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
         <TextBox x:Name="Post" HorizontalAlignment="Left" Margin="920,781,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
+
+        <Button x:Name="FindUserButton" 
+                Content="Найти" 
+                HorizontalAlignment="Left" 
+                Height="34" 
+                Margin="920,235,0,0" 
+                VerticalAlignment="Top" 
+                Width="100" 
+                Background="#FFB70000" 
+                Foreground="White" 
+                Cursor="Hand" 
+                FontSize="16"
+                Click="FindUserButton_Click"/>
     </Grid>
 </Window>

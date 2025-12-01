@@ -1,80 +1,176 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using Practice.Models;
 
 namespace Practice.Panel.Admin
 {
-    /// <summary>
-    /// Логика взаимодействия для Register.xaml
-    /// </summary>
     public partial class Register : Window
     {
+        // Временное хранилище пользователей
+        private static ObservableCollection<User> _tempUsers = new ObservableCollection<User>();
+
+        public static ObservableCollection<User> TempUsers => _tempUsers;
+
         public Register()
         {
             InitializeComponent();
+
+            // Инициализация тестовыми данными
+            if (_tempUsers.Count == 0)
+            {
+                _tempUsers.Add(new User
+                {
+                    IdUser = 1,
+                    IdPost = 4,
+                    Login = "nope",
+                    Password = "nope1",
+                    LastName = "Сусович",
+                    FirstName = "Сус",
+                    Patronymic = "Суснов",
+                    Phone = "89119998473",
+                    Email = "sus@gmail.com",
+                    Birthday = new DateOnly(2004, 9, 14),
+                    Address = "Улица Бобова, д. 7, кв. 66"
+                });
+            }
         }
-        private void Registration(object sender, RoutedEventArgs e)
+
+        private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
-            Panel.Admin.Register register = new Panel.Admin.Register();
-            register.Show();
-            this.Close();
+            try
+            {
+                // Проверка обязательных полей
+                if (string.IsNullOrWhiteSpace(LastName.Text) ||
+                    string.IsNullOrWhiteSpace(FirstName.Text) ||
+                    string.IsNullOrWhiteSpace(Patronymic.Text) ||
+                    string.IsNullOrWhiteSpace(Birthday.Text) ||
+                    string.IsNullOrWhiteSpace(Phone.Text) ||
+                    string.IsNullOrWhiteSpace(Post.Text))
+                {
+                    MessageBox.Show("Заполните все поля!");
+                    return;
+                }
+
+                // Проверка даты
+                if (!DateOnly.TryParse(Birthday.Text, out var birthday))
+                {
+                    MessageBox.Show("Некорректная дата!");
+                    return;
+                }
+
+                // Проверка уникальности телефона
+                if (_tempUsers.Any(u => u.Phone == Phone.Text))
+                {
+                    MessageBox.Show("Телефон уже используется!");
+                    return;
+                }
+
+                // Получение логина и пароля
+                string login = string.IsNullOrWhiteSpace(Login.Text) || Login.Text == "авто"
+                    ? $"{LastName.Text.ToLower()}{FirstName.Text[0]}"
+                    : Login.Text;
+
+                string password = string.IsNullOrWhiteSpace(Password.Text) || Password.Text == "авто"
+                    ? $"{LastName.Text.ToLower().Substring(0, Math.Min(3, LastName.Text.Length))}{Phone.Text.Substring(0, Math.Min(2, Phone.Text.Length))}"
+                    : Password.Text;
+
+                // Проверка уникальности логина
+                if (_tempUsers.Any(u => u.Login == login))
+                {
+                    MessageBox.Show("Логин уже существует!");
+                    return;
+                }
+
+                // Создание нового пользователя
+                var newUser = new User
+                {
+                    IdUser = _tempUsers.Count > 0 ? _tempUsers.Max(u => u.IdUser) + 1 : 1,
+                    IdPost = 1, // Временное значение
+                    Login = login,
+                    Password = password,
+                    LastName = LastName.Text,
+                    FirstName = FirstName.Text,
+                    Patronymic = Patronymic.Text,
+                    Phone = Phone.Text,
+                    Email = "",
+                    Birthday = birthday,
+                    Address = ""
+                };
+
+                // Сохранение
+                _tempUsers.Add(newUser);
+
+                MessageBox.Show($"Пользователь зарегистрирован!\nЛогин: {login}\nПароль: {password}");
+                ClearFields();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка: {ex.Message}");
+            }
         }
+
+        private void ClearFields()
+        {
+            LastName.Text = "";
+            FirstName.Text = "";
+            Patronymic.Text = "";
+            Birthday.Text = "";
+            Phone.Text = "";
+            Salary.Text = "";
+            Post.Text = "";
+            Login.Text = "";
+            Password.Text = "";
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            ClearFields();
+        }
+
+        // Навигационные методы
+        private void Registration(object sender, RoutedEventArgs e) { }
 
         private void Edit(object sender, RoutedEventArgs e)
         {
-            Panel.Admin.Edit edit = new Panel.Admin.Edit();
-            edit.Show();
+            new Panel.Admin.Edit().Show();
             this.Close();
         }
 
         private void Remove(object sender, RoutedEventArgs e)
         {
-            Panel.Admin.Remove remove = new Panel.Admin.Remove();
-            remove.Show();
+            new Panel.Admin.Remove().Show();
             this.Close();
         }
 
         private void Clients(object sender, RoutedEventArgs e)
         {
-            Panel.Admin.Clients clients = new Panel.Admin.Clients();
-            clients.Show();
+            new Panel.Admin.Clients().Show();
             this.Close();
         }
 
         private void Employees(object sender, RoutedEventArgs e)
         {
-            Panel.Admin.Employees employees = new Panel.Admin.Employees();
-            employees.Show();
+            new Panel.Admin.Employees().Show();
             this.Close();
         }
 
         private void Orders(object sender, RoutedEventArgs e)
         {
-            Panel.Admin.HistoryOrders orders = new Panel.Admin.HistoryOrders();
-            orders.Show();
+            new Panel.Admin.HistoryOrders().Show();
             this.Close();
         }
 
         private void Supplies(object sender, RoutedEventArgs e)
         {
-            Panel.Admin.HistorySupplies supplies = new Panel.Admin.HistorySupplies();
-            supplies.Show();
+            new Panel.Admin.HistorySupplies().Show();
             this.Close();
         }
+
         private void MLBD_Exit(object sender, EventArgs e)
         {
-            Login login = new Login();
-            login.Show();
+            new Login().Show();
             this.Close();
         }
     }

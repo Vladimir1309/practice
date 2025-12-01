@@ -63,7 +63,7 @@ namespace Practice.Panel.Sales
 
         private void History(object sender, RoutedEventArgs e)
         {
-            HistoryOrdersDelivery history = new HistoryOrdersDelivery();
+            Sales.HistoryOrdersSales history = new Sales.HistoryOrdersSales();
             history.Show();
             this.Close();
         }

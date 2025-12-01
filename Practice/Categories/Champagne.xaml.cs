@@ -1,35 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Practice
 {
-    /// <summary>
-    /// Логика взаимодействия для Wine.xaml
-    /// </summary>
     public partial class Champagne : Window
     {
         public Champagne()
         {
             InitializeComponent();
         }
+
         private void MLBD_GWAN(object sender, EventArgs e)
         {
             Main1 main1 = new Main1();
             main1.Show();
             this.Close();
         }
+
         private void MLBD_Basket(object sender, EventArgs e)
         {
             Basket basket = new Basket();
@@ -50,38 +37,87 @@ namespace Practice
             account.Show();
             this.Close();
         }
+
         int i = 1;
         private void minus1(object sender, EventArgs e)
         {
             if (i > 1) i--;
             count1.Content = i;
         }
+
         private void plus1(object sender, EventArgs e)
         {
             if (i > 0) i++;
             count1.Content = i;
         }
+
         int j = 1;
         private void minus2(object sender, EventArgs e)
         {
             if (j > 1) j--;
             count2.Content = j;
         }
+
         private void plus2(object sender, EventArgs e)
         {
             if (j > 0) j++;
             count2.Content = j;
         }
+
         int m = 1;
         private void minus3(object sender, EventArgs e)
         {
             if (m > 1) m--;
             count3.Content = m;
         }
+
         private void plus3(object sender, EventArgs e)
         {
             if (m > 0) m++;
             count3.Content = m;
+        }
+
+        // Обработчики кнопок "В корзину" для шампанского
+        private void AddToBasket1_Click(object sender, RoutedEventArgs e)
+        {
+            if (int.TryParse(count1.Content?.ToString(), out int amount))
+            {
+                // Товар 1: Cristal Brut Champagne (ID 7)
+                DataManager.AddToCart(7, amount);
+                MessageBox.Show("Товар добавлен в корзину!");
+            }
+            else
+            {
+                MessageBox.Show("Ошибка: некорректное количество");
+            }
+        }
+
+        private void AddToBasket2_Click(object sender, RoutedEventArgs e)
+        {
+            if (int.TryParse(count2.Content?.ToString(), out int amount))
+            {
+                // Товар 2: Morize Brut Tradition Champagne (ID 8)
+                DataManager.AddToCart(8, amount);
+                MessageBox.Show("Товар добавлен в корзину!");
+            }
+            else
+            {
+                MessageBox.Show("Ошибка: некорректное количество");
+            }
+        }
+
+        private void AddToBasket3_Click(object sender, RoutedEventArgs e)
+        {
+            if (int.TryParse(count3.Content?.ToString(), out int amount))
+            {
+                // Товар 3: Ultradition Brut Champagne (ID 9)
+                DataManager.AddToCart(9, amount);
+                MessageBox.Show("Товар добавлен в корзину!");
+            }
+            else
+            {
+                MessageBox.Show("Ошибка: некорректное количество");
+            }
         }
     }
 }

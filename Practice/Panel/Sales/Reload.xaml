@@ -19,19 +19,54 @@
 
         <Image HorizontalAlignment="Left" Height="56" Margin="174,941,0,0" VerticalAlignment="Top" Width="56" Source="/materials/2/3/Logout.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Exit"/>
 
-        <Label Content="Номер товара:" HorizontalAlignment="Center" Height="60" Margin="0,277,0,0" VerticalAlignment="Top" Width="254" FontSize="36"/>
+        <Label Content="Id товара:" HorizontalAlignment="Center" Height="60" Margin="0,277,0,0" VerticalAlignment="Top" Width="254" FontSize="36"/>
         <Label Content="Наименование:" HorizontalAlignment="Left" Height="60" Margin="593,337,0,0" VerticalAlignment="Top" Width="269" FontSize="36"/>
         <Label Content="Стоимость:" HorizontalAlignment="Center" Height="60" Margin="0,397,0,0" VerticalAlignment="Top" Width="254" FontSize="36"/>
-        <Label Content="000" HorizontalAlignment="Left" Height="60" Margin="928,277,0,0" VerticalAlignment="Top" Width="254" FontSize="36"/>
-        <Label Content="Абвгд" HorizontalAlignment="Left" Height="60" Margin="928,337,0,0" VerticalAlignment="Top" Width="269" FontSize="36"/>
-        <Label Content="0 ₽" HorizontalAlignment="Left" Height="60" Margin="928,397,0,0" VerticalAlignment="Top" Width="254" FontSize="36"/>
+        <TextBox x:Name="IdProductText" HorizontalAlignment="Left" Height="51" Margin="928,286,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="111" VerticalContentAlignment="Center"/>
+        <Label x:Name="ProductNameLabel" 
+               Content="-" 
+               HorizontalAlignment="Left" 
+               Height="60" 
+               Margin="928,337,0,0" 
+               VerticalAlignment="Top" 
+               Width="400" 
+               FontSize="36"
+               Foreground="Gray"/>
 
-        <Label Content="Причина возврата" HorizontalAlignment="Left" Margin="602,477,0,0" VerticalAlignment="Top" Width="313" Height="27" Opacity="0.13"/>
-        <TextBox x:Name="Ammount" HorizontalAlignment="Left" Height="51" Margin="593,504,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="446" IsReadOnly="True" VerticalContentAlignment="Center"/>
+        <Label x:Name="ProductPriceLabel" 
+               Content="0 ₽" 
+               HorizontalAlignment="Left" 
+               Height="60" 
+               Margin="928,397,0,0" 
+               VerticalAlignment="Top" 
+               Width="200" 
+               FontSize="36"
+               Foreground="Gray"/>
 
-        <Button Content="Оформить возврат" HorizontalAlignment="Left" Height="45" Margin="593,621,0,0" VerticalAlignment="Top" Width="446" Background="#FFB70000" Foreground="White" Cursor="Hand" FontSize="20"/>
-        <Button Content="Отмена" HorizontalAlignment="Left" Height="45" Margin="593,671,0,0" VerticalAlignment="Top" Width="446" Background="#FFB70000" Foreground="White" Cursor="Hand" FontSize="20"/>
+        <Label Content="Причина возврата (минимум 10 символов)" HorizontalAlignment="Left" Margin="602,477,0,0" VerticalAlignment="Top" Width="313" Height="27" Opacity="0.13"/>
+        <TextBox x:Name="Amount" HorizontalAlignment="Left" Height="50" Margin="593,504,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="446" VerticalContentAlignment="Center"/>
 
+        <Button Content="Оформить возврат" HorizontalAlignment="Left" Height="45" Margin="593,621,0,0" VerticalAlignment="Top" Width="446" Background="#FFB70000" Foreground="White" Cursor="Hand" FontSize="20" Click="GetBack"/>
+        <Button Content="Отмена" HorizontalAlignment="Left" Height="45" Margin="593,671,0,0" VerticalAlignment="Top" Width="446" Background="#FFB70000" Foreground="White" Cursor="Hand" FontSize="20" Click="Cancel"/>
+
+        <TextBlock Text="Введите ID и нажмите 'Найти'" 
+                   HorizontalAlignment="Left" 
+                   Margin="928,270,0,0" 
+                   VerticalAlignment="Top" 
+                   Foreground="Gray" 
+                   FontSize="12"/>
+
+        <Button Content="Найти" 
+                HorizontalAlignment="Left" 
+                Height="34" 
+                Margin="1055,294,0,0" 
+                VerticalAlignment="Top" 
+                Width="80" 
+                Background="#FFB70000" 
+                Foreground="White" 
+                Cursor="Hand" 
+                FontSize="14"
+                Click="FindProductButton_Click"/>
 
     </Grid>
 </Window>

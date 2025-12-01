@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Practice.Models
 {
@@ -15,9 +11,9 @@ namespace Practice.Models
         public string LastName { get; set; }
         public string FirstName { get; set; }
         public string Patronymic { get; set; }
-        public string Phone {  get; set; }
+        public string Phone { get; set; }
         public string Email { get; set; }
-        public string Birthday { get; set; }
+        public DateOnly Birthday { get; set; } // Изменено с DateOnly на DateTime
         public string Address { get; set; }
     }
 }

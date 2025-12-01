@@ -30,7 +30,9 @@
         <Border BorderBrush="#FFCECECE" BorderThickness="1" HorizontalAlignment="Left" Height="32" Margin="356,941,0,0" VerticalAlignment="Top" Width="32" CornerRadius="0" Background="#FFEDEDED"/>
         <Button Content="-" HorizontalAlignment="Left" Height="29" Margin="273,942,0,0" VerticalAlignment="Top" Width="29" BorderBrush="#FFEDEDED" Background="#FFEDEDED" Cursor="Hand" Click="minus1"/>
         <Button Content="+" HorizontalAlignment="Left" Height="29" Margin="357,942,0,0" VerticalAlignment="Top" Width="29" BorderBrush="#FFEDEDED" Background="#FFEDEDED" Cursor="Hand" Click="plus1"/>
-        <Button Content="В корзину" HorizontalAlignment="Left" Height="32" Margin="388,941,0,0" VerticalAlignment="Top" Width="84" BorderBrush="White" Background="#FFB70000" Foreground="White" Cursor="Hand"/>
+        <Button Content="В корзину" HorizontalAlignment="Left" Height="32" Margin="388,941,0,0" 
+        VerticalAlignment="Top" Width="84" BorderBrush="White" Background="#FFB70000" 
+        Foreground="White" Cursor="Hand" Click="AddToBasket1_Click"/>
         <Button HorizontalAlignment="Left" Height="32" Margin="472,941,0,0" VerticalAlignment="Top" Width="32" BorderBrush="White" Background="#FFB70000" Foreground="White" Cursor="Hand">
             <Image Height="20" Width="20" Source="/materials/Favorite_empty.png"/>
         </Button>
@@ -48,7 +50,9 @@
         <Border BorderBrush="#FFCECECE" BorderThickness="1" HorizontalAlignment="Left" Height="32" Margin="722,941,0,0" VerticalAlignment="Top" Width="32" CornerRadius="0" Background="#FFEDEDED"/>
         <Button Content="-" HorizontalAlignment="Left" Height="29" Margin="639,942,0,0" VerticalAlignment="Top" Width="29" BorderBrush="#FFEDEDED" Background="#FFEDEDED" Cursor="Hand" Click="minus2"/>
         <Button Content="+" HorizontalAlignment="Left" Height="29" Margin="723,942,0,0" VerticalAlignment="Top" Width="29" BorderBrush="#FFEDEDED" Background="#FFEDEDED" Cursor="Hand" Click="plus2"/>
-        <Button Content="В корзину" HorizontalAlignment="Left" Height="32" Margin="754,941,0,0" VerticalAlignment="Top" Width="84" BorderBrush="White" Background="#FFB70000" Foreground="White" Cursor="Hand"/>
+        <Button Content="В корзину" HorizontalAlignment="Left" Height="32" Margin="754,941,0,0" 
+        VerticalAlignment="Top" Width="84" BorderBrush="White" Background="#FFB70000" 
+        Foreground="White" Cursor="Hand" Click="AddToBasket2_Click"/>
         <Button HorizontalAlignment="Left" Height="32" Margin="838,941,0,0" VerticalAlignment="Top" Width="32" BorderBrush="White" Background="#FFB70000" Foreground="White" Cursor="Hand">
             <Image Height="20" Width="20" Source="/materials/Favorite_empty.png"/>
         </Button>
@@ -64,7 +68,9 @@
         <Border BorderBrush="#FFCECECE" BorderThickness="1" HorizontalAlignment="Left" Height="32" Margin="1093,941,0,0" VerticalAlignment="Top" Width="32" CornerRadius="0" Background="#FFEDEDED"/>
         <Button Content="-" HorizontalAlignment="Left" Height="29" Margin="1010,942,0,0" VerticalAlignment="Top" Width="29" BorderBrush="#FFEDEDED" Background="#FFEDEDED" Cursor="Hand" Click="minus3"/>
         <Button Content="+" HorizontalAlignment="Left" Height="29" Margin="1094,942,0,0" VerticalAlignment="Top" Width="29" BorderBrush="#FFEDEDED" Background="#FFEDEDED" Cursor="Hand" Click="plus3"/>
-        <Button Content="В корзину" HorizontalAlignment="Left" Height="32" Margin="1125,941,0,0" VerticalAlignment="Top" Width="84" BorderBrush="White" Background="#FFB70000" Foreground="White" Cursor="Hand"/>
+        <Button Content="В корзину" HorizontalAlignment="Left" Height="32" Margin="1125,941,0,0" 
+        VerticalAlignment="Top" Width="84" BorderBrush="White" Background="#FFB70000" 
+        Foreground="White" Cursor="Hand" Click="AddToBasket3_Click"/>
         <Button HorizontalAlignment="Left" Height="32" Margin="1209,941,0,0" VerticalAlignment="Top" Width="32" BorderBrush="White" Background="#FFB70000" Foreground="White" Cursor="Hand">
             <Image Height="20" Width="20" Source="/materials/Favorite_empty.png"/>
         </Button>

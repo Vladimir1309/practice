@@ -1,123 +1,242 @@
-﻿using Practice.Models;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Practice
 {
-    /// <summary>
-    /// Логика взаимодействия для Basket.xaml
-    /// </summary>
     public partial class Basket : Window
     {
-        public ObservableCollection<Order_Product> Order_Products { get; set; }
-        public ObservableCollection<Order> Orders { get; set; }
-        public ObservableCollection<Product> Products { get; set; }
+        public ObservableCollection<Order_ProductViewModel> BasketItems { get; set; }
+        public ICommand DeleteItemCommand { get; private set; }
+
         public Basket()
         {
             InitializeComponent();
-            //DataContext = new MainViewModel();
 
-            Order_Products = new ObservableCollection<Order_Product>()
-            {
-                new Order_Product
-                {
-                    IdOrderProduct = 1,
-                    IdOrder = 1,
-                    IdProduct = 1,
-                    Amount = 1,
-                    IsFavourited = false
-                }
-            };
+            // Инициализируем команду
+            DeleteItemCommand = new RelayCommand(DeleteItem);
 
-            Orders = new ObservableCollection<Order>()
-            {
-                new Order
-                {
-                    IdOrder = 1,
-                    IdUserClient = 4,
-                    Check = 1600,
-                    Delivery = true,
-                    IsCompleted = true
-                }
-            };
+            // Инициализируем коллекцию
+            BasketItems = new ObservableCollection<Order_ProductViewModel>();
 
-            Products = new ObservableCollection<Product>()
-            {
-                 new Product
-                 {
-                     IdProduct = 1,
-                     IdCategory = 1,
-                     Name = "Красное вино",
-                     Price = 1000
-                 }
-            };
+            // Загружаем данные
+            LoadBasketData();
 
+            // Обновляем заголовок с количеством товаров
+            UpdateBasketTitle();
+
+            // Устанавливаем контекст данных
             DataContext = this;
         }
 
-        private void MLBD_GWAN(object sender, EventArgs e)
+        // ViewModel для отображения товаров в корзине
+        public class Order_ProductViewModel
+        {
+            public int IdOrderProduct { get; set; }
+            public int IdOrder { get; set; }
+            public int IdProduct { get; set; }
+            public int Amount { get; set; }
+            public bool IsFavourited { get; set; }
+
+            // Свойства продукта для отображения
+            public string ProductName { get; set; }
+            public decimal ProductPrice { get; set; }
+            public string ProductImagePath { get; set; }
+
+            // Вычисляемое свойство для общей стоимости
+            public decimal TotalPrice => Amount * ProductPrice;
+        }
+
+        private void LoadBasketData()
+        {
+            BasketItems.Clear();
+
+            // Используем DataManager для получения данных
+            foreach (var orderProduct in DataManager.OrderProducts)
+            {
+                var product = DataManager.GetProductById(orderProduct.IdProduct);
+                if (product != null)
+                {
+                    BasketItems.Add(new Order_ProductViewModel
+                    {
+                        IdOrderProduct = orderProduct.IdOrderProduct,
+                        IdOrder = orderProduct.IdOrder,
+                        IdProduct = orderProduct.IdProduct,
+                        Amount = orderProduct.Amount,
+                        IsFavourited = orderProduct.IsFavourited,
+                        ProductName = product.Name,
+                        ProductPrice = product.Price,
+                        ProductImagePath = product.ImagePath
+                    });
+                }
+            }
+
+            UpdateTotalPrice();
+        }
+
+        private void UpdateBasketTitle()
+        {
+            int itemCount = BasketItems.Sum(item => item.Amount);
+            basketTitleLabel.Content = $"Корзина ({itemCount} товара)";
+        }
+
+        private void UpdateTotalPrice()
+        {
+            if (totalLabel != null)
+            {
+                decimal total = BasketItems.Sum(item => item.TotalPrice);
+                totalLabel.Content = $"{total} ₽";
+            }
+            UpdateBasketTitle();
+        }
+
+        private void DeleteItem(object parameter)
+        {
+            if (parameter is Order_ProductViewModel item)
+            {
+                // Удаляем из DataManager
+                DataManager.RemoveFromCart(item.IdOrderProduct);
+
+                // Удаляем из коллекции для отображения
+                BasketItems.Remove(item);
+
+                // Обновляем общую сумму и заголовок
+                UpdateTotalPrice();
+
+                MessageBox.Show("Товар удален из корзины");
+            }
+        }
+
+        private void Pay_Click(object sender, RoutedEventArgs e)
+        {
+            if (!BasketItems.Any())
+            {
+                MessageBox.Show("Корзина пуста");
+                return;
+            }
+
+            // Очищаем корзину в DataManager
+            DataManager.ClearCart();
+
+            // Очищаем отображаемые данные
+            BasketItems.Clear();
+
+            // Обновляем общую сумму и заголовок
+            UpdateTotalPrice();
+
+            // Показываем окно успешной оплаты
+            PopUps.SucceedPay succeedPay = new PopUps.SucceedPay();
+            succeedPay.ShowDialog();
+
+            MessageBox.Show("Заказ успешно оплачен!");
+        }
+
+        // Обработчики изменения количества
+        private void DecreaseAmount_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag != null && int.TryParse(button.Tag.ToString(), out int orderProductId))
+            {
+                var item = BasketItems.FirstOrDefault(op => op.IdOrderProduct == orderProductId);
+                if (item != null && item.Amount > 1)
+                {
+                    item.Amount--;
+                    UpdateBasketTitle();
+                    BasketItemsControl.Items.Refresh();
+                    DataManager.UpdateAmount(orderProductId, item.Amount);
+                    UpdateTotalPrice();
+                }
+            }
+        }
+
+        private void IncreaseAmount_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag != null && int.TryParse(button.Tag.ToString(), out int orderProductId))
+            {
+                var item = BasketItems.FirstOrDefault(op => op.IdOrderProduct == orderProductId);
+                if (item != null)
+                {
+                    item.Amount++;
+                    UpdateBasketTitle();
+                    BasketItemsControl.Items.Refresh();
+                    DataManager.UpdateAmount(orderProductId, item.Amount);
+                    UpdateTotalPrice();
+                }
+            }
+        }
+
+        // Остальные методы навигации остаются без изменений
+        private void MLBD_GWAN(object sender, RoutedEventArgs e)
         {
             Main1 main1 = new Main1();
             main1.Show();
             this.Close();
         }
-        private void MLBD_Basket(object sender, EventArgs e)
+
+        private void MLBD_Basket(object sender, RoutedEventArgs e)
         {
             Basket basket = new Basket();
             basket.Show();
             this.Close();
         }
 
-        private void MLBD_Favourite(object sender, EventArgs e)
+        private void MLBD_Favourite(object sender, RoutedEventArgs e)
         {
             Favourite favourite = new Favourite();
             favourite.Show();
             this.Close();
         }
 
-        private void MLBD_Account(object sender, EventArgs e)
+        private void MLBD_Account(object sender, RoutedEventArgs e)
         {
             Account account = new Account();
             account.Show();
             this.Close();
         }
 
-        private void Pay_Click(object sender, RoutedEventArgs e)
-        {
-            total.Content = $" ₽";
-            PopUps.SucceedPay succeedPay = new PopUps.SucceedPay();
-            succeedPay.Show();
-        }
-
         private void Delivery_Click(object sender, RoutedEventArgs e)
         {
-            var converter = new BrushConverter();
-            Brush myBrush = (Brush)converter.ConvertFrom("#B70000");
             Store_Button.Background = Brushes.DarkGray;
-            Delivery_Button.Background = myBrush;
+            Delivery_Button.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFB70000"));
             Address.Content = "Адрес доставки";
         }
+
         private void Store_Click(object sender, RoutedEventArgs e)
         {
-            var converter = new BrushConverter();
-            Brush myBrush = (Brush)converter.ConvertFrom("#B70000");
             Delivery_Button.Background = Brushes.DarkGray;
-            Store_Button.Background = myBrush;
+            Store_Button.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFB70000"));
             Address.Content = "Адрес магазина";
         }
 
+        public class RelayCommand : ICommand
+        {
+            private readonly Action<object> _execute;
+            private readonly Predicate<object> _canExecute;
 
+            public RelayCommand(Action<object> execute, Predicate<object> canExecute = null)
+            {
+                _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+                _canExecute = canExecute;
+            }
+
+            public bool CanExecute(object parameter)
+            {
+                return _canExecute == null || _canExecute(parameter);
+            }
+
+            public void Execute(object parameter)
+            {
+                _execute(parameter);
+            }
+
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
+        }
     }
 }

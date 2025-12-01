@@ -5,58 +5,158 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Practice"
         mc:Ignorable="d"
-        Title="Basket">
+        Title="Корзина">
+
+    <Window.Resources>
+        <local:ImagePathToBrushConverter x:Key="ImagePathToBrushConverter"/>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Label x:Name="GWAN" Content="GWAN" HorizontalAlignment="Left" Height="70" Margin="100,91,0,0" VerticalAlignment="Top" Width="323" FontSize="48" Foreground="#FFB70000" FontFamily="Georgia" MouseLeftButtonDown="MLBD_GWAN" Cursor="Hand"/>
-        <Image HorizontalAlignment="Left" Height="44" Margin="783,92,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Favorite.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Favourite"/>
-        <Label Content="Избранное" HorizontalAlignment="Left" Height="44" Margin="832,93,0,0" VerticalAlignment="Top" Width="136" FontSize="24" Cursor="Hand" MouseLeftButtonDown="MLBD_Favourite"/>
-        <Image HorizontalAlignment="Left" Height="44" Margin="1058,92,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Shopping BasketR.png"/>
-        <Image HorizontalAlignment="Left" Height="44" Margin="1058,92,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Shopping Basket.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Basket"/>
-        <Label Content="Корзина" HorizontalAlignment="Left" Height="44" Margin="1103,93,0,0" VerticalAlignment="Top" Width="136" FontSize="24" Cursor="Hand" MouseLeftButtonDown="MLBD_Basket" Foreground="#FFB70000"/>
-        <Image HorizontalAlignment="Left" Height="44" Margin="1302,91,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Collaborator Male-1.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Account"/>
 
-        <DataGrid Name="BasketDataGrid" Margin="100,324,540,114" ItemsSource="{Binding Order_Products}" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserAddRows="False" IsReadOnly="True" AutoGenerateColumns="False">
-            <DataGrid.Columns>
-                <!--<DataGridTextColumn Header="ID" Binding="{Binding Id}" IsReadOnly="True"/>-->
-                <DataGridTextColumn Header="Название" Binding="{Binding Products.Name}" Width="180"/>
-                <DataGridTextColumn Header="Количество" Binding="{Binding Amount}" Width="180"/>
-                <DataGridTextColumn Header="Ценник" Binding="{Binding Products.Price}" Width="180"/>
-                <DataGridTextColumn Header="Избранное?" Binding="{Binding IsFavourited}" Width="180"/>
+        <!-- Верхняя панель навигации -->
+        <Grid Grid.Row="0" Background="White">
+            <Label x:Name="GWAN" Content="GWAN" HorizontalAlignment="Left" Height="70" Margin="100,91,0,0" VerticalAlignment="Top" Width="323" FontSize="48" Foreground="#FFB70000" FontFamily="Georgia" MouseLeftButtonDown="MLBD_GWAN" Cursor="Hand"/>
+            <Image HorizontalAlignment="Left" Height="44" Margin="783,92,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Favorite.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Favourite"/>
+            <Label Content="Избранное" HorizontalAlignment="Left" Height="44" Margin="832,93,0,0" VerticalAlignment="Top" Width="136" FontSize="24" Cursor="Hand" MouseLeftButtonDown="MLBD_Favourite"/>
+            <Image HorizontalAlignment="Left" Height="44" Margin="1058,92,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Shopping BasketR.png"/>
+            <Image HorizontalAlignment="Left" Height="44" Margin="1058,92,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Shopping Basket.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Basket"/>
+            <Label Content="Корзина" HorizontalAlignment="Left" Height="44" Margin="1103,93,0,0" VerticalAlignment="Top" Width="136" FontSize="24" Cursor="Hand" MouseLeftButtonDown="MLBD_Basket" Foreground="#FFB70000"/>
+            <Image HorizontalAlignment="Left" Height="44" Margin="1302,91,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Collaborator Male-1.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Account"/>
+            <Label x:Name="basketTitleLabel" Content="Корзина (2 товара)" HorizontalAlignment="Left" Margin="100,213,0,0" VerticalAlignment="Top" Height="64" Width="426" FontSize="36" FontStyle="Italic" FontWeight="Bold"/>
+        </Grid>
 
-                <DataGridTemplateColumn Header="Удалить" Width="78">
-                    <DataGridTemplateColumn.CellTemplate>
+        <!-- Основной контент с карточками товаров -->
+        <Grid Grid.Row="1">
+            <!-- Левая часть - карточки товаров -->
+            <ScrollViewer HorizontalAlignment="Left" VerticalAlignment="Top" 
+                          Margin="100,0,0,114" Width="780" Height="580">
+                <ItemsControl x:Name="BasketItemsControl" ItemsSource="{Binding BasketItems}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" Margin="0,10,0,0"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Button Content="❌" Margin="2"
-                                        Command="{Binding DataContext.DeleteItemCommand, 
-                                        RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                        CommandParameter="{Binding}"/>
-                            </StackPanel>
+                            <Border BorderBrush="#FFD9D9D9" BorderThickness="1" 
+                                    Margin="0,0,0,20" Padding="20" 
+                                    Background="White" CornerRadius="10">
+                                <Grid Width="720">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Изображение товара -->
+                                    <Border Grid.Column="0" Width="100" Height="100" 
+                Margin="0,0,20,0" 
+                Background="{Binding ProductImagePath, Converter={StaticResource ImagePathToBrushConverter}}">
+                                        <Image Source="{Binding ProductImagePath}" 
+                   Stretch="UniformToFill" 
+                   Width="100" Height="100"/>
+                                    </Border>
+
+                                    <!-- Информация о товаре -->
+                                    <StackPanel Grid.Column="1" Orientation="Vertical">
+                                        <!-- Название и цена -->
+                                        <TextBlock Text="{Binding ProductName}" 
+                                                   FontWeight="Bold" FontSize="18" 
+                                                   TextWrapping="Wrap" 
+                                                   Margin="0,0,0,10"/>
+                                        <TextBlock Text="{Binding ProductPrice, StringFormat='{}{0} ₽'}" 
+                                                   FontSize="16" Foreground="#FFB70000" 
+                                                   FontWeight="Bold" Margin="0,0,0,10"/>
+
+                                        <!-- Количество -->
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Button Content="-" Width="30" Height="30" 
+                                                    Click="DecreaseAmount_Click"
+                                                    Tag="{Binding IdOrderProduct}"
+                                                    Background="#FFEDEDED" BorderBrush="#FFCECECE"/>
+                                            <TextBlock Text="{Binding Amount}" 
+                                                       Width="40" Height="30" 
+                                                       TextAlignment="Center" 
+                                                       VerticalAlignment="Center"
+                                                       FontSize="16" Margin="5,0"/>
+                                            <Button Content="+" Width="30" Height="30" 
+                                                    Click="IncreaseAmount_Click"
+                                                    Tag="{Binding IdOrderProduct}"
+                                                    Background="#FFEDEDED" BorderBrush="#FFCECECE"/>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <!-- Кнопка удаления -->
+                                    <Button Grid.Column="2" Content="❌" 
+                                            Width="30" Height="30" 
+                                            FontSize="16"
+                                            HorizontalAlignment="Right" 
+                                            VerticalAlignment="Top"
+                                            Cursor="Hand"
+                                            Command="{Binding DataContext.DeleteItemCommand, 
+                                                    RelativeSource={RelativeSource AncestorType=Window}}"
+                                            CommandParameter="{Binding}"
+                                            Background="Transparent" BorderBrush="Transparent"/>
+                                </Grid>
+                            </Border>
                         </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
 
-        <Label Content="Корзина" HorizontalAlignment="Left" Margin="100,213,0,0" VerticalAlignment="Top" Height="64" Width="426" FontSize="36" FontStyle="Italic" FontWeight="Bold"/>
-        <Label Content="Заказ" HorizontalAlignment="Left" Margin="980,213,0,0" VerticalAlignment="Top" Height="64" Width="426" FontSize="36" FontStyle="Italic" FontWeight="Bold"/>
-        <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left" Height="287" Margin="980,282,0,0" VerticalAlignment="Top" Width="378" CornerRadius="13"/>
-        <Label Content="Итого:" HorizontalAlignment="Left" Height="52" Margin="1030,333,0,0" VerticalAlignment="Top" Width="102" FontSize="32"/>
-        <Label x:Name="total" Content="0 ₽" HorizontalAlignment="Left" Height="52" Margin="1171,333,0,0" VerticalAlignment="Top" Width="153" FontSize="32"/>
-        <Border BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="980,432,0,0" VerticalAlignment="Top" Width="378" BorderBrush="#FFABADB3"/>
-        <Button Content="Оплатить заказ" HorizontalAlignment="Left" Height="31" Margin="1028,485,0,0" VerticalAlignment="Top" Width="282" BorderBrush="White" Background="#FFB70000" Foreground="White" Click="Pay_Click" Cursor="Hand"/>
+            <!-- Правая часть - информация о заказе -->
+            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" 
+                        Margin="0,-74,92,0" Width="378">
 
-        <Label Content="Способ получения" HorizontalAlignment="Left" Margin="980,588,0,0" VerticalAlignment="Top" Height="64" Width="426" FontSize="36" FontStyle="Italic" FontWeight="Bold"/>
-        <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left" Height="100" Margin="980,657,0,0" VerticalAlignment="Top" Width="378" CornerRadius="13"/>
-        <Button x:Name="Store_Button" Content="Магазин" HorizontalAlignment="Left" Height="30" Margin="1028,692,0,0" VerticalAlignment="Top" Width="141" BorderBrush="White" Background="#FFB70000" Foreground="White" Cursor="Hand" Click="Store_Click"/>
-        <Button x:Name="Delivery_Button" Content="Курьер" HorizontalAlignment="Left" Height="30" Margin="1169,692,0,0" VerticalAlignment="Top" Width="141" BorderBrush="White" Background="DarkGray" Foreground="White" Cursor="Hand" Click="Delivery_Click"/>
+                <!-- Блок заказа -->
+                <Label Content="Заказ" FontSize="36" FontStyle="Italic" FontWeight="Bold" Margin="0,0,0,20"/>
+                <Border BorderBrush="Gray" BorderThickness="1" Height="215" CornerRadius="13" Padding="20">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,30">
+                            <Label Content="Итого:" FontSize="32"/>
+                            <Label x:Name="totalLabel" Content="0 ₽" FontSize="32" FontWeight="Bold" 
+                                   HorizontalAlignment="Right" Margin="20,0,0,0"/>
+                        </StackPanel>
 
-        <Label Content="Адрес" HorizontalAlignment="Left" Margin="980,778,0,0" VerticalAlignment="Top" Height="64" Width="426" FontSize="36" FontStyle="Italic" FontWeight="Bold"/>
-        <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left" Height="100" Margin="980,844,0,0" VerticalAlignment="Top" Width="378" CornerRadius="13"/>
-        <Label x:Name="Address" Content="Адрес магазина" HorizontalAlignment="Left" Margin="1099,878,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <Image HorizontalAlignment="Left" Height="20" Margin="1078,884,0,0" VerticalAlignment="Top" Width="20" Source="/materials/Location.png"/>
+                        <Rectangle Height="1" Fill="#FFABADB3" Margin="0,0,0,30"/>
+                        <Button Content="Оплатить заказ" Height="40" 
+                                BorderBrush="White" Background="#FFB70000" 
+                                Foreground="White" Click="Pay_Click" 
+                                Cursor="Hand" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Способ получения -->
+                <Label Content="Способ получения" FontSize="36" FontStyle="Italic" 
+                       FontWeight="Bold" Margin="0,40,0,20"/>
+                <Border BorderBrush="Gray" BorderThickness="1" Height="73" CornerRadius="13" Padding="20">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button x:Name="Store_Button" Content="Магазин" Height="30" Width="141" 
+                                    BorderBrush="White" Background="#FFB70000" 
+                                    Foreground="White" Cursor="Hand" Click="Store_Click"/>
+                            <Button x:Name="Delivery_Button" Content="Курьер" Height="30" Width="141" 
+                                    Margin="20,0,0,0" BorderBrush="White" Background="DarkGray" 
+                                    Foreground="White" Cursor="Hand" Click="Delivery_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Адрес -->
+                <Label Content="Адрес" FontSize="36" FontStyle="Italic" 
+                       FontWeight="Bold" Margin="0,40,0,20"/>
+                <Border BorderBrush="Gray" BorderThickness="1" Height="100" CornerRadius="13" Padding="20">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Image Height="20" Width="20" Source="/materials/Location.png" 
+                               Margin="0,0,10,0"/>
+                        <Label x:Name="Address" Content="Адрес магазина" FontSize="16"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

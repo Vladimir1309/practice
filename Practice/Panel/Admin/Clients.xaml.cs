@@ -22,6 +22,9 @@ namespace Practice.Panel.Admin
     public partial class Clients : Window
     {
         public ObservableCollection<User> Users { get; set; }
+
+        // Используем статическую коллекцию из Register
+        public ObservableCollection<User> UsersTemp => Register.TempUsers;
         public Clients()
         {
             InitializeComponent();
@@ -39,7 +42,7 @@ namespace Practice.Panel.Admin
                     Patronymic = "Суснов",
                     Phone = "89119998473",
                     Email = "sus@gmail.com",
-                    Birthday = "2004-09-14",
+                    Birthday = new DateOnly(2004, 9, 14),
                     Address = "Улица Бобова, д. 7, кв. 66"
                 },
                 new User
@@ -53,7 +56,7 @@ namespace Practice.Panel.Admin
                     Patronymic = "Павлович",
                     Phone = "89112410026",
                     Email = "megabob@gmail.com",
-                    Birthday = "2006-09-14",
+                    Birthday = new DateOnly(2006, 9, 14),
                     Address = "Шоссе Гвардейцев, д. 7, кв. 66"
                 }
             };

@@ -38,7 +38,7 @@ namespace Practice
             Brush myBrush = (Brush)converter.ConvertFrom("#B70000");
             Phone.Foreground = myBrush;
             E_mail.Foreground = Brushes.Black;
-            E_P_Label.Content = "Номер телефона";
+            E_P_Label.Content = "Логин";
         }
 
         private void AlreadyAccount_MouseEnter(object sender, MouseEventArgs e)

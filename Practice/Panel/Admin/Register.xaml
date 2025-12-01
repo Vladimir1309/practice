@@ -25,7 +25,9 @@
 
         <Image HorizontalAlignment="Left" Height="56" Margin="174,941,0,0" VerticalAlignment="Top" Width="56" Source="/materials/2/3/Logout.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Exit"/>
 
-        <Label Content="Введите данные: " HorizontalAlignment="Left" Height="70" Margin="521,145,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
+        <Label Content="Логин: " HorizontalAlignment="Left" Height="70" Margin="521,133,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
+        <Label Content="Пароль: " HorizontalAlignment="Left" Height="70" Margin="521,203,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
+        <Label Content="Введите данные: " HorizontalAlignment="Left" Height="70" Margin="521,34,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
         <Label Content="Фамилия: " HorizontalAlignment="Left" Height="70" Margin="521,277,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
         <Label Content="Имя: " HorizontalAlignment="Left" Height="70" Margin="521,347,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
         <Label Content="Отчество: " HorizontalAlignment="Left" Height="70" Margin="521,417,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
@@ -34,9 +36,11 @@
         <Label Content="Зарплата: " HorizontalAlignment="Left" Height="70" Margin="521,627,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
         <Label Content="Должность: " HorizontalAlignment="Left" Height="70" Margin="521,697,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
 
-        <Button Content="Зарегистрировать" HorizontalAlignment="Left" Height="34" Margin="521,836,0,0" VerticalAlignment="Top" Width="251" Background="#FFB70000" Foreground="White" Cursor="Hand" FontSize="20"/>
-        <Button Content="Отмена" HorizontalAlignment="Left" Height="34" Margin="521,875,0,0" VerticalAlignment="Top" Width="251" Background="#FFB70000" Foreground="White" Cursor="Hand" FontSize="20"/>
+        <Button Content="Зарегистрировать" HorizontalAlignment="Left" Height="34" Margin="521,836,0,0" VerticalAlignment="Top" Width="251" Background="#FFB70000" Foreground="White" Cursor="Hand" FontSize="20" Click="RegisterButton_Click"/>
+        <Button Content="Отмена" HorizontalAlignment="Left" Height="34" Margin="521,875,0,0" VerticalAlignment="Top" Width="251" Background="#FFB70000" Foreground="White" Cursor="Hand" FontSize="20" Click="CancelButton_Click"/>
 
+        <TextBox x:Name="Login" HorizontalAlignment="Left" Margin="930,151,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
+        <TextBox x:Name="Password" HorizontalAlignment="Left" Margin="930,221,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
         <TextBox x:Name="LastName" HorizontalAlignment="Left" Margin="930,295,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
         <TextBox x:Name="FirstName" HorizontalAlignment="Left" Margin="930,365,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
         <TextBox x:Name="Patronymic" HorizontalAlignment="Left" Margin="930,435,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
@@ -45,6 +49,25 @@
         <TextBox x:Name="Salary" HorizontalAlignment="Left" Margin="930,645,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
         <TextBox x:Name="Post" HorizontalAlignment="Left" Margin="930,715,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
 
+        <TextBlock Text="Оставьте пустым для автогенерации" 
+                   HorizontalAlignment="Left" 
+                   Margin="930,185,0,0" 
+                   VerticalAlignment="Top" 
+                   Foreground="Gray" 
+                   FontSize="12"/>
 
+        <TextBlock Text="Оставьте пустым для автогенерации" 
+                   HorizontalAlignment="Left" 
+                   Margin="930,255,0,0" 
+                   VerticalAlignment="Top" 
+                   Foreground="Gray" 
+                   FontSize="12"/>
+
+        <TextBlock Text="Формат: YYYY-MM-DD" 
+                   HorizontalAlignment="Left" 
+                   Margin="930,539,0,0" 
+                   VerticalAlignment="Top" 
+                   Foreground="Gray" 
+                   FontSize="12"/>
     </Grid>
 </Window>

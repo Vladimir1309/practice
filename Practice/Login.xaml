@@ -20,15 +20,15 @@
         <Image Height="100" Width="100" Margin="558,345,782,563" Source="/materials/VK Circled.png" MouseLeftButtonDown="MLBD_VK_TG" Cursor="Hand"/>
         <Image Height="100" Width="100" Margin="738,345,602,563" Source="/materials/Telegram.png" MouseLeftButtonDown="MLBD_VK_TG" Cursor="Hand"/>
 
-        <TextBlock x:Name="Phone" HorizontalAlignment="Left" Height="34" Margin="524,469,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="191" FontSize="24" Foreground="#B70000" MouseLeftButtonDown="MLBD_Phone" MouseEnter="Phone_MouseEnter" MouseLeave="Phone_MouseLeave"><Run Language="ru-ru" Text="Номер телефона" Cursor="Hand"/></TextBlock>
+        <TextBlock x:Name="Phone" HorizontalAlignment="Left" Height="34" Margin="608,469,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="73" FontSize="24" Foreground="#B70000" MouseLeftButtonDown="MLBD_Phone" MouseEnter="Phone_MouseEnter" MouseLeave="Phone_MouseLeave"><Run Language="ru-ru" Text="Логин" Cursor="Hand"/></TextBlock>
         <TextBlock x:Name="E_mail" HorizontalAlignment="Left" Height="34" Margin="720,469,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="72" FontSize="24" Text="E-mail" MouseLeftButtonDown="MLBD_Email" Cursor="Hand" MouseEnter="E_mail_MouseEnter" MouseLeave="E_mail_MouseLeave"/>
 
         <TextBox x:Name="LoginText" HorizontalAlignment="Left" Height="37" Margin="524,533,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="348" VerticalContentAlignment="Center"/>
-        <Label x:Name="E_P_Label" Content="Номер телефона" HorizontalAlignment="Left" Margin="531,508,0,0" VerticalAlignment="Top" Width="313" Height="33" Opacity="0.13"/>
+        <Label x:Name="E_P_Label" Content="Логин" HorizontalAlignment="Left" Margin="531,508,0,0" VerticalAlignment="Top" Width="313" Height="33" Opacity="0.13"/>
         <TextBox x:Name="PasswordText" HorizontalAlignment="Left" Height="37" Margin="525,595,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="346" VerticalContentAlignment="Center"/>
         <Label Content="Пароль" HorizontalAlignment="Left" Margin="533,570,0,0" VerticalAlignment="Top" Width="310" Height="34" Opacity="0.13"/>
 
-        <Button Content="Войти" HorizontalAlignment="Left" Height="34" Margin="524,669,0,0" VerticalAlignment="Top" Width="346" Background="#FFB70000" Foreground="White" Cursor="Hand" Click="LoginButton"/>
+        <Button Content="Войти" HorizontalAlignment="Left" Height="34" Margin="524,669,0,0" VerticalAlignment="Top" Width="346" Background="#FFB70000" Foreground="White" Cursor="Hand" Click="LoginButton" IsDefault="True"/>
         <Label x:Name="AlreadyAccount" Content="Нет аккаунта?" HorizontalAlignment="Left" Height="29" Margin="644,708,0,0" VerticalAlignment="Top" Width="108" Opacity="0.13" Cursor="Hand" MouseEnter ="AlreadyAccount_MouseEnter" MouseLeave ="AlreadyAccount_MouseLeave" MouseLeftButtonDown="MLBD_Already" HorizontalContentAlignment="Center"/>
 
         <!--<Label x:Name="Admin" Content="Админ-панель" HorizontalAlignment="Left" Height="29" Margin="653,789,0,0" VerticalAlignment="Top" Width="108" Opacity="0.13" Cursor="Hand" MouseEnter ="AdminPanel_MouseEnter" MouseLeave ="AdminPanel_MouseLeave" MouseLeftButtonDown="MLBD_AdminPanel" HorizontalContentAlignment="Center"/>

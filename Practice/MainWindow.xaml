@@ -23,7 +23,7 @@
         <TextBox HorizontalAlignment="Left" Height="37" Margin="524,658,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="347" VerticalContentAlignment="Center"/>
         <Label Content="Повторите пароль" HorizontalAlignment="Left" Margin="531,632,0,0" VerticalAlignment="Top" Width="312" Height="33" Opacity="0.13"/>
 
-        <Button Content="Зарегистрироваться" HorizontalAlignment="Left" Height="34" Margin="525,725,0,0" VerticalAlignment="Top" Width="346" Background="#FFB70000" Foreground="White" Cursor="Hand"/>
+        <Button Content="Зарегистрироваться" HorizontalAlignment="Left" Height="34" Margin="525,725,0,0" VerticalAlignment="Top" Width="346" Background="#FFB70000" Foreground="White" Cursor="Hand" IsDefault="True"/>
         <Label x:Name="AlreadyAccount" Content="Уже есть аккаунт?" HorizontalAlignment="Left" Height="29" Margin="643,764,0,0" VerticalAlignment="Top" Width="109" Opacity="0.13" Cursor="Hand" MouseEnter ="AlreadyAccount_MouseEnter" MouseLeave ="AlreadyAccount_MouseLeave" MouseLeftButtonDown="MLBD_Already"/>
         <Label Content="* Регистрируясь на нашем сервисе, вы&#xD;&#xA;подтверждаете своё согласие на обработку&#xD;&#xA;персональных данных" HorizontalAlignment="Left" Height="61" Margin="524,798,0,0" VerticalAlignment="Top" Width="268" Opacity="0.13"/>
 

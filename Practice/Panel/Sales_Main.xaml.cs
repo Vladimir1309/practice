@@ -41,7 +41,7 @@ namespace Practice
 
         private void History(object sender, RoutedEventArgs e)
         {
-            HistoryOrdersDelivery history = new HistoryOrdersDelivery();
+            Panel.Sales.HistoryOrdersSales history = new Panel.Sales.HistoryOrdersSales();
             history.Show();
             this.Close();
         }

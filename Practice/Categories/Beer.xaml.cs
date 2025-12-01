@@ -83,5 +83,46 @@ namespace Practice
             if (m > 0) m++;
             count3.Content = m;
         }
+        private void AddToBasket1_Click(object sender, RoutedEventArgs e)
+        {
+            if (int.TryParse(count1.Content?.ToString(), out int amount))
+            {
+                // Товар 1: Iryston Export Lager Classic 0.45 л (ID 13)
+                DataManager.AddToCart(13, amount);
+                MessageBox.Show("Товар добавлен в корзину!");
+            }
+            else
+            {
+                MessageBox.Show("Ошибка: некорректное количество");
+            }
+        }
+
+        private void AddToBasket2_Click(object sender, RoutedEventArgs e)
+        {
+            if (int.TryParse(count2.Content?.ToString(), out int amount))
+            {
+                // Товар 2: Strakovice Svetle 0.45 л (ID 14)
+                DataManager.AddToCart(14, amount);
+                MessageBox.Show("Товар добавлен в корзину!");
+            }
+            else
+            {
+                MessageBox.Show("Ошибка: некорректное количество");
+            }
+        }
+
+        private void AddToBasket3_Click(object sender, RoutedEventArgs e)
+        {
+            if (int.TryParse(count3.Content?.ToString(), out int amount))
+            {
+                // Товар 3: Double Tree Grapefruit & Mango 0.5 л (ID 15)
+                DataManager.AddToCart(15, amount);
+                MessageBox.Show("Товар добавлен в корзину!");
+            }
+            else
+            {
+                MessageBox.Show("Ошибка: некорректное количество");
+            }
+        }
     }
 }
