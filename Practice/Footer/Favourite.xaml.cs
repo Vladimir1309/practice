@@ -1,53 +1,107 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Practice.Models;
+using System;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Practice
 {
-    /// <summary>
-    /// Логика взаимодействия для Favourite.xaml
-    /// </summary>
     public partial class Favourite : Window
     {
+        private DatabaseManager _dbManager;
+        public ObservableCollection<Order_Product> FavouriteItems { get; set; }
+
         public Favourite()
         {
             InitializeComponent();
+
+            _dbManager = new DatabaseManager();
+            FavouriteItems = new ObservableCollection<Order_Product>();
+
+            LoadFavourites();
+            DataContext = this;
         }
-        private void MLBD_GWAN(object sender, EventArgs e)
+
+        private void LoadFavourites()
+        {
+            FavouriteItems.Clear();
+
+            if (AuthManager.IsAuthenticated)
+            {
+                var favourites = _dbManager.GetFavourites(AuthManager.CurrentUserId);
+                foreach (var item in favourites)
+                {
+                    FavouriteItems.Add(item);
+                }
+            }
+
+            // Обновляем заголовок
+            UpdateFavouriteTitle();
+        }
+
+        private void UpdateFavouriteTitle()
+        {
+            int itemCount = FavouriteItems.Count;
+            Title = $"Избранное ({itemCount} товаров)";
+
+            // Если есть Label с названием на странице, обновите его:
+            // favouriteTitleLabel.Content = $"Избранное ({itemCount} товаров)";
+        }
+
+        private void MLBD_GWAN(object sender, RoutedEventArgs e)
         {
             Main1 main1 = new Main1();
             main1.Show();
             this.Close();
         }
-        private void MLBD_Basket(object sender, EventArgs e)
+
+        private void MLBD_Basket(object sender, RoutedEventArgs e)
         {
             Basket basket = new Basket();
             basket.Show();
             this.Close();
         }
 
-        private void MLBD_Favourite(object sender, EventArgs e)
+        private void MLBD_Favourite(object sender, RoutedEventArgs e)
         {
-            Favourite favourite = new Favourite();
-            favourite.Show();
+            // Уже на странице избранного
+        }
+
+        private void MLBD_Account(object sender, RoutedEventArgs e)
+        {
+            if (AuthManager.IsAuthenticated)
+            {
+                Account account = new Account();
+                account.Show();
+            }
+            else
+            {
+                Login login = new Login();
+                login.Show();
+            }
             this.Close();
         }
 
-        private void MLBD_Account(object sender, EventArgs e)
+        // Метод для удаления из избранного
+        private void RemoveFromFavourite_Click(object sender, RoutedEventArgs e)
         {
-            Account account = new Account();
-            account.Show();
-            this.Close();
+            if (sender is FrameworkElement element && element.DataContext is Order_Product item)
+            {
+                _dbManager.ToggleFavourite(item.IdOrderProduct);
+                LoadFavourites();
+                MessageBox.Show("Товар удален из избранного");
+            }
+        }
+
+        // Метод для добавления в корзину из избранного
+        private void AddToCartFromFavourite_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is FrameworkElement element && element.DataContext is Order_Product item)
+            {
+                _dbManager.AddToCart(AuthManager.CurrentUserId, item.IdProduct, item.Amount);
+                MessageBox.Show("Товар добавлен в корзину");
+            }
         }
     }
 }

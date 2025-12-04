@@ -31,10 +31,21 @@ namespace Practice
             this.Close();
         }
 
-        private void MLBD_Account(object sender, EventArgs e)
+        private void MLBD_Account(object sender, RoutedEventArgs e)
         {
-            Account account = new Account();
-            account.Show();
+            if (AuthManager.IsAuthenticated)
+            {
+                // Пользователь авторизован - открываем профиль
+                Account account = new Account();
+                account.Show();
+            }
+            else
+            {
+                // Пользователь не авторизован - открываем страницу входа
+                Login login = new Login();
+                login.Show();
+            }
+
             this.Close();
         }
 

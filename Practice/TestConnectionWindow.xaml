@@ -1,0 +1,26 @@
+﻿<Window x:Class="Practice.TestConnectionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Тест подключения к MySQL" Height="600" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Результаты тестирования подключения:" 
+                   Margin="10" FontSize="16" FontWeight="Bold"/>
+
+        <TextBox x:Name="ResultTextBox" Grid.Row="1" 
+                 Margin="10" TextWrapping="Wrap" 
+                 VerticalScrollBarVisibility="Auto"
+                 IsReadOnly="True"
+                 FontFamily="Consolas" FontSize="12"/>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+            <Button Content="Повторить тест" Margin="5" Padding="10,5" Click="RetryButton_Click"/>
+            <Button Content="Закрыть" Margin="5" Padding="10,5" Click="CloseButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

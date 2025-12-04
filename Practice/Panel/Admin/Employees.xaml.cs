@@ -38,7 +38,7 @@ namespace Practice.Panel.Admin
                     Patronymic = "Суснов",
                     Phone = "89119998473",
                     Email = "sus@gmail.com",
-                    Birthday = new DateOnly(2004, 9, 14),
+                    Birthday = new DateTime(2004, 9, 14),
                     Address = "Улица Бобова, д. 7, кв. 66"
                 },
                 new User
@@ -52,7 +52,7 @@ namespace Practice.Panel.Admin
                     Patronymic = "Павлович",
                     Phone = "89112410026",
                     Email = "megabob@gmail.com",
-                    Birthday = new DateOnly(2006, 9, 14),
+                    Birthday = new DateTime(2006, 9, 14),
                     Address = "Шоссе Гвардейцев, д. 7, кв. 66"
                 }
             };

@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Practice"
         mc:Ignorable="d"
-        Title="Favourite" Height="1024" Width="1440">
-    <Grid>
+        Title="Избранное" Height="1024" Width="1440">
 
+    <Grid>
+        <!-- Верхняя панель -->
         <Label x:Name="GWAN" Content="GWAN" HorizontalAlignment="Left" Height="70" Margin="100,91,0,0" VerticalAlignment="Top" Width="323" FontSize="48" Foreground="#FFB70000" FontFamily="Georgia" MouseLeftButtonDown="MLBD_GWAN" Cursor="Hand"/>
         <Image HorizontalAlignment="Left" Height="40" Margin="785,94,0,0" VerticalAlignment="Top" Width="40" Source="/materials/Love.png"/>
         <Image HorizontalAlignment="Left" Height="44" Margin="783,92,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Favorite.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Favourite"/>
@@ -16,6 +17,60 @@
         <Label Content="Корзина" HorizontalAlignment="Left" Height="44" Margin="1103,93,0,0" VerticalAlignment="Top" Width="136" FontSize="24" Cursor="Hand" MouseLeftButtonDown="MLBD_Basket"/>
         <Image HorizontalAlignment="Left" Height="44" Margin="1302,91,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Collaborator Male-1.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Account"/>
 
-        <Label Content="Избранное (0 товаров)" HorizontalAlignment="Left" Margin="100,258,0,0" VerticalAlignment="Top" Height="64" Width="426" FontSize="36" FontStyle="Italic" FontWeight="Bold"/>
+        <!-- Заголовок -->
+        <Label x:Name="favouriteTitleLabel" Content="Избранное (0 товаров)" HorizontalAlignment="Left" Margin="100,258,0,0" VerticalAlignment="Top" Height="64" Width="426" FontSize="36" FontStyle="Italic" FontWeight="Bold"/>
+
+        <!-- Список избранных товаров -->
+        <ScrollViewer HorizontalAlignment="Left" VerticalAlignment="Top" 
+                      Margin="100,350,0,50" Width="1240" Height="600">
+            <ItemsControl ItemsSource="{Binding FavouriteItems}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" Margin="10"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="#FFD9D9D9" BorderThickness="1" 
+                                Margin="10" Padding="20" 
+                                Background="White" CornerRadius="10" Width="280">
+                            <StackPanel>
+                                <!-- Название товара -->
+                                <TextBlock Text="{Binding Product.Name}" 
+                                           FontWeight="Bold" FontSize="18" 
+                                           TextWrapping="Wrap" 
+                                           Margin="0,0,0,10"/>
+
+                                <!-- Цена -->
+                                <TextBlock Text="{Binding Product.Price, StringFormat='{}{0} ₽'}" 
+                                           FontSize="16" Foreground="#FFB70000" 
+                                           FontWeight="Bold" Margin="0,0,0,10"/>
+
+                                <!-- Количество -->
+                                <TextBlock Text="{Binding Amount, StringFormat='Количество: {0}'}" 
+                                           FontSize="14" Margin="0,0,0,10"/>
+
+                                <!-- Кнопки -->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Button Content="В корзину" Width="100" Height="30" 
+                                            Margin="0,0,10,0" Background="#FFB70000" 
+                                            Foreground="White" Cursor="Hand"
+                                            Click="AddToCartFromFavourite_Click"/>
+
+                                    <Button Content="✖" Width="30" Height="30" 
+                                            Background="LightGray" Cursor="Hand"
+                                            Click="RemoveFromFavourite_Click"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <!-- Сообщение если избранное пусто -->
+        <Label x:Name="emptyMessageLabel" Content="В избранном пока нет товаров" 
+               HorizontalAlignment="Center" VerticalAlignment="Center"
+               FontSize="24" Foreground="Gray" Visibility="Collapsed"/>
     </Grid>
 </Window>

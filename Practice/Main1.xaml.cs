@@ -36,8 +36,19 @@ namespace Practice
 
         private void MLBD_Account(object sender, RoutedEventArgs e)
         {
-            Account account = new Account();
-            account.Show();
+            if (AuthManager.IsAuthenticated)
+            {
+                // Пользователь авторизован - открываем профиль
+                Account account = new Account();
+                account.Show();
+            }
+            else
+            {
+                // Пользователь не авторизован - открываем страницу входа
+                Login login = new Login();
+                login.Show();
+            }
+
             this.Close();
         }
 
@@ -188,14 +199,25 @@ namespace Practice
             BorderBeer.Opacity = 1;
         }
 
-        // Обработчики кнопок "В корзину" (без Entity Framework)
+        
         private void AddToBasket1_Click(object sender, RoutedEventArgs e)
         {
             if (int.TryParse(count1.Content?.ToString(), out int amount))
             {
-                // Товар 1: Syrah Toscana (ID 1)
-                DataManager.AddToCart(1, amount);
-                MessageBox.Show("Товар добавлен в корзину!");
+                if (AuthManager.IsAuthenticated)
+                {
+                    using (var db = new DatabaseManager())
+                    {
+                        db.AddToCart(AuthManager.CurrentUserId, 1, amount);
+                        MessageBox.Show("Товар добавлен в корзину!");
+                    }
+                }
+                else
+                {
+                    // Для неавторизованных - временное хранение
+                    DataManager.AddToCart(1, amount);
+                    MessageBox.Show("Товар добавлен в корзину! Авторизуйтесь для сохранения.");
+                }
             }
         }
 
@@ -203,9 +225,20 @@ namespace Practice
         {
             if (int.TryParse(count2.Content?.ToString(), out int amount))
             {
-                // Товар 2: 7 Zlakov (ID 2)
-                DataManager.AddToCart(2, amount);
-                MessageBox.Show("Товар добавлен в корзину!");
+                if (AuthManager.IsAuthenticated)
+                {
+                    using (var db = new DatabaseManager())
+                    {
+                        db.AddToCart(AuthManager.CurrentUserId, 1, amount);
+                        MessageBox.Show("Товар добавлен в корзину!");
+                    }
+                }
+                else
+                {
+                    // Для неавторизованных - временное хранение
+                    DataManager.AddToCart(1, amount);
+                    MessageBox.Show("Товар добавлен в корзину! Авторизуйтесь для сохранения.");
+                }
             }
         }
 
@@ -213,9 +246,20 @@ namespace Practice
         {
             if (int.TryParse(count3.Content?.ToString(), out int amount))
             {
-                // Товар 3: Vodka Polugar (ID 3)
-                DataManager.AddToCart(3, amount);
-                MessageBox.Show("Товар добавлен в корзину!");
+                if (AuthManager.IsAuthenticated)
+                {
+                    using (var db = new DatabaseManager())
+                    {
+                        db.AddToCart(AuthManager.CurrentUserId, 1, amount);
+                        MessageBox.Show("Товар добавлен в корзину!");
+                    }
+                }
+                else
+                {
+                    // Для неавторизованных - временное хранение
+                    DataManager.AddToCart(1, amount);
+                    MessageBox.Show("Товар добавлен в корзину! Авторизуйтесь для сохранения.");
+                }
             }
         }
     }

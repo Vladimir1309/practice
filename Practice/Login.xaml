@@ -31,6 +31,28 @@
         <Button Content="Войти" HorizontalAlignment="Left" Height="34" Margin="524,669,0,0" VerticalAlignment="Top" Width="346" Background="#FFB70000" Foreground="White" Cursor="Hand" Click="LoginButton" IsDefault="True"/>
         <Label x:Name="AlreadyAccount" Content="Нет аккаунта?" HorizontalAlignment="Left" Height="29" Margin="644,708,0,0" VerticalAlignment="Top" Width="108" Opacity="0.13" Cursor="Hand" MouseEnter ="AlreadyAccount_MouseEnter" MouseLeave ="AlreadyAccount_MouseLeave" MouseLeftButtonDown="MLBD_Already" HorizontalContentAlignment="Center"/>
 
+        <Button Content="Диагностика подключения" 
+        HorizontalAlignment="Left" 
+        Height="30" 
+        Margin="524,750,0,0" 
+        VerticalAlignment="Top" 
+        Width="346" 
+        Background="#FF4CAF50" 
+        Foreground="White" 
+        Cursor="Hand" 
+        Click="Diagnostics_Click"/>
+
+        <Button Content="Расширенная диагностика" 
+        HorizontalAlignment="Left" 
+        Height="30" 
+        Margin="524,780,0,0" 
+        VerticalAlignment="Top" 
+        Width="346" 
+        Background="#FF9C27B0" 
+        Foreground="White" 
+        Cursor="Hand" 
+        Click="AdvancedDiagnostics_Click"/>
+
         <!--<Label x:Name="Admin" Content="Админ-панель" HorizontalAlignment="Left" Height="29" Margin="653,789,0,0" VerticalAlignment="Top" Width="108" Opacity="0.13" Cursor="Hand" MouseEnter ="AdminPanel_MouseEnter" MouseLeave ="AdminPanel_MouseLeave" MouseLeftButtonDown="MLBD_AdminPanel" HorizontalContentAlignment="Center"/>
         <Label x:Name="Sales" Content="Продавец-панель" HorizontalAlignment="Left" Height="29" Margin="653,823,0,0" VerticalAlignment="Top" Width="108" Opacity="0.13" Cursor="Hand" MouseEnter ="SalesPanel_MouseEnter" MouseLeave ="SalesPanel_MouseLeave" MouseLeftButtonDown="MLBD_SalesPanel" HorizontalContentAlignment="Center"/>
         <Label x:Name="Delivery" Content="Доставщик-панель" HorizontalAlignment="Left" Height="29" Margin="646,857,0,0" VerticalAlignment="Top" Width="122" Opacity="0.13" Cursor="Hand" MouseEnter ="DeliveryPanel_MouseEnter" MouseLeave ="DeliveryPanel_MouseLeave" MouseLeftButtonDown="MLBD_DeliveryPanel" HorizontalContentAlignment="Center"/>-->

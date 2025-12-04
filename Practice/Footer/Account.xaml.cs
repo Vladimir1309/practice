@@ -22,7 +22,46 @@ namespace Practice
         public Account()
         {
             InitializeComponent();
+
+            // Проверяем авторизацию при загрузке страницы
+            if (!AuthManager.IsAuthenticated)
+            {
+                MessageBox.Show("Вы не авторизованы!", "Ошибка",
+                              MessageBoxButton.OK, MessageBoxImage.Warning);
+                Login login = new Login();
+                login.Show();
+                this.Close();
+                return;
+            }
+
+            // Если пользователь авторизован, загружаем данные профиля
+            LoadUserData();
+        
+        // Остальные методы...
         }
+
+
+        private void LoadUserData()
+        {
+            LoginTextBox.Text = AuthManager.CurrentUserLogin;
+            //roleTextBlock.Text = AuthManager.CurrentUserRole;
+            //UserTextBox.Text = AuthManager.CurrentUserId.ToString();
+        }
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            AuthManager.Logout();
+            MessageBox.Show("Вы вышли из системы", "Выход",
+                          MessageBoxButton.OK, MessageBoxImage.Information);
+
+            Main1 main1 = new Main1();
+            main1.Show();
+            this.Close();
+        }
+
+
+
+
         private void MLBD_GWAN(object sender, EventArgs e)
         {
             Main1 main1 = new Main1();
@@ -44,10 +83,21 @@ namespace Practice
             this.Close();
         }
 
-        private void MLBD_Account(object sender, EventArgs e)
+        private void MLBD_Account(object sender, RoutedEventArgs e)
         {
-            Account account = new Account();
-            account.Show();
+            if (AuthManager.IsAuthenticated)
+            {
+                // Пользователь авторизован - открываем профиль
+                Account account = new Account();
+                account.Show();
+            }
+            else
+            {
+                // Пользователь не авторизован - открываем страницу входа
+                Login login = new Login();
+                login.Show();
+            }
+
             this.Close();
         }
     }

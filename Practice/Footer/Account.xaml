@@ -18,30 +18,35 @@
         <Image HorizontalAlignment="Left" Height="31" Margin="1309,98,0,0" VerticalAlignment="Top" Width="31" Source="/materials/Collaborator Male.png"/>
         <Image HorizontalAlignment="Left" Height="44" Margin="1302,91,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Collaborator Male-1.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Account"/>
 
-        <Label Content="Личный кабинет" HorizontalAlignment="Center" Margin="0,250,0,0" VerticalAlignment="Top" FontSize="36"/>
-        <Label Content="Контактная информация" HorizontalAlignment="Left" Height="62" Margin="185,360,0,0" VerticalAlignment="Top" Width="450" FontSize="36" FontWeight="Bold"/>
-        <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left" Height="537" Margin="100,445,0,0" VerticalAlignment="Top" Width="620" CornerRadius="13"/>
+        <Label Content="Личный кабинет" HorizontalAlignment="Center" Margin="0,142,0,0" VerticalAlignment="Top" FontSize="36"/>
+        <Label Content="Контактная информация" HorizontalAlignment="Left" Height="62" Margin="185,240,0,0" VerticalAlignment="Top" Width="450" FontSize="36" FontWeight="Bold"/>
+        <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left" Height="667" Margin="100,315,0,0" VerticalAlignment="Top" Width="620" CornerRadius="13"/>
         <Button Content="Редактировать" HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="282" BorderBrush="White" Background="#FFB70000" Foreground="White" Cursor="Hand" Margin="159,928,0,0"/>
-        <TextBox HorizontalAlignment="Left" Height="38" Margin="159,487,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="394" VerticalContentAlignment="Center"/>
+        <TextBox HorizontalAlignment="Left" Height="38" Margin="159,487,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="502" VerticalContentAlignment="Center"/>
         <Label x:Name="E_P_Label" Content="Фамилия" HorizontalAlignment="Left" VerticalAlignment="Top" Width="314" Height="26" Opacity="0.13" Margin="172,461,0,0" RenderTransformOrigin="0.489,-0.063"/>
-        <TextBox HorizontalAlignment="Left" Height="38" Margin="159,551,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="394" VerticalContentAlignment="Center"/>
+        <TextBox HorizontalAlignment="Left" Height="38" Margin="159,551,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="502" VerticalContentAlignment="Center"/>
         <Label x:Name="E_P_Label_Копировать" Content="Имя" HorizontalAlignment="Left" VerticalAlignment="Top" Width="314" Height="26" Opacity="0.13" Margin="172,525,0,0" RenderTransformOrigin="0.489,-0.063"/>
-        <TextBox HorizontalAlignment="Left" Height="38" Margin="159,615,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="394" VerticalContentAlignment="Center"/>
+        <TextBox HorizontalAlignment="Left" Height="38" Margin="159,615,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="502" VerticalContentAlignment="Center"/>
         <Label x:Name="E_P_Label_Копировать1" Content="Отчество" HorizontalAlignment="Left" VerticalAlignment="Top" Width="314" Height="26" Opacity="0.13" Margin="172,589,0,0" RenderTransformOrigin="0.489,-0.063"/>
-        <TextBox HorizontalAlignment="Left" Height="38" Margin="159,677,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="394" VerticalContentAlignment="Center"/>
+        <TextBox HorizontalAlignment="Left" Height="38" Margin="159,677,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="502" VerticalContentAlignment="Center"/>
         <Label x:Name="E_P_Label_Копировать2" Content="Номер телефона" HorizontalAlignment="Left" VerticalAlignment="Top" Width="314" Height="26" Opacity="0.13" Margin="172,651,0,0" RenderTransformOrigin="0.489,-0.063"/>
-        <TextBox HorizontalAlignment="Left" Height="38" Margin="159,743,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="394" VerticalContentAlignment="Center"/>
+        <TextBox HorizontalAlignment="Left" Height="38" Margin="159,743,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="502" VerticalContentAlignment="Center"/>
         <Label x:Name="E_P_Label_Копировать3" Content="E-mail" HorizontalAlignment="Left" VerticalAlignment="Top" Width="314" Height="26" Opacity="0.13" Margin="171,717,0,0" RenderTransformOrigin="0.489,-0.063"/>
-        <TextBox HorizontalAlignment="Left" Height="38" Margin="159,807,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="394" VerticalContentAlignment="Center"/>
+        <TextBox HorizontalAlignment="Left" Height="38" Margin="159,807,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="502" VerticalContentAlignment="Center"/>
         <Label x:Name="E_P_Label_Копировать4" Content="День рождения" HorizontalAlignment="Left" VerticalAlignment="Top" Width="314" Height="26" Opacity="0.13" Margin="172,781,0,0" RenderTransformOrigin="0.489,-0.063"/>
-        <TextBox HorizontalAlignment="Left" Height="38" Margin="159,871,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="394" VerticalContentAlignment="Center"/>
+        <TextBox HorizontalAlignment="Left" Height="38" Margin="159,871,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="502" VerticalContentAlignment="Center"/>
         <Label x:Name="E_P_Label_Копировать5" Content="Адрес" HorizontalAlignment="Left" VerticalAlignment="Top" Width="314" Height="26" Opacity="0.13" Margin="172,845,0,0" RenderTransformOrigin="0.489,-0.063"/>
 
-        <Label Content="Заказы" HorizontalAlignment="Left" Height="62" Margin="924,360,0,0" VerticalAlignment="Top" Width="450" FontSize="36" FontWeight="Bold"/>
-        <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left" Height="106" Margin="900,445,0,0" VerticalAlignment="Top" Width="446" CornerRadius="13"/>
-        <Label Content="Пока вы не сделали ни&#xD;&#xA;одного заказа" HorizontalAlignment="Left" Height="68" VerticalAlignment="Top" Width="358" FontSize="20" Margin="916,464,0,0"/>
+        <Label Content="Заказы" HorizontalAlignment="Left" Height="62" Margin="901,240,0,0" VerticalAlignment="Top" Width="450" FontSize="36" FontWeight="Bold"/>
+        <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left" Height="106" Margin="884,314,0,0" VerticalAlignment="Top" Width="446" CornerRadius="13"/>
+        <Label Content="Пока вы не сделали ни&#xD;&#xA;одного заказа" HorizontalAlignment="Left" Height="68" VerticalAlignment="Top" Width="358" FontSize="20" Margin="900,333,0,0"/>
 
+        <TextBox x:Name="PasswordTextBox" HorizontalAlignment="Left" Height="38" Margin="159,423,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="502" VerticalContentAlignment="Center"/>
+        <Label x:Name="E_P_Label_Копировать6" Content="Пароль" HorizontalAlignment="Left" VerticalAlignment="Top" Width="314" Height="26" Opacity="0.13" Margin="172,397,0,0" RenderTransformOrigin="0.489,-0.063"/>
+        <TextBox x:Name="LoginTextBox" HorizontalAlignment="Left" Height="38" Margin="159,359,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="502" VerticalContentAlignment="Center"/>
+        <Label x:Name="E_P_Label_Копировать7" Content="Логин" HorizontalAlignment="Left" VerticalAlignment="Top" Width="314" Height="26" Opacity="0.13" Margin="172,333,0,0" RenderTransformOrigin="0.489,-0.063"/>
 
+        <Button Content="Выйти" HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="178" BorderBrush="White" Background="#FFB70000" Foreground="White" Cursor="Hand" Margin="483,928,0,0" Click="LogoutButton_Click"/>
 
     </Grid>
 </Window>
