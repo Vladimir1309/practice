@@ -93,13 +93,7 @@ namespace Practice
         {
             if (int.TryParse(count1.Content?.ToString(), out int amount))
             {
-                // Товар 1: Cristal Brut Champagne (ID 7)
                 DataManager.AddToCart(7, amount);
-                MessageBox.Show("Товар добавлен в корзину!");
-            }
-            else
-            {
-                MessageBox.Show("Ошибка: некорректное количество");
             }
         }
 
@@ -107,13 +101,7 @@ namespace Practice
         {
             if (int.TryParse(count2.Content?.ToString(), out int amount))
             {
-                // Товар 2: Morize Brut Tradition Champagne (ID 8)
                 DataManager.AddToCart(8, amount);
-                MessageBox.Show("Товар добавлен в корзину!");
-            }
-            else
-            {
-                MessageBox.Show("Ошибка: некорректное количество");
             }
         }
 
@@ -121,13 +109,7 @@ namespace Practice
         {
             if (int.TryParse(count3.Content?.ToString(), out int amount))
             {
-                // Товар 3: Ultradition Brut Champagne (ID 9)
                 DataManager.AddToCart(9, amount);
-                MessageBox.Show("Товар добавлен в корзину!");
-            }
-            else
-            {
-                MessageBox.Show("Ошибка: некорректное количество");
             }
         }
     }

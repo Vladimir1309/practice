@@ -93,13 +93,7 @@ namespace Practice
         {
             if (int.TryParse(count1.Content?.ToString(), out int amount))
             {
-                // Товар 1: Syrah Toscana IGT Tenuta Mordini (ID 4)
                 DataManager.AddToCart(4, amount);
-                MessageBox.Show("Товар добавлен в корзину!");
-            }
-            else
-            {
-                MessageBox.Show("Ошибка: некорректное количество");
             }
         }
 
@@ -107,13 +101,7 @@ namespace Practice
         {
             if (int.TryParse(count2.Content?.ToString(), out int amount))
             {
-                // Товар 2: Author's Collection Kindzmarauli Askaneli (ID 5)
                 DataManager.AddToCart(5, amount);
-                MessageBox.Show("Товар добавлен в корзину!");
-            }
-            else
-            {
-                MessageBox.Show("Ошибка: некорректное количество");
             }
         }
 
@@ -121,13 +109,7 @@ namespace Practice
         {
             if (int.TryParse(count3.Content?.ToString(), out int amount))
             {
-                // Товар 3: Insight Single Vineyard Sauvignon Blanc (ID 6)
                 DataManager.AddToCart(6, amount);
-                MessageBox.Show("Товар добавлен в корзину!");
-            }
-            else
-            {
-                MessageBox.Show("Ошибка: некорректное количество");
             }
         }
     }

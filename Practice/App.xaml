@@ -4,8 +4,7 @@
              xmlns:local="clr-namespace:Practice"
              StartupUri="Login.xaml" >
     <Application.Resources>
-        
-        
+
 
         <Style TargetType="Window">
             <Setter Property="Width" Value="1440"/>

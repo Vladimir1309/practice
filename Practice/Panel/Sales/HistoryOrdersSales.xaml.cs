@@ -1,34 +1,21 @@
 ﻿using Practice.Models;
-using Practice.Panel.Delivery;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Practice.Panel.Sales
 {
-    /// <summary>
-    /// Логика взаимодействия для HistoryOrdersSales.xaml
-    /// </summary>
     public partial class HistoryOrdersSales : Window
     {
-        public ObservableCollection<Order> Orderss { get; set; }
+        public ObservableCollection<Practice.Models.Order> Orderss { get; set; }
+
         public HistoryOrdersSales()
         {
             InitializeComponent();
-            Orderss = new ObservableCollection<Order>()
+
+            Orderss = new ObservableCollection<Practice.Models.Order>()
             {
-                new Order
+                new Practice.Models.Order
                 {
                     IdOrder = 1,
                     IdUserClient = 4,
@@ -36,7 +23,7 @@ namespace Practice.Panel.Sales
                     Delivery = true,
                     IsCompleted = true
                 },
-                new Order
+                new Practice.Models.Order
                 {
                     IdOrder = 2,
                     IdUserClient = 2,
@@ -47,27 +34,27 @@ namespace Practice.Panel.Sales
             };
             DataContext = this;
         }
+
         private void Hitt(object sender, RoutedEventArgs e)
         {
-            Hit hit = new Hit();
+            Panel.Delivery.Hit hit = new Panel.Delivery.Hit();
             hit.Show();
             this.Close();
         }
 
         private void Back(object sender, RoutedEventArgs e)
         {
-            Reload reload = new Reload();
+            Panel.Delivery.Reload reload = new Panel.Delivery.Reload();
             reload.Show();
             this.Close();
         }
 
         private void History(object sender, RoutedEventArgs e)
         {
-            Sales.HistoryOrdersSales history = new Sales.HistoryOrdersSales();
-            history.Show();
-            this.Close();
+            // Уже на этой странице
         }
-        private void MLBD_Exit(object sender, EventArgs e)
+
+        private void MLBD_Exit(object sender, RoutedEventArgs e)
         {
             Login login = new Login();
             login.Show();

@@ -26,10 +26,20 @@ namespace Practice
             InitializeComponent();
         }
 
+
         private void AdvancedDiagnostics_Click(object sender, RoutedEventArgs e)
         {
             TestConnectionWindow testWindow = new TestConnectionWindow();
             testWindow.ShowDialog();
+
+            MessageBox.Show(typeof(MySqlConnection).Assembly.FullName);
+            var loaded = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (var asm in loaded)
+            {
+                if (asm.FullName.Contains("MySql"))
+                    MessageBox.Show(asm.FullName + "\n" + asm.Location);
+            }
+
         }
 
         private void Diagnostics_Click(object sender, RoutedEventArgs e)
@@ -40,10 +50,10 @@ namespace Practice
 
                 // Тестируем все варианты строк подключения
                 string[] connections = {
-            DatabaseManager.ConnectionString,
-            DatabaseManager.ConnectionString2,
-            DatabaseManager.ConnectionString3,
-            DatabaseManager.ConnectionString4
+            DbService.ConnectionString,
+            DbService.ConnectionString2,
+            DbService.ConnectionString3,
+            DbService.ConnectionString4
         };
 
                 string[] connectionNames = {

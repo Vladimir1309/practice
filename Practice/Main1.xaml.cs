@@ -38,17 +38,14 @@ namespace Practice
         {
             if (AuthManager.IsAuthenticated)
             {
-                // Пользователь авторизован - открываем профиль
                 Account account = new Account();
                 account.Show();
             }
             else
             {
-                // Пользователь не авторизован - открываем страницу входа
                 Login login = new Login();
                 login.Show();
             }
-
             this.Close();
         }
 
@@ -199,24 +196,26 @@ namespace Practice
             BorderBeer.Opacity = 1;
         }
 
-        
         private void AddToBasket1_Click(object sender, RoutedEventArgs e)
         {
             if (int.TryParse(count1.Content?.ToString(), out int amount))
             {
                 if (AuthManager.IsAuthenticated)
                 {
-                    using (var db = new DatabaseManager())
+                    // Используем статический вызов
+                    if (DbService.AddToCart(AuthManager.CurrentUserId, 1, amount))
                     {
-                        db.AddToCart(AuthManager.CurrentUserId, 1, amount);
                         MessageBox.Show("Товар добавлен в корзину!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка при добавлении в корзину!");
                     }
                 }
                 else
                 {
-                    // Для неавторизованных - временное хранение
-                    DataManager.AddToCart(1, amount);
-                    MessageBox.Show("Товар добавлен в корзину! Авторизуйтесь для сохранения.");
+                    MessageBox.Show("Авторизуйтесь для добавления в корзину!", "Внимание",
+                                  MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
         }
@@ -227,17 +226,20 @@ namespace Practice
             {
                 if (AuthManager.IsAuthenticated)
                 {
-                    using (var db = new DatabaseManager())
+                    // Используем статический вызов
+                    if (DbService.AddToCart(AuthManager.CurrentUserId, 2, amount))
                     {
-                        db.AddToCart(AuthManager.CurrentUserId, 1, amount);
                         MessageBox.Show("Товар добавлен в корзину!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка при добавлении в корзину!");
                     }
                 }
                 else
                 {
-                    // Для неавторизованных - временное хранение
-                    DataManager.AddToCart(1, amount);
-                    MessageBox.Show("Товар добавлен в корзину! Авторизуйтесь для сохранения.");
+                    MessageBox.Show("Авторизуйтесь для добавления в корзину!", "Внимание",
+                                  MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
         }
@@ -248,17 +250,20 @@ namespace Practice
             {
                 if (AuthManager.IsAuthenticated)
                 {
-                    using (var db = new DatabaseManager())
+                    // Используем статический вызов
+                    if (DbService.AddToCart(AuthManager.CurrentUserId, 3, amount))
                     {
-                        db.AddToCart(AuthManager.CurrentUserId, 1, amount);
                         MessageBox.Show("Товар добавлен в корзину!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка при добавлении в корзину!");
                     }
                 }
                 else
                 {
-                    // Для неавторизованных - временное хранение
-                    DataManager.AddToCart(1, amount);
-                    MessageBox.Show("Товар добавлен в корзину! Авторизуйтесь для сохранения.");
+                    MessageBox.Show("Авторизуйтесь для добавления в корзину!", "Внимание",
+                                  MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
         }

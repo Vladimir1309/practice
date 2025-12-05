@@ -93,13 +93,7 @@ namespace Practice
         {
             if (int.TryParse(count1.Content?.ToString(), out int amount))
             {
-                // Товар 1: 7 Zlakov 0.5 л (ID 10)
                 DataManager.AddToCart(10, amount);
-                MessageBox.Show("Товар добавлен в корзину!");
-            }
-            else
-            {
-                MessageBox.Show("Ошибка: некорректное количество");
             }
         }
 
@@ -107,13 +101,7 @@ namespace Practice
         {
             if (int.TryParse(count2.Content?.ToString(), out int amount))
             {
-                // Товар 2: Tchaikovsky - 0.5 л (ID 11)
                 DataManager.AddToCart(11, amount);
-                MessageBox.Show("Товар добавлен в корзину!");
-            }
-            else
-            {
-                MessageBox.Show("Ошибка: некорректное количество");
             }
         }
 
@@ -121,13 +109,7 @@ namespace Practice
         {
             if (int.TryParse(count3.Content?.ToString(), out int amount))
             {
-                // Товар 3: Tchaikovsky Symphony 0.7 л (ID 12)
                 DataManager.AddToCart(12, amount);
-                MessageBox.Show("Товар добавлен в корзину!");
-            }
-            else
-            {
-                MessageBox.Show("Ошибка: некорректное количество");
             }
         }
     }

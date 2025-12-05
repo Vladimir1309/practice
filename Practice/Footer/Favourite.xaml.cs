@@ -9,14 +9,12 @@ namespace Practice
 {
     public partial class Favourite : Window
     {
-        private DatabaseManager _dbManager;
         public ObservableCollection<Order_Product> FavouriteItems { get; set; }
 
         public Favourite()
         {
             InitializeComponent();
 
-            _dbManager = new DatabaseManager();
             FavouriteItems = new ObservableCollection<Order_Product>();
 
             LoadFavourites();
@@ -29,14 +27,14 @@ namespace Practice
 
             if (AuthManager.IsAuthenticated)
             {
-                var favourites = _dbManager.GetFavourites(AuthManager.CurrentUserId);
+                // Используем статический вызов
+                var favourites = DbService.GetFavourites(AuthManager.CurrentUserId);
                 foreach (var item in favourites)
                 {
                     FavouriteItems.Add(item);
                 }
             }
 
-            // Обновляем заголовок
             UpdateFavouriteTitle();
         }
 
@@ -88,19 +86,23 @@ namespace Practice
         {
             if (sender is FrameworkElement element && element.DataContext is Order_Product item)
             {
-                _dbManager.ToggleFavourite(item.IdOrderProduct);
+                // Используем статический вызов
+                DbService.ToggleFavourite(item.IdOrderProduct);
                 LoadFavourites();
                 MessageBox.Show("Товар удален из избранного");
             }
         }
 
-        // Метод для добавления в корзину из избранного
         private void AddToCartFromFavourite_Click(object sender, RoutedEventArgs e)
         {
             if (sender is FrameworkElement element && element.DataContext is Order_Product item)
             {
-                _dbManager.AddToCart(AuthManager.CurrentUserId, item.IdProduct, item.Amount);
-                MessageBox.Show("Товар добавлен в корзину");
+                // Используем статический вызов
+                if (AuthManager.IsAuthenticated)
+                {
+                    DbService.AddToCart(AuthManager.CurrentUserId, item.IdProduct, item.Amount);
+                    MessageBox.Show("Товар добавлен в корзину");
+                }
             }
         }
     }
