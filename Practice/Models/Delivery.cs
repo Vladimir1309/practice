@@ -11,10 +11,10 @@ namespace Practice.Models
         [Column("IdDelivery")]
         public int IdDelivery { get; set; }
 
-        [Column("`IdUser(Client)`")]
+        [Column("`IdUserClient`")]
         public int IdUserClient { get; set; }
 
-        [Column("`IdUser(Employee)`")]
+        [Column("`IdUserEmployee`")]
         public int IdUserEmployee { get; set; }
 
         [Column("IdOrder")]

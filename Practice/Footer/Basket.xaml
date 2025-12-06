@@ -26,14 +26,16 @@
             <Image HorizontalAlignment="Left" Height="44" Margin="1058,92,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Shopping Basket.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Basket"/>
             <Label Content="Корзина" HorizontalAlignment="Left" Height="44" Margin="1103,93,0,0" VerticalAlignment="Top" Width="136" FontSize="24" Cursor="Hand" MouseLeftButtonDown="MLBD_Basket" Foreground="#FFB70000"/>
             <Image HorizontalAlignment="Left" Height="44" Margin="1302,91,0,0" VerticalAlignment="Top" Width="44" Source="/materials/Collaborator Male-1.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Account"/>
-            <Label x:Name="basketTitleLabel" Content="Корзина (2 товара)" HorizontalAlignment="Left" Margin="100,213,0,0" VerticalAlignment="Top" Height="64" Width="426" FontSize="36" FontStyle="Italic" FontWeight="Bold"/>
+            <Label x:Name="basketTitleLabel" Content="Корзина (2 товара)" HorizontalAlignment="Left" Margin="100,213,0,0" VerticalAlignment="Top" Height="64" Width="564" FontSize="36" FontStyle="Italic" FontWeight="Bold"/>
         </Grid>
 
         <!-- Основной контент с карточками товаров -->
         <Grid Grid.Row="1">
             <!-- Левая часть - карточки товаров -->
             <ScrollViewer HorizontalAlignment="Left" VerticalAlignment="Top" 
-                          Margin="100,0,0,114" Width="780" Height="580">
+                          Margin="100,0,0,114" Width="780" Height="580"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                          ScrollViewer.CanContentScroll="True">
                 <ItemsControl x:Name="BasketItemsControl" ItemsSource="{Binding BasketItems}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -41,10 +43,11 @@
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
+                        <!-- В Basket.xaml обновите привязки: -->
                         <DataTemplate>
                             <Border BorderBrush="#FFD9D9D9" BorderThickness="1" 
-                                    Margin="0,0,0,20" Padding="20" 
-                                    Background="White" CornerRadius="10">
+            Margin="0,0,0,20" Padding="20" 
+            Background="White" CornerRadius="10">
                                 <Grid Width="720">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
@@ -54,53 +57,53 @@
 
                                     <!-- Изображение товара -->
                                     <Border Grid.Column="0" Width="100" Height="100" 
-                Margin="0,0,20,0" 
-                Background="{Binding ProductImagePath, Converter={StaticResource ImagePathToBrushConverter}}">
-                                        <Image Source="{Binding ProductImagePath}" 
-                   Stretch="UniformToFill" 
-                   Width="100" Height="100"/>
+                    Margin="0,0,20,0" 
+                    Background="{Binding Product.ImagePath, Converter={StaticResource ImagePathToBrushConverter}}">
+                                        <Image Source="{Binding Product.ImagePath}" 
+                       Stretch="UniformToFill" 
+                       Width="100" Height="100"/>
                                     </Border>
 
                                     <!-- Информация о товаре -->
                                     <StackPanel Grid.Column="1" Orientation="Vertical">
                                         <!-- Название и цена -->
-                                        <TextBlock Text="{Binding ProductName}" 
-                                                   FontWeight="Bold" FontSize="18" 
-                                                   TextWrapping="Wrap" 
-                                                   Margin="0,0,0,10"/>
-                                        <TextBlock Text="{Binding ProductPrice, StringFormat='{}{0} ₽'}" 
-                                                   FontSize="16" Foreground="#FFB70000" 
-                                                   FontWeight="Bold" Margin="0,0,0,10"/>
+                                        <TextBlock Text="{Binding Product.Name}" 
+                           FontWeight="Bold" FontSize="18" 
+                           TextWrapping="Wrap" 
+                           Margin="0,0,0,10"/>
+                                        <TextBlock Text="{Binding Product.Price, StringFormat='{}{0} ₽'}" 
+                           FontSize="16" Foreground="#FFB70000" 
+                           FontWeight="Bold" Margin="0,0,0,10"/>
 
                                         <!-- Количество -->
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                             <Button Content="-" Width="30" Height="30" 
-                                                    Click="DecreaseAmount_Click"
-                                                    Tag="{Binding IdOrderProduct}"
-                                                    Background="#FFEDEDED" BorderBrush="#FFCECECE"/>
+                            Click="DecreaseAmount_Click"
+                            Tag="{Binding IdOrderProduct}"
+                            Background="#FFEDEDED" BorderBrush="#FFCECECE" Cursor="Hand"/>
                                             <TextBlock Text="{Binding Amount}" 
-                                                       Width="40" Height="30" 
-                                                       TextAlignment="Center" 
-                                                       VerticalAlignment="Center"
-                                                       FontSize="16" Margin="5,0"/>
+                               Width="40" Height="30" 
+                               TextAlignment="Center" 
+                               VerticalAlignment="Center"
+                               FontSize="16" Margin="5,0"/>
                                             <Button Content="+" Width="30" Height="30" 
-                                                    Click="IncreaseAmount_Click"
-                                                    Tag="{Binding IdOrderProduct}"
-                                                    Background="#FFEDEDED" BorderBrush="#FFCECECE"/>
+                            Click="IncreaseAmount_Click"
+                            Tag="{Binding IdOrderProduct}"
+                            Background="#FFEDEDED" BorderBrush="#FFCECECE" Cursor="Hand"/>
                                         </StackPanel>
                                     </StackPanel>
 
                                     <!-- Кнопка удаления -->
                                     <Button Grid.Column="2" Content="❌" 
-                                            Width="30" Height="30" 
-                                            FontSize="16"
-                                            HorizontalAlignment="Right" 
-                                            VerticalAlignment="Top"
-                                            Cursor="Hand"
-                                            Command="{Binding DataContext.DeleteItemCommand, 
-                                                    RelativeSource={RelativeSource AncestorType=Window}}"
-                                            CommandParameter="{Binding}"
-                                            Background="Transparent" BorderBrush="Transparent"/>
+                    Width="30" Height="30" 
+                    FontSize="16"
+                    HorizontalAlignment="Right" 
+                    VerticalAlignment="Top"
+                    Cursor="Hand"
+                    Command="{Binding DataContext.DeleteItemCommand, 
+                            RelativeSource={RelativeSource AncestorType=Window}}"
+                    CommandParameter="{Binding}"
+                    Background="Transparent" BorderBrush="Transparent"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>

@@ -27,6 +27,8 @@ namespace Practice
         }
 
 
+
+
         private void AdvancedDiagnostics_Click(object sender, RoutedEventArgs e)
         {
             TestConnectionWindow testWindow = new TestConnectionWindow();
@@ -294,8 +296,26 @@ namespace Practice
         // В Login.xaml.cs в методе LoginButton
         private void LoginButton(object sender, RoutedEventArgs e)
         {
+            if (LocalCartService.GetLocalCart().Count > 0)
+            {
+                var result = MessageBox.Show("У вас есть товары в локальной корзине. Перенести их в вашу учетную запись?",
+                                            "Корзина", MessageBoxButton.YesNo);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    foreach (var item in LocalCartService.GetLocalCart())
+                    {
+                        DbService.AddToCart(AuthManager.CurrentUserId, item.Key, item.Value);
+                    }
+                    LocalCartService.ClearLocalCart();
+                    MessageBox.Show("Корзина перенесена!");
+                }
+            }
+
             string login = LoginText.Text;
             string password = PasswordText.Text;
+
+
 
             // Логируем ввод
             string debugInfo = $"Попытка входа:\nЛогин: {login}\nПароль: {password}\n\n";
@@ -306,7 +326,7 @@ namespace Practice
             // Сначала проверяем простые тестовые логины
             if (login == "admin" && password == "admin")
             {
-                AuthManager.SetTestUser(TestUserFactory.CreateAdmin());
+                //AuthManager.SetTestUser(TestUserFactory.CreateAdmin());
                 Admin_Main adminMain = new Admin_Main();
                 adminMain.Show();
                 this.Close();
@@ -314,7 +334,7 @@ namespace Practice
             }
             else if (login == "user" && password == "user")
             {
-                AuthManager.SetTestUser(TestUserFactory.CreateClient());
+                //AuthManager.SetTestUser(TestUserFactory.CreateClient());
                 Account account = new Account();
                 account.Show();
                 this.Close();
@@ -332,22 +352,22 @@ namespace Practice
                     debugInfo += $"Роль: {AuthManager.CurrentUserRole}\n";
 
                     // В зависимости от роли открываем соответствующую страницу
-                    if (AuthManager.IsAdmin())
+                    if (AuthManager.IsAdmin)
                     {
                         Admin_Main adminMain = new Admin_Main();
                         adminMain.Show();
                     }
-                    else if (AuthManager.IsSales())
+                    else if (AuthManager.IsSales)
                     {
                         Sales_Main salesMain = new Sales_Main();
                         salesMain.Show();
                     }
-                    else if (AuthManager.IsDelivery())
+                    else if (AuthManager.IsDelivery)
                     {
                         Delivery_Main deliveryMain = new Delivery_Main();
                         deliveryMain.Show();
                     }
-                    else if (AuthManager.IsClient())
+                    else if (AuthManager.IsClient) 
                     {
                         Account account = new Account();
                         account.Show();
@@ -391,7 +411,7 @@ namespace Practice
                 }
             };
 
-            AuthManager.SetTestUser(testUser);
+            //AuthManager.SetTestUser(testUser);
 
             Admin_Main adminMain = new Admin_Main();
             adminMain.Show();
@@ -416,7 +436,7 @@ namespace Practice
                 }
             };
 
-            AuthManager.SetTestUser(testUser);
+            //AuthManager.SetTestUser(testUser);
 
             Account account = new Account();
             account.Show();

@@ -1,105 +1,104 @@
-﻿using Practice;
-using Practice.Models;
-using System.Windows;
+﻿using Practice.Models;
+using Practice.Services;
+using System;
 
-public static class AuthManager
+namespace Practice
 {
-    private static bool _isAuthenticated = false;
-    private static User _currentUser = null;
-
-    public static bool IsAuthenticated => _isAuthenticated;
-    public static User CurrentUser => _currentUser;
-
-    public static bool Login(string login, string password)
+    public static class AuthManager
     {
-        Console.WriteLine($"\n=== ПОПЫТКА ВХОДА ===");
-        Console.WriteLine($"Логин: {login}");
+        private static User _currentUser;
 
-        if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
+        public static User CurrentUser
         {
-            MessageBox.Show("Введите логин и пароль", "Ошибка",
-                          MessageBoxButton.OK, MessageBoxImage.Warning);
-            return false;
+            get => _currentUser;
+            private set => _currentUser = value;
         }
 
-        // Сначала тестовые логины
-        if (login == "admin" && password == "admin")
-        {
-            SetTestUser(TestUserFactory.CreateAdmin());
-            return true;
-        }
-        else if (login == "user" && password == "user")
-        {
-            SetTestUser(TestUserFactory.CreateClient());
-            return true;
-        }
+        public static bool IsAuthenticated => _currentUser != null;
 
-        try
+        public static int CurrentUserId => _currentUser?.IdUser ?? 0;
+
+        public static string CurrentUserLogin => _currentUser?.Login ?? "";
+
+        public static string CurrentUserAddress => _currentUser?.Address ?? "";
+
+        // Добавляем недостающие свойства
+        public static string CurrentUserRole => _currentUser?.Post?.Role?.RoleName ?? "";
+
+        public static bool IsAdmin => CurrentUserRole == "Администратор";
+
+        public static bool IsSales => CurrentUserRole == "Продавец-консультант";
+
+        public static bool IsDelivery => CurrentUserRole == "Курьер";
+
+        public static bool IsClient => CurrentUserRole == "Пользователь" || CurrentUserRole == "Покупатель";
+
+        // Метод для входа
+        public static bool Login(string login, string password)
         {
-            // Используем статический вызов
             var user = DbService.AuthenticateUser(login, password);
-
             if (user != null)
             {
-                _isAuthenticated = true;
                 _currentUser = user;
-
-                Console.WriteLine($"=== УСПЕШНЫЙ ВХОД ===");
-                Console.WriteLine($"Пользователь: {user.Login}");
-                Console.WriteLine($"Роль: {user.Role?.RoleName ?? "Не определена"}");
-                Console.WriteLine($"ID: {user.IdUser}");
-                Console.WriteLine("===================\n");
-
                 return true;
             }
-            else
-            {
-                Console.WriteLine("=== НЕУДАЧНАЯ АУТЕНТИФИКАЦИЯ ===");
-                MessageBox.Show("Неверный логин или пароль", "Ошибка авторизации",
-                              MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"=== ОШИБКА ПРИ ВХОДЕ ===");
-            Console.WriteLine($"Сообщение: {ex.Message}");
-            Console.WriteLine($"Тип: {ex.GetType().Name}");
-            Console.WriteLine($"====================\n");
-
-            MessageBox.Show($"Ошибка при авторизации: {ex.Message}", "Ошибка",
-                          MessageBoxButton.OK, MessageBoxImage.Error);
             return false;
         }
-    }
 
-    public static void SetTestUser(User user)
-    {
-        if (user == null)
+        // Метод для выхода
+        public static void Logout()
         {
-            _isAuthenticated = false;
             _currentUser = null;
         }
-        else
+
+        // Метод для обновления данных пользователя
+        public static void UpdateUserData(string login, string lastName, string firstName,
+                                         string patronymic, string phone, string email, string address)
         {
-            _isAuthenticated = true;
+            if (_currentUser != null)
+            {
+                _currentUser.Login = login;
+                _currentUser.LastName = lastName;
+                _currentUser.FirstName = firstName;
+                _currentUser.Patronymic = patronymic;
+                _currentUser.Phone = phone;
+                _currentUser.Email = email;
+                _currentUser.Address = address;
+            }
+        }
+
+        // Метод для установки пользователя (например, после регистрации)
+        public static void SetUser(User user)
+        {
             _currentUser = user;
-            Console.WriteLine($"Установлен тестовый пользователь: {user.Login}, Роль: {user.Role?.RoleName}");
+        }
+
+        // Метод для тестирования (можно удалить после отладки)
+        public static void SetTestUser()
+        {
+            // Тестовый пользователь для отладки
+            _currentUser = new User
+            {
+                IdUser = 2,
+                Login = "testuser",
+                Password = "testpass",
+                FirstName = "Тест",
+                LastName = "Тестов",
+                Patronymic = "Тестович",
+                Phone = "89112223344",
+                Email = "test@test.ru",
+                Birthday = new DateTime(1990, 1, 1),
+                Address = "ул. Тестовая, д. 1",
+                Post = new Post
+                {
+                    IdPost = 5,
+                    PostName = "Покупатель",
+                    Role = new Role
+                    {
+                        RoleName = "Пользователь"
+                    }
+                }
+            };
         }
     }
-
-    public static void Logout()
-    {
-        _isAuthenticated = false;
-        _currentUser = null;
-    }
-
-    public static int CurrentUserId => _currentUser?.IdUser ?? 0;
-    public static string CurrentUserLogin => _currentUser?.Login ?? "Гость";
-    public static string CurrentUserRole => _currentUser?.Role?.RoleName ?? "Пользователь";
-
-    public static bool IsAdmin() => CurrentUserRole == "Администратор";
-    public static bool IsSales() => CurrentUserRole == "Продавец-консультант";
-    public static bool IsDelivery() => CurrentUserRole == "Курьер";
-    public static bool IsClient() => CurrentUserRole == "Пользователь" || string.IsNullOrEmpty(CurrentUserRole);
 }

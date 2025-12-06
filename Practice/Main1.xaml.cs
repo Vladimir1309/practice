@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Practice.Models;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Linq; // ДОБАВЬТЕ ЭТУ СТРОЧКУ!
 
 namespace Practice
 {
@@ -11,6 +14,217 @@ namespace Practice
         public Main1()
         {
             InitializeComponent();
+            InitializeFavouriteIcons();
+        }
+
+        // Метод для переключения избранного
+        // Обновленный метод для переключения избранного
+        // В методе ToggleFavourite_Click в Main1.xaml.cs:
+        private void ToggleFavourite_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (sender is Button button && button.Tag != null)
+                {
+                    int productId = Convert.ToInt32(button.Tag.ToString());
+
+                    if (!AuthManager.IsAuthenticated)
+                    {
+                        MessageBox.Show("Авторизуйтесь для добавления в избранное", "Внимание",
+                                      MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+
+                    // Проверяем, есть ли товар уже в избранном
+                    bool isCurrentlyFavourite = CheckIfProductIsFavourite(productId);
+
+                    if (isCurrentlyFavourite)
+                    {
+                        // Находим запись в избранном
+                        var favourites = DbService.GetFavourites(AuthManager.CurrentUserId);
+                        var favouriteItem = favourites.FirstOrDefault(f => f.IdProduct == productId);
+
+                        if (favouriteItem != null)
+                        {
+                            // Удаляем из избранного
+                            if (DbService.RemoveFromFavouriteOnly(favouriteItem.IdOrderProduct))
+                            {
+                                // Меняем иконку на пустое сердечко
+                                UpdateFavouriteIcon(productId, false);
+                                MessageBox.Show("Товар удален из избранного");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // Добавляем в избранное (БЕЗ добавления в корзину)
+                        if (DbService.AddToFavouriteOnly(AuthManager.CurrentUserId, productId)) // ИСПРАВЛЕНО
+                        {
+                            // Меняем иконку на заполненное сердечко
+                            UpdateFavouriteIcon(productId, true);
+                            MessageBox.Show("Товар добавлен в избранное!");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка: {ex.Message}");
+            }
+        }
+
+        // Проверяем, есть ли товар в избранном
+        private bool CheckIfProductIsFavourite(int productId)
+        {
+            if (!AuthManager.IsAuthenticated) return false;
+
+            try
+            {
+                var favourites = DbService.GetFavourites(AuthManager.CurrentUserId);
+                return favourites.Any(f => f.IdProduct == productId);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        // В конструкторе Main1 или отдельном методе инициализации:
+        // В методе InitializeFavouriteIcons:
+        private void InitializeFavouriteIcons()
+        {
+            if (!AuthManager.IsAuthenticated) return;
+
+            try
+            {
+                // Получаем список избранных товаров
+                var favourites = DbService.GetFavourites(AuthManager.CurrentUserId);
+
+                // Проверяем каждый товар и обновляем иконки
+                foreach (var favourite in favourites)
+                {
+                    UpdateFavouriteIcon(favourite.IdProduct, true);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка загрузки избранного: {ex.Message}");
+            }
+        }
+
+        // Обновить иконку для конкретного товара
+        private void UpdateFavouriteIcon(int productId, bool isFavourite)
+        {
+            // Находим кнопку по ID товара (Tag)
+            Button favouriteButton = null;
+            string iconName = "";
+
+            switch (productId)
+            {
+                case 1: // Syrah Toscana
+                    favouriteButton = FindName("favouriteButton1") as Button;
+                    iconName = "favouriteIcon1";
+                    break;
+                case 7: // 7 Zlakov
+                    favouriteButton = FindName("favouriteButton2") as Button;
+                    iconName = "favouriteIcon2";
+                    break;
+                case 10: // Vodka Polugar
+                    favouriteButton = FindName("favouriteButton3") as Button;
+                    iconName = "favouriteIcon3";
+                    break;
+            }
+
+            if (favouriteButton != null)
+            {
+                var image = favouriteButton.Content as Image;
+                if (image != null)
+                {
+                    image.Source = new BitmapImage(
+                        new Uri(isFavourite ?
+                            "/materials/Favorite_filled.png" :
+                            "/materials/Favorite_empty.png",
+                            UriKind.Relative));
+                }
+            }
+        }
+
+        // Добавить товар в избранное
+        // В Main1.xaml.cs, Vodka.xaml.cs и т.д.
+        private void AddToFavourite1_Click(object sender, RoutedEventArgs e)
+        {
+            if (!AuthManager.IsAuthenticated)
+            {
+                MessageBox.Show("Авторизуйтесь для добавления в избранное", "Внимание",
+                              MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Используем productId (например, для товара 1 это ID=1)
+            if (DbService.AddToFavouriteOnly(AuthManager.CurrentUserId, 1)) // Замените 1 на нужный ID
+            {
+                MessageBox.Show("Товар добавлен в избранное!");
+                // Обновить иконку, если нужно
+            }
+        }
+
+        // В Main1.xaml.cs, Vodka.xaml.cs и т.д.
+        private void AddToFavourite2_Click(object sender, RoutedEventArgs e)
+        {
+            if (!AuthManager.IsAuthenticated)
+            {
+                MessageBox.Show("Авторизуйтесь для добавления в избранное", "Внимание",
+                              MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Используем productId (например, для товара 1 это ID=1)
+            if (DbService.AddToFavouriteOnly(AuthManager.CurrentUserId, 7)) // Замените 1 на нужный ID
+            {
+                MessageBox.Show("Товар добавлен в избранное!");
+                // Обновить иконку, если нужно
+            }
+        }
+
+        // В Main1.xaml.cs, Vodka.xaml.cs и т.д.
+        private void AddToFavourite3_Click(object sender, RoutedEventArgs e)
+        {
+            if (!AuthManager.IsAuthenticated)
+            {
+                MessageBox.Show("Авторизуйтесь для добавления в избранное", "Внимание",
+                              MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Используем productId (например, для товара 1 это ID=1)
+            if (DbService.AddToFavouriteOnly(AuthManager.CurrentUserId, 10)) // Замените 1 на нужный ID
+            {
+                MessageBox.Show("Товар добавлен в избранное!");
+                // Обновить иконку, если нужно
+            }
+        }
+
+        // Удалить товар из избранного
+        private bool RemoveFromFavourite(int productId)
+        {
+            if (!AuthManager.IsAuthenticated) return false;
+
+            try
+            {
+                // Находим товар в избранном
+                var favourites = DbService.GetFavourites(AuthManager.CurrentUserId);
+                var favouriteItem = favourites.FirstOrDefault(f => f.IdProduct == productId);
+
+                if (favouriteItem != null)
+                {
+                    return DbService.ToggleFavourite(favouriteItem.IdOrderProduct);
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private void MLBD_GWAN(object sender, RoutedEventArgs e)
@@ -202,7 +416,8 @@ namespace Practice
             {
                 if (AuthManager.IsAuthenticated)
                 {
-                    // Используем статический вызов
+                    // Товар 1: Syrah Toscana IGT Tenuta Mordini
+                    // Используем правильный ID товара (например, ID=1)
                     if (DbService.AddToCart(AuthManager.CurrentUserId, 1, amount))
                     {
                         MessageBox.Show("Товар добавлен в корзину!");
@@ -214,8 +429,9 @@ namespace Practice
                 }
                 else
                 {
-                    MessageBox.Show("Авторизуйтесь для добавления в корзину!", "Внимание",
-                                  MessageBoxButton.OK, MessageBoxImage.Warning);
+                    LocalCartService.AddToLocalCart(1, amount); // ID=1
+                    MessageBox.Show("Товар добавлен в корзину!\nАвторизуйтесь для сохранения корзины.",
+                                  "Корзина", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
         }
@@ -226,8 +442,9 @@ namespace Practice
             {
                 if (AuthManager.IsAuthenticated)
                 {
-                    // Используем статический вызов
-                    if (DbService.AddToCart(AuthManager.CurrentUserId, 2, amount))
+                    // Товар 2: 7 Zlakov (Водка)
+                    // Используем правильный ID товара (например, ID=7)
+                    if (DbService.AddToCart(AuthManager.CurrentUserId, 7, amount))
                     {
                         MessageBox.Show("Товар добавлен в корзину!");
                     }
@@ -238,8 +455,9 @@ namespace Practice
                 }
                 else
                 {
-                    MessageBox.Show("Авторизуйтесь для добавления в корзину!", "Внимание",
-                                  MessageBoxButton.OK, MessageBoxImage.Warning);
+                    LocalCartService.AddToLocalCart(7, amount); // ID=7
+                    MessageBox.Show("Товар добавлен в корзину!\nАвторизуйтесь для сохранения корзины.",
+                                  "Корзина", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
         }
@@ -250,8 +468,9 @@ namespace Practice
             {
                 if (AuthManager.IsAuthenticated)
                 {
-                    // Используем статический вызов
-                    if (DbService.AddToCart(AuthManager.CurrentUserId, 3, amount))
+                    // Товар 3: Vodka Polugar
+                    // Используем правильный ID товара (например, ID=10)
+                    if (DbService.AddToCart(AuthManager.CurrentUserId, 10, amount))
                     {
                         MessageBox.Show("Товар добавлен в корзину!");
                     }
@@ -262,8 +481,9 @@ namespace Practice
                 }
                 else
                 {
-                    MessageBox.Show("Авторизуйтесь для добавления в корзину!", "Внимание",
-                                  MessageBoxButton.OK, MessageBoxImage.Warning);
+                    LocalCartService.AddToLocalCart(10, amount); // ID=10
+                    MessageBox.Show("Товар добавлен в корзину!\nАвторизуйтесь для сохранения корзины.",
+                                  "Корзина", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
         }
