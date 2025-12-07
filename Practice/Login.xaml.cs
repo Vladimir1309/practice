@@ -296,26 +296,8 @@ namespace Practice
         // В Login.xaml.cs в методе LoginButton
         private void LoginButton(object sender, RoutedEventArgs e)
         {
-            if (LocalCartService.GetLocalCart().Count > 0)
-            {
-                var result = MessageBox.Show("У вас есть товары в локальной корзине. Перенести их в вашу учетную запись?",
-                                            "Корзина", MessageBoxButton.YesNo);
-
-                if (result == MessageBoxResult.Yes)
-                {
-                    foreach (var item in LocalCartService.GetLocalCart())
-                    {
-                        DbService.AddToCart(AuthManager.CurrentUserId, item.Key, item.Value);
-                    }
-                    LocalCartService.ClearLocalCart();
-                    MessageBox.Show("Корзина перенесена!");
-                }
-            }
-
             string login = LoginText.Text;
             string password = PasswordText.Text;
-
-
 
             // Логируем ввод
             string debugInfo = $"Попытка входа:\nЛогин: {login}\nПароль: {password}\n\n";
@@ -326,7 +308,13 @@ namespace Practice
             // Сначала проверяем простые тестовые логины
             if (login == "admin" && password == "admin")
             {
-                //AuthManager.SetTestUser(TestUserFactory.CreateAdmin());
+                // Создаем тестового админа
+                var adminUser = TestUserFactory.CreateAdmin();
+                AuthManager.SetUser(adminUser);
+
+                // Переносим локальную корзину
+                TransferLocalCart(adminUser.IdUser);
+
                 Admin_Main adminMain = new Admin_Main();
                 adminMain.Show();
                 this.Close();
@@ -334,7 +322,13 @@ namespace Practice
             }
             else if (login == "user" && password == "user")
             {
-                //AuthManager.SetTestUser(TestUserFactory.CreateClient());
+                // Создаем тестового клиента
+                var clientUser = TestUserFactory.CreateClient();
+                AuthManager.SetUser(clientUser);
+
+                // Переносим локальную корзину
+                TransferLocalCart(clientUser.IdUser);
+
                 Account account = new Account();
                 account.Show();
                 this.Close();
@@ -350,6 +344,9 @@ namespace Practice
                 {
                     debugInfo += "Аутентификация успешна!\n";
                     debugInfo += $"Роль: {AuthManager.CurrentUserRole}\n";
+
+                    // Переносим локальную корзину после успешного входа
+                    TransferLocalCart(AuthManager.CurrentUserId);
 
                     // В зависимости от роли открываем соответствующую страницу
                     if (AuthManager.IsAdmin)
@@ -367,7 +364,7 @@ namespace Practice
                         Delivery_Main deliveryMain = new Delivery_Main();
                         deliveryMain.Show();
                     }
-                    else if (AuthManager.IsClient) 
+                    else if (AuthManager.IsClient)
                     {
                         Account account = new Account();
                         account.Show();
@@ -391,7 +388,81 @@ namespace Practice
                               "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        
+
+        private void TransferLocalCart(int userId)
+        {
+            try
+            {
+                var localCart = LocalCartService.GetLocalCart();
+
+                if (localCart.Count > 0)
+                {
+                    var result = MessageBox.Show($"У вас есть {localCart.Count} товар(ов) в локальной корзине. Перенести их в вашу учетную запись?",
+                                                "Корзина", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        int successCount = 0;
+                        int failCount = 0;
+
+                        foreach (var item in localCart)
+                        {
+                            try
+                            {
+                                // Создаем заказ для пользователя перед добавлением товаров
+                                int orderId = DbService.GetActiveOrderId(userId);
+
+                                if (orderId == 0)
+                                {
+                                    // Если нет активного заказа, создаем его
+                                    orderId = DbService.CreateNewOrder(userId);
+                                }
+
+                                // Теперь добавляем товар в корзину
+                                bool added = DbService.AddToCart(userId, item.Key, item.Value);
+
+                                if (added)
+                                {
+                                    successCount++;
+                                }
+                                else
+                                {
+                                    failCount++;
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($"Ошибка переноса товара {item.Key}: {ex.Message}");
+                                failCount++;
+                            }
+                        }
+
+                        LocalCartService.ClearLocalCart();
+
+                        string message = $"Перенос корзины завершен:\n" +
+                                       $"Успешно: {successCount} товар(ов)\n" +
+                                       $"Не удалось: {failCount} товар(ов)";
+
+                        MessageBox.Show(message, "Корзина", MessageBoxButton.OK,
+                                      failCount == 0 ? MessageBoxImage.Information : MessageBoxImage.Warning);
+                    }
+                    else
+                    {
+                        // Пользователь отказался от переноса
+                        LocalCartService.ClearLocalCart();
+                        MessageBox.Show("Локальная корзина очищена.", "Корзина",
+                                      MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка переноса корзины: {ex.Message}\n\n" +
+                               "Ваши товары сохранены в локальной корзине.",
+                               "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
 
         private void OpenTestAdminPanel()
         {

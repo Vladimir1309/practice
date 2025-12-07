@@ -24,8 +24,17 @@ namespace Practice
             InitializeComponent();
 
             // Получаем ID текущего пользователя и его адрес
-            currentUserId = AuthManager.CurrentUser?.IdUser ?? 2;
-            userAddress = AuthManager.CurrentUser?.Address ?? "Адрес не указан";
+            currentUserId = AuthManager.CurrentUser?.IdUser ?? 0;
+
+            // Получаем адрес пользователя или используем заглушку
+            if (AuthManager.IsAuthenticated && AuthManager.CurrentUser != null)
+            {
+                userAddress = AuthManager.CurrentUser.Address ?? "Адрес не указан";
+            }
+            else
+            {
+                userAddress = "Авторизуйтесь, чтобы указать адрес доставки";
+            }
 
             BasketItems = new ObservableCollection<Order_Product>();
             DeleteItemCommand = new RelayCommand(DeleteItem);

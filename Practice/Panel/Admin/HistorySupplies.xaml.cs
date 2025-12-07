@@ -1,94 +1,188 @@
 ﻿using Practice.Models;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using MySql.Data.MySqlClient;
 
 namespace Practice.Panel.Admin
 {
-    /// <summary>
-    /// Логика взаимодействия для HistorySupplies.xaml
-    /// </summary>
     public partial class HistorySupplies : Window
     {
+        // Используем полное имя Practice.Models.Delivery
+        public ObservableCollection<Practice.Models.Delivery> Deliveries { get; set; }
         public ObservableCollection<Accounting> Accountings { get; set; }
+
         public HistorySupplies()
         {
             InitializeComponent();
-            Accountings = new ObservableCollection<Accounting>()
-            {
-                new Accounting
-                {
-                    IdAccounting = 1,
-                    IdProduct = 1,
-                    IdStorage = 1,
-                    AmountOfProduct = 1
-                }
-            };
+
+            // Инициализируем коллекции
+            Deliveries = new ObservableCollection<Practice.Models.Delivery>();
+            Accountings = new ObservableCollection<Accounting>();
+
+            // Используем Accountings как основную коллекцию для DataGrid
             DataContext = this;
+
+            // Загружаем данные из БД
+            LoadDeliveriesFromDatabase();
+            LoadAccountingsFromDatabase();
         }
+
+        // Загрузка истории доставок из БД
+        private void LoadDeliveriesFromDatabase()
+        {
+            try
+            {
+                Deliveries.Clear();
+
+                using (var connection = DbService.GetConnection())
+                {
+                    connection.Open();
+
+                    string query = @"
+                        SELECT d.*, 
+                               uc.LastName as ClientLastName, 
+                               uc.FirstName as ClientFirstName,
+                               ue.LastName as EmployeeLastName,
+                               ue.FirstName as EmployeeFirstName
+                        FROM delivery d
+                        LEFT JOIN user uc ON d.IdUserClient = uc.IdUser
+                        LEFT JOIN user ue ON d.IdUserEmployee = ue.IdUser
+                        ORDER BY d.IdDelivery DESC";
+
+                    using (var command = new MySqlCommand(query, connection))
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var delivery = new Practice.Models.Delivery
+                            {
+                                IdDelivery = reader.GetInt32("IdDelivery"),
+                                IdUserClient = reader.GetInt32("IdUserClient"),
+                                IdUserEmployee = reader.GetInt32("IdUserEmployee"),
+                                IdOrder = reader.GetInt32("IdOrder"),
+                                Date = reader.GetDateTime("Date"),
+                                AddressDelivery = reader.GetString("AddressDelivery"),
+                                IsCompleted = reader.GetBoolean("IsCompleted")
+                            };
+
+                            Deliveries.Add(delivery);
+                        }
+                    }
+                }
+
+                Console.WriteLine($"Загружено {Deliveries.Count} записей о доставке из БД");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка загрузки истории доставок: {ex.Message}", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        // Загрузка истории поставок на склад из БД
+        private void LoadAccountingsFromDatabase()
+        {
+            try
+            {
+                Accountings.Clear();
+
+                using (var connection = DbService.GetConnection())
+                {
+                    connection.Open();
+
+                    // Получаем все движения товаров
+                    string query = @"
+                        SELECT a.*, p.Name as ProductName, s.Address as StorageAddress
+                        FROM accounting a
+                        JOIN product p ON a.IdProduct = p.IdProduct
+                        JOIN storage s ON a.IdStorage = s.IdStorage
+                        ORDER BY a.IdAccounting DESC";
+
+                    using (var command = new MySqlCommand(query, connection))
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var accounting = new Accounting
+                            {
+                                IdAccounting = reader.GetInt32("IdAccounting"),
+                                IdProduct = reader.GetInt32("IdProduct"),
+                                IdStorage = reader.GetInt32("IdStorage"),
+                                AmountOfProduct = reader.GetInt32("AmountOfProduct"),
+                                Product = new Product
+                                {
+                                    IdProduct = reader.GetInt32("IdProduct"),
+                                    Name = reader.GetString("ProductName")
+                                },
+                                Storage = new Storage
+                                {
+                                    IdStorage = reader.GetInt32("IdStorage"),
+                                    Address = reader.GetString("StorageAddress")
+                                }
+                            };
+
+                            Accountings.Add(accounting);
+                        }
+                    }
+                }
+
+                Console.WriteLine($"Загружено {Accountings.Count} записей о поставках из БД");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка загрузки истории поставок: {ex.Message}", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        // Навигационные методы
         private void Registration(object sender, RoutedEventArgs e)
         {
-            Panel.Admin.Register register = new Panel.Admin.Register();
-            register.Show();
+            new Register().Show();
             this.Close();
         }
 
         private void Edit(object sender, RoutedEventArgs e)
         {
-            Panel.Admin.Edit edit = new Panel.Admin.Edit();
-            edit.Show();
+            new Edit().Show();
             this.Close();
         }
 
         private void Remove(object sender, RoutedEventArgs e)
         {
-            Panel.Admin.Remove remove = new Panel.Admin.Remove();
-            remove.Show();
+            new Remove().Show();
             this.Close();
         }
 
         private void Clients(object sender, RoutedEventArgs e)
         {
-            Panel.Admin.Clients clients = new Panel.Admin.Clients();
-            clients.Show();
+            new Clients().Show();
             this.Close();
         }
 
         private void Employees(object sender, RoutedEventArgs e)
         {
-            Panel.Admin.Employees employees = new Panel.Admin.Employees();
-            employees.Show();
+            new Employees().Show();
             this.Close();
         }
 
         private void Orders(object sender, RoutedEventArgs e)
         {
-            Panel.Admin.HistoryOrders orders = new Panel.Admin.HistoryOrders();
-            orders.Show();
+            new HistoryOrders().Show();
             this.Close();
         }
 
         private void Supplies(object sender, RoutedEventArgs e)
         {
-            Panel.Admin.HistorySupplies supplies = new Panel.Admin.HistorySupplies();
-            supplies.Show();
-            this.Close();
+            // Обновляем данные при клике
+            LoadDeliveriesFromDatabase();
+            LoadAccountingsFromDatabase();
         }
+
         private void MLBD_Exit(object sender, EventArgs e)
         {
-            Login login = new Login();
-            login.Show();
+            new Login().Show();
             this.Close();
         }
     }

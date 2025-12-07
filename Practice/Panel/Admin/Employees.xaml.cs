@@ -22,43 +22,45 @@ namespace Practice.Panel.Admin
     public partial class Employees : Window
     {
         public ObservableCollection<User> Users { get; set; }
+
         public Employees()
         {
             InitializeComponent();
-            Users = new ObservableCollection<User>()
-            {
-                new User
-                {
-                    IdUser = 1,
-                    IdPost = 4,
-                    Login = "nope",
-                    Password = "nope1",
-                    LastName = "Сусович",
-                    FirstName = "Сус",
-                    Patronymic = "Суснов",
-                    Phone = "89119998473",
-                    Email = "sus@gmail.com",
-                    Birthday = new DateTime(2004, 9, 14),
-                    Address = "Улица Бобова, д. 7, кв. 66"
-                },
-                new User
-                {
-                    IdUser = 2,
-                    IdPost = 5,
-                    Login = "bob",
-                    Password = "bob1",
-                    LastName = "Великий",
-                    FirstName = "Владимир",
-                    Patronymic = "Павлович",
-                    Phone = "89112410026",
-                    Email = "megabob@gmail.com",
-                    Birthday = new DateTime(2006, 9, 14),
-                    Address = "Шоссе Гвардейцев, д. 7, кв. 66"
-                }
-            };
+
+            Users = new ObservableCollection<User>();
             DataContext = this;
+
+            // Загружаем сотрудников из БД
+            LoadEmployeesFromDatabase();
         }
-        
+
+        // Загрузка сотрудников из БД
+        private void LoadEmployeesFromDatabase()
+        {
+            try
+            {
+                Users.Clear();
+
+                // Получаем всех пользователей из БД
+                var usersFromDb = DbService.GetAllUsers();
+
+                // Фильтруем только сотрудников (все кроме покупателей)
+                foreach (var user in usersFromDb)
+                {
+                    if (user.IdPost != 5) // Не покупатель
+                    {
+                        Users.Add(user);
+                    }
+                }
+
+                Console.WriteLine($"Загружено {Users.Count} сотрудников из БД");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка загрузки сотрудников из БД: {ex.Message}", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
         private void Registration(object sender, RoutedEventArgs e)
         {
             Panel.Admin.Register register = new Panel.Admin.Register();
@@ -89,9 +91,8 @@ namespace Practice.Panel.Admin
 
         private void Employee(object sender, RoutedEventArgs e)
         {
-            Panel.Admin.Employees employees = new Panel.Admin.Employees();
-            employees.Show();
-            this.Close();
+            // Уже на этой странице
+            LoadEmployeesFromDatabase(); // Обновляем список
         }
 
         private void Orders(object sender, RoutedEventArgs e)
@@ -107,6 +108,7 @@ namespace Practice.Panel.Admin
             supplies.Show();
             this.Close();
         }
+
         private void MLBD_Exit(object sender, EventArgs e)
         {
             Login login = new Login();

@@ -5,14 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Practice.Panel.Admin"
         mc:Ignorable="d"
-        Title="Register">
+        Title="Регистрация пользователя">
     <Grid>
+        <!-- Левая панель навигации -->
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="133" VerticalAlignment="Top" Width="391" Background="#FFB70000"/>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="875" VerticalAlignment="Top" Width="391" Background="#33343D" Margin="0,133,0,0"/>
+
         <Label x:Name="GWAN" Content="GWAN-Admin" HorizontalAlignment="Left" Height="65" Margin="32,34,0,0" VerticalAlignment="Top" Width="327" FontSize="48" Foreground="Black" FontFamily="Georgia"/>
 
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="48" Margin="-1,161,0,0" VerticalAlignment="Top" Width="392" Background="#FFB70000"/>
 
+        <!-- Кнопки навигации -->
         <Button Content="Зарегистрировать пользователя" HorizontalAlignment="Left" Margin="6,167,0,0" VerticalAlignment="Top" Width="380" Height="36" Background="White" FontSize="20" Cursor="Hand" Click="Registration"/>
         <Button Content="Изменить данные пользователя" HorizontalAlignment="Left" Margin="6,213,0,0" VerticalAlignment="Top" Width="380" Height="36" Background="White" FontSize="20" Cursor="Hand" Click="Edit"/>
         <Button Content="Удалить пользователя" HorizontalAlignment="Left" Margin="6,259,0,0" VerticalAlignment="Top" Width="380" Height="36" Background="White" FontSize="20" Cursor="Hand" Click="Remove"/>
@@ -25,30 +28,12 @@
 
         <Image HorizontalAlignment="Left" Height="56" Margin="174,941,0,0" VerticalAlignment="Top" Width="56" Source="/materials/2/3/Logout.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Exit"/>
 
-        <Label Content="Логин: " HorizontalAlignment="Left" Height="70" Margin="521,133,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
-        <Label Content="Пароль: " HorizontalAlignment="Left" Height="70" Margin="521,203,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
+        <!-- Правая часть - форма регистрации -->
         <Label Content="Введите данные: " HorizontalAlignment="Left" Height="70" Margin="521,34,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
-        <Label Content="Фамилия: " HorizontalAlignment="Left" Height="70" Margin="521,277,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
-        <Label Content="Имя: " HorizontalAlignment="Left" Height="70" Margin="521,347,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
-        <Label Content="Отчество: " HorizontalAlignment="Left" Height="70" Margin="521,417,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
-        <Label Content="День рождения: " HorizontalAlignment="Left" Height="70" Margin="521,487,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
-        <Label Content="Телефон: " HorizontalAlignment="Left" Height="70" Margin="521,557,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
-        <Label Content="Зарплата: " HorizontalAlignment="Left" Height="70" Margin="521,627,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
-        <Label Content="Должность: " HorizontalAlignment="Left" Height="70" Margin="521,697,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
 
-        <Button Content="Зарегистрировать" HorizontalAlignment="Left" Height="34" Margin="521,836,0,0" VerticalAlignment="Top" Width="251" Background="#FFB70000" Foreground="White" Cursor="Hand" FontSize="20" Click="RegisterButton_Click"/>
-        <Button Content="Отмена" HorizontalAlignment="Left" Height="34" Margin="521,875,0,0" VerticalAlignment="Top" Width="251" Background="#FFB70000" Foreground="White" Cursor="Hand" FontSize="20" Click="CancelButton_Click"/>
-
+        <!-- Логин -->
+        <Label Content="Логин: " HorizontalAlignment="Left" Height="70" Margin="521,133,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
         <TextBox x:Name="Login" HorizontalAlignment="Left" Margin="930,151,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
-        <TextBox x:Name="Password" HorizontalAlignment="Left" Margin="930,221,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
-        <TextBox x:Name="LastName" HorizontalAlignment="Left" Margin="930,295,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
-        <TextBox x:Name="FirstName" HorizontalAlignment="Left" Margin="930,365,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
-        <TextBox x:Name="Patronymic" HorizontalAlignment="Left" Margin="930,435,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
-        <TextBox x:Name="Birthday" HorizontalAlignment="Left" Margin="930,505,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
-        <TextBox x:Name="Phone" HorizontalAlignment="Left" Margin="930,575,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
-        <TextBox x:Name="Salary" HorizontalAlignment="Left" Margin="930,645,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
-        <TextBox x:Name="Post" HorizontalAlignment="Left" Margin="930,715,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
-
         <TextBlock Text="Оставьте пустым для автогенерации" 
                    HorizontalAlignment="Left" 
                    Margin="930,185,0,0" 
@@ -56,6 +41,9 @@
                    Foreground="Gray" 
                    FontSize="12"/>
 
+        <!-- Пароль -->
+        <Label Content="Пароль: " HorizontalAlignment="Left" Height="70" Margin="521,203,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
+        <TextBox x:Name="Password" HorizontalAlignment="Left" Margin="930,221,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
         <TextBlock Text="Оставьте пустым для автогенерации" 
                    HorizontalAlignment="Left" 
                    Margin="930,255,0,0" 
@@ -63,11 +51,110 @@
                    Foreground="Gray" 
                    FontSize="12"/>
 
-        <TextBlock Text="Формат: YYYY-MM-DD" 
+        <!-- Фамилия -->
+        <Label Content="Фамилия: " HorizontalAlignment="Left" Height="70" Margin="521,277,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
+        <TextBox x:Name="LastName" HorizontalAlignment="Left" Margin="930,295,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
+        <TextBlock Text="Обязательное поле" 
+                   HorizontalAlignment="Left" 
+                   Margin="930,329,0,0" 
+                   VerticalAlignment="Top" 
+                   Foreground="Gray" 
+                   FontSize="12"/>
+
+        <!-- Имя -->
+        <Label Content="Имя: " HorizontalAlignment="Left" Height="70" Margin="521,347,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
+        <TextBox x:Name="FirstName" HorizontalAlignment="Left" Margin="930,365,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
+        <TextBlock Text="Обязательное поле" 
+                   HorizontalAlignment="Left" 
+                   Margin="930,399,0,0" 
+                   VerticalAlignment="Top" 
+                   Foreground="Gray" 
+                   FontSize="12"/>
+
+        <!-- Отчество -->
+        <Label Content="Отчество: " HorizontalAlignment="Left" Height="70" Margin="521,417,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
+        <TextBox x:Name="Patronymic" HorizontalAlignment="Left" Margin="930,435,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
+        <TextBlock Text="Необязательное поле" 
+                   HorizontalAlignment="Left" 
+                   Margin="930,469,0,0" 
+                   VerticalAlignment="Top" 
+                   Foreground="Gray" 
+                   FontSize="12"/>
+
+        <!-- День рождения -->
+        <Label Content="День рождения: " HorizontalAlignment="Left" Height="70" Margin="521,487,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
+        <TextBox x:Name="Birthday" HorizontalAlignment="Left" Margin="930,505,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
+        <TextBlock Text="Формат: ГГГГ-ММ-ДД (например: 1990-01-15)" 
                    HorizontalAlignment="Left" 
                    Margin="930,539,0,0" 
                    VerticalAlignment="Top" 
                    Foreground="Gray" 
                    FontSize="12"/>
+
+        <!-- Телефон -->
+        <Label Content="Телефон: " HorizontalAlignment="Left" Height="70" Margin="521,557,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
+        <TextBox x:Name="Phone" HorizontalAlignment="Left" Margin="930,575,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
+        <TextBlock Text="Обязательное поле. Формат: +7XXXXXXXXXX или 8XXXXXXXXXX" 
+                   HorizontalAlignment="Left" 
+                   Margin="930,609,0,0" 
+                   VerticalAlignment="Top" 
+                   Foreground="Gray" 
+                   FontSize="12"/>
+
+        <!-- Email -->
+        <Label Content="Email: " HorizontalAlignment="Left" Height="70" Margin="521,627,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
+        <TextBox x:Name="Email" HorizontalAlignment="Left" Margin="930,645,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
+        <TextBlock Text="Необязательное поле. Пример: user@example.com" 
+                   HorizontalAlignment="Left" 
+                   Margin="930,679,0,0" 
+                   VerticalAlignment="Top" 
+                   Foreground="Gray" 
+                   FontSize="12"/>
+
+        <!-- Должность -->
+        <Label Content="Должность: " HorizontalAlignment="Left" Height="70" Margin="521,697,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
+        <TextBox x:Name="Post" HorizontalAlignment="Left" Margin="930,715,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
+        <TextBlock Text="ID от 1 до 5: 1-Продавец, 2-Охранник, 3-Курьер, 4-Админ, 5-Покупатель" 
+                   HorizontalAlignment="Left" 
+                   Margin="930,749,0,0" 
+                   VerticalAlignment="Top" 
+                   Foreground="Gray" 
+                   FontSize="12"/>
+
+        <!-- Адрес -->
+        <Label Content="Адрес: " HorizontalAlignment="Left" Height="70" Margin="521,767,0,0" VerticalAlignment="Top" Width="336" FontSize="40"/>
+        <TextBox x:Name="Address" HorizontalAlignment="Left" Margin="930,785,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" Height="34"/>
+        <TextBlock Text="Необязательное поле. Пример: г. Москва, ул. Ленина, д. 10, кв. 5" 
+                   HorizontalAlignment="Left" 
+                   Margin="930,819,0,0" 
+                   VerticalAlignment="Top" 
+                   Foreground="Gray" 
+                   FontSize="12"/>
+
+        <!-- Кнопки -->
+        <Button Content="Зарегистрировать" 
+                HorizontalAlignment="Left" 
+                Height="45" 
+                Margin="521,906,0,0" 
+                VerticalAlignment="Top" 
+                Width="251" 
+                Background="#FFB70000" 
+                Foreground="White" 
+                Cursor="Hand" 
+                FontSize="20" 
+                Click="RegisterButton_Click"/>
+
+        <Button Content="Отмена" 
+                HorizontalAlignment="Left" 
+                Height="45" 
+                Margin="521,956,0,0" 
+                VerticalAlignment="Top" 
+                Width="251" 
+                Background="#FFB70000" 
+                Foreground="White" 
+                Cursor="Hand" 
+                FontSize="20" 
+                Click="CancelButton_Click"/>
+
     </Grid>
 </Window>

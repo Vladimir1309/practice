@@ -255,15 +255,626 @@ public static class DbService
         }
     }
 
-    // Метод для получения всех пользователей
-    public static List<User> GetAllUsers()
+    // Метод для получения всех доставок
+    public static List<Delivery> GetAllDeliveries()
+    {
+        try
         {
             string query = @"
-                SELECT u.*, p.Post as PostName, r.Role as RoleName 
-                FROM user u
-                LEFT JOIN post p ON u.IdPost = p.IdPost
-                LEFT JOIN role r ON p.IdRole = r.IdRole
-                ORDER BY u.IdUser";
+            SELECT d.*, 
+                   uc.LastName as ClientLastName, 
+                   uc.FirstName as ClientFirstName,
+                   ue.LastName as EmployeeLastName,
+                   ue.FirstName as EmployeeFirstName
+            FROM delivery d
+            LEFT JOIN user uc ON d.IdUserClient = uc.IdUser
+            LEFT JOIN user ue ON d.IdUserEmployee = ue.IdUser
+            ORDER BY d.IdDelivery DESC";
+
+            return GetData(query, reader => new Delivery
+            {
+                IdDelivery = reader.GetInt32("IdDelivery"),
+                IdUserClient = reader.GetInt32("IdUserClient"),
+                IdUserEmployee = reader.GetInt32("IdUserEmployee"),
+                IdOrder = reader.GetInt32("IdOrder"),
+                Date = reader.GetDateTime("Date"),
+                AddressDelivery = reader.GetString("AddressDelivery"),
+                IsCompleted = reader.GetBoolean("IsCompleted")
+            });
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Ошибка получения доставок: {ex.Message}");
+            return new List<Delivery>();
+        }
+    }
+
+    // Метод для получения всех записей учета
+    public static List<Accounting> GetAllAccountings()
+    {
+        try
+        {
+            string query = @"
+            SELECT a.*, p.Name as ProductName, s.Address as StorageAddress
+            FROM accounting a
+            JOIN product p ON a.IdProduct = p.IdProduct
+            JOIN storage s ON a.IdStorage = s.IdStorage
+            ORDER BY a.IdAccounting DESC";
+
+            return GetData(query, reader => new Accounting
+            {
+                IdAccounting = reader.GetInt32("IdAccounting"),
+                IdProduct = reader.GetInt32("IdProduct"),
+                IdStorage = reader.GetInt32("IdStorage"),
+                AmountOfProduct = reader.GetInt32("AmountOfProduct"),
+                Product = new Product
+                {
+                    IdProduct = reader.GetInt32("IdProduct"),
+                    Name = reader.GetString("ProductName")
+                },
+                Storage = new Storage
+                {
+                    IdStorage = reader.GetInt32("IdStorage"),
+                    Address = reader.GetString("StorageAddress")
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Ошибка получения записей учета: {ex.Message}");
+            return new List<Accounting>();
+        }
+    }
+
+    // Метод для получения статистики
+    //public static Dictionary<string, int> GetAdminStatistics()
+    //{
+    //    var stats = new Dictionary<string, int>();
+
+    //    try
+    //    {
+    //        using (var conn = GetConnection())
+    //        {
+    //            conn.Open();
+
+    //            // Количество пользователей
+    //            string usersQuery = "SELECT COUNT(*) FROM user";
+    //            using (var cmd = new MySqlCommand(usersQuery, conn))
+    //            {
+    //                stats["TotalUsers"] = Convert.ToInt32(cmd.ExecuteScalar());
+    //            }
+
+    //            // Количество активных заказов
+    //            string activeOrdersQuery = "SELECT COUNT(*) FROM orders WHERE IsCompleted = 0";
+    //            using (var cmd = new MySqlCommand(activeOrdersQuery, conn))
+    //            {
+    //                stats["ActiveOrders"] = Convert.ToInt32(cmd.ExecuteScalar());
+    //            }
+
+    //            // Количество товаров
+    //            string productsQuery = "SELECT COUNT(*) FROM product";
+    //            using (var cmd = new MySqlCommand(productsQuery, conn))
+    //            {
+    //                stats["TotalProducts"] = Convert.ToInt32(cmd.ExecuteScalar());
+    //            }
+
+    //            // Общая выручка
+    //            string revenueQuery = "SELECT COALESCE(SUM(TotalSum), 0) FROM orders WHERE IsCompleted = 1";
+    //            using (var cmd = new MySqlCommand(revenueQuery, conn))
+    //            {
+    //                stats["TotalRevenue"] = Convert.ToInt32(cmd.ExecuteScalar());
+    //            }
+    //        }
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        Console.WriteLine($"Ошибка получения статистики: {ex.Message}");
+    //    }
+
+    //    return stats;
+    //}
+
+    // Получение информации о товаре по ID
+    public static Product GetProductById(int productId)
+    {
+        try
+        {
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+
+                string query = "SELECT * FROM product WHERE IdProduct = @id";
+
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", productId);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return new Product
+                            {
+                                IdProduct = reader.GetInt32("IdProduct"),
+                                IdCategory = reader.GetInt32("IdCategory"),
+                                Name = reader.GetString("Name"),
+                                Price = reader.GetDecimal("Price"),
+                                ImagePath = reader.IsDBNull(reader.GetOrdinal("ImagePath")) ?
+                                    "/materials/2/3/1.png" : reader.GetString("ImagePath")
+                            };
+                        }
+                        return null;
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Ошибка получения товара: {ex.Message}");
+            return null;
+        }
+    }
+
+    // Получение деталей заказа
+    public static List<Order_Product> GetOrderDetails(int orderId)
+    {
+        try
+        {
+            string query = @"
+            SELECT op.*, p.Name, p.Price, p.ImagePath 
+            FROM order_product op
+            JOIN product p ON op.IdProduct = p.IdProduct
+            WHERE op.IdOrder = @orderId AND op.Amount > 0";
+
+            var parameters = new Dictionary<string, object>
+            {
+                ["@orderId"] = orderId
+            };
+
+            return GetData(query, reader => new Order_Product
+            {
+                IdOrderProduct = reader.GetInt32("IdOrderProduct"),
+                IdOrder = reader.GetInt32("IdOrder"),
+                IdProduct = reader.GetInt32("IdProduct"),
+                Amount = reader.GetInt32("Amount"),
+                IsFavourited = reader.GetBoolean("IsFavourited"),
+                Product = new Product
+                {
+                    IdProduct = reader.GetInt32("IdProduct"),
+                    Name = reader.GetString("Name"),
+                    Price = reader.GetDecimal("Price"),
+                    ImagePath = reader.IsDBNull(reader.GetOrdinal("ImagePath")) ?
+                        "/materials/2/3/1.png" : reader.GetString("ImagePath")
+                }
+            }, parameters);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Ошибка получения деталей заказа: {ex.Message}");
+            return new List<Order_Product>();
+        }
+    }
+
+    // Добавить в DbService.cs
+
+    // Метод для получения заказов для доставщика
+    public static List<Delivery> GetDeliveriesForEmployee(int employeeId)
+    {
+        try
+        {
+            string query = @"
+        SELECT d.*, 
+               uc.LastName as ClientLastName, 
+               uc.FirstName as ClientFirstName,
+               uc.Phone as ClientPhone,
+               ue.LastName as EmployeeLastName,
+               ue.FirstName as EmployeeFirstName,
+               o.TotalSum as OrderTotal,
+               o.OrderDate as OrderDateOriginal,
+               u.Address as ClientAddress
+        FROM delivery d
+        LEFT JOIN user uc ON d.IdUserClient = uc.IdUser
+        LEFT JOIN user ue ON d.IdUserEmployee = ue.IdUser
+        LEFT JOIN orders o ON d.IdOrder = o.IdOrder
+        LEFT JOIN user u ON d.IdUserClient = u.IdUser
+        WHERE d.IdUserEmployee = @employeeId
+        ORDER BY d.IsCompleted, d.Date DESC";
+
+            var parameters = new Dictionary<string, object>
+            {
+                ["@employeeId"] = employeeId
+            };
+
+            return GetData(query, reader => new Delivery
+            {
+                IdDelivery = reader.GetInt32("IdDelivery"),
+                IdUserClient = reader.GetInt32("IdUserClient"),
+                IdUserEmployee = reader.GetInt32("IdUserEmployee"),
+                IdOrder = reader.GetInt32("IdOrder"),
+                Date = reader.GetDateTime("Date"),
+                AddressDelivery = reader.GetString("AddressDelivery"),
+                IsCompleted = reader.GetBoolean("IsCompleted"),
+                UserClient = new User
+                {
+                    IdUser = reader.GetInt32("IdUserClient"),
+                    FirstName = reader.GetString("ClientFirstName"),
+                    LastName = reader.GetString("ClientLastName"),
+                    Phone = reader.GetString("ClientPhone"),
+                    Address = reader.IsDBNull(reader.GetOrdinal("ClientAddress")) ?
+                        reader.GetString("AddressDelivery") : reader.GetString("ClientAddress")
+                },
+                Order = new Order
+                {
+                    IdOrder = reader.GetInt32("IdOrder"),
+                    Check = reader.GetDecimal("OrderTotal"),
+                    OrderDate = reader.IsDBNull(reader.GetOrdinal("OrderDateOriginal")) ?
+                        null : (DateTime?)reader.GetDateTime("OrderDateOriginal")
+                }
+            }, parameters);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Ошибка получения заказов доставки: {ex.Message}");
+            return new List<Delivery>();
+        }
+    }
+
+    // Метод для подтверждения доставки
+    public static bool CompleteDelivery(int deliveryId)
+    {
+        try
+        {
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+
+                string query = "UPDATE delivery SET IsCompleted = 1 WHERE IdDelivery = @deliveryId";
+
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@deliveryId", deliveryId);
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Ошибка подтверждения доставки: {ex.Message}");
+            return false;
+        }
+    }
+
+    // Метод для получения информации о конкретной доставке
+    public static Delivery GetDeliveryById(int deliveryId)
+    {
+        try
+        {
+            string query = @"
+        SELECT d.*, 
+               uc.LastName as ClientLastName, 
+               uc.FirstName as ClientFirstName,
+               uc.Phone as ClientPhone,
+               uc.Email as ClientEmail,
+               ue.LastName as EmployeeLastName,
+               ue.FirstName as EmployeeFirstName,
+               o.TotalSum as OrderTotal,
+               o.OrderDate as OrderDateOriginal,
+               u.Address as ClientAddress
+        FROM delivery d
+        LEFT JOIN user uc ON d.IdUserClient = uc.IdUser
+        LEFT JOIN user ue ON d.IdUserEmployee = ue.IdUser
+        LEFT JOIN orders o ON d.IdOrder = o.IdOrder
+        LEFT JOIN user u ON d.IdUserClient = u.IdUser
+        WHERE d.IdDelivery = @deliveryId";
+
+            var parameters = new Dictionary<string, object>
+            {
+                ["@deliveryId"] = deliveryId
+            };
+
+            var deliveries = GetData(query, reader => new Delivery
+            {
+                IdDelivery = reader.GetInt32("IdDelivery"),
+                IdUserClient = reader.GetInt32("IdUserClient"),
+                IdUserEmployee = reader.GetInt32("IdUserEmployee"),
+                IdOrder = reader.GetInt32("IdOrder"),
+                Date = reader.GetDateTime("Date"),
+                AddressDelivery = reader.GetString("AddressDelivery"),
+                IsCompleted = reader.GetBoolean("IsCompleted"),
+                UserClient = new User
+                {
+                    IdUser = reader.GetInt32("IdUserClient"),
+                    FirstName = reader.GetString("ClientFirstName"),
+                    LastName = reader.GetString("ClientLastName"),
+                    Phone = reader.GetString("ClientPhone"),
+                    Email = reader.GetString("ClientEmail"),
+                    Address = reader.IsDBNull(reader.GetOrdinal("ClientAddress")) ?
+                        reader.GetString("AddressDelivery") : reader.GetString("ClientAddress")
+                },
+                Order = new Order
+                {
+                    IdOrder = reader.GetInt32("IdOrder"),
+                    Check = reader.GetDecimal("OrderTotal"),
+                    OrderDate = reader.IsDBNull(reader.GetOrdinal("OrderDateOriginal")) ?
+                        null : (DateTime?)reader.GetDateTime("OrderDateOriginal")
+                }
+            }, parameters);
+
+            return deliveries.FirstOrDefault();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Ошибка получения доставки: {ex.Message}");
+            return null;
+        }
+    }
+
+    // В DbService.cs
+    public static User GetUserById(int userId)
+    {
+        try
+        {
+            string query = @"
+            SELECT u.*, p.Post as PostName, r.Role as RoleName 
+            FROM user u
+            LEFT JOIN post p ON u.IdPost = p.IdPost
+            LEFT JOIN role r ON p.IdRole = r.IdRole
+            WHERE u.IdUser = @userId";
+
+            var parameters = new Dictionary<string, object>
+            {
+                ["@userId"] = userId
+            };
+
+            var users = GetData(query, reader => new User
+            {
+                IdUser = reader.GetInt32("IdUser"),
+                Login = reader.GetString("Login"),
+                Password = reader.GetString("Password"),
+                FirstName = reader.GetString("FirstName"),
+                LastName = reader.GetString("LastName"),
+                Patronymic = reader.IsDBNull(reader.GetOrdinal("Patronymic")) ? "" : reader.GetString("Patronymic"),
+                Phone = reader.GetString("Phone"),
+                Email = reader.GetString("Email"),
+                Birthday = reader.GetDateTime("Birthday"),
+                Address = reader.GetString("Address"),
+                IdPost = reader.GetInt32("IdPost"),
+                Post = new Post
+                {
+                    IdPost = reader.GetInt32("IdPost"),
+                    PostName = reader.GetString("PostName"),
+                    Role = new Role
+                    {
+                        RoleName = reader.GetString("RoleName")
+                    }
+                }
+            }, parameters);
+
+            return users.FirstOrDefault();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Ошибка получения пользователя: {ex.Message}");
+            return null;
+        }
+    }
+
+    // Метод для оформления продажи
+    public static bool ProcessSale(int clientId, int productId, int quantity, decimal totalPrice)
+    {
+        try
+        {
+            // Сначала проверяем, существует ли клиент
+            if (!CheckUserExists(clientId))
+            {
+                MessageBox.Show($"Клиент с ID {clientId} не найден!", "Ошибка");
+                return false;
+            }
+
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+
+                // 1. Создаем заказ для указанного клиента
+                string orderQuery = @"
+                INSERT INTO orders (IdUserClient, TotalSum, NeedDelivery, IsCompleted, OrderDate) 
+                VALUES (@clientId, @totalPrice, 0, 1, CURDATE());
+                SELECT LAST_INSERT_ID();";
+
+                int orderId = 0;
+
+                using (var cmd = new MySqlCommand(orderQuery, conn))
+                {
+                    cmd.Parameters.AddWithValue("@clientId", clientId);
+                    cmd.Parameters.AddWithValue("@totalPrice", totalPrice);
+                    var result = cmd.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        orderId = Convert.ToInt32(result);
+                    }
+                }
+
+                if (orderId == 0)
+                {
+                    MessageBox.Show("Не удалось создать заказ");
+                    return false;
+                }
+
+                // 2. Добавляем товар в заказ
+                string productQuery = @"
+                INSERT INTO order_product (IdOrder, IdProduct, Amount, IsFavourited) 
+                VALUES (@orderId, @productId, @quantity, 0)";
+
+                using (var cmd = new MySqlCommand(productQuery, conn))
+                {
+                    cmd.Parameters.AddWithValue("@orderId", orderId);
+                    cmd.Parameters.AddWithValue("@productId", productId);
+                    cmd.Parameters.AddWithValue("@quantity", quantity);
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    if (rowsAffected == 0)
+                    {
+                        MessageBox.Show("Не удалось добавить товар в заказ");
+                        return false;
+                    }
+                }
+
+                // 3. Обновляем склад (уменьшаем количество)
+                string stockQuery = @"
+                UPDATE accounting 
+                SET AmountOfProduct = AmountOfProduct - @quantity 
+                WHERE IdProduct = @productId";
+
+                using (var cmd = new MySqlCommand(stockQuery, conn))
+                {
+                    cmd.Parameters.AddWithValue("@productId", productId);
+                    cmd.Parameters.AddWithValue("@quantity", quantity);
+                    cmd.ExecuteNonQuery();
+                }
+
+                // 4. Получаем имя клиента для сообщения
+                string clientName = GetUserName(clientId);
+
+                return true;
+            }
+        }
+        catch (MySqlException ex)
+        {
+            MessageBox.Show($"Ошибка MySQL: {ex.Message}\nКод ошибки: {ex.Number}");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Ошибка продажи: {ex.Message}");
+            return false;
+        }
+    }
+
+    // Метод для проверки существования пользователя
+    private static bool CheckUserExists(int userId)
+    {
+        try
+        {
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+
+                string query = "SELECT COUNT(*) FROM user WHERE IdUser = @userId";
+
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@userId", userId);
+                    long count = (long)cmd.ExecuteScalar();
+                    return count > 0;
+                }
+            }
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    // Метод для получения имени пользователя
+    private static string GetUserName(int userId)
+    {
+        try
+        {
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+
+                string query = "SELECT LastName, FirstName FROM user WHERE IdUser = @userId";
+
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@userId", userId);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return $"{reader.GetString("LastName")} {reader.GetString("FirstName")}";
+                        }
+                    }
+                }
+            }
+        }
+        catch
+        {
+            // Игнорируем ошибки
+        }
+
+        return $"Клиент ID: {userId}";
+    }
+
+    // Метод для получения названия должности по ID
+    public static string GetPostName(int postId)
+    {
+        try
+        {
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+
+                string query = "SELECT Post FROM post WHERE IdPost = @postId";
+
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@postId", postId);
+                    var result = cmd.ExecuteScalar();
+                    return result?.ToString() ?? "Неизвестная должность";
+                }
+            }
+        }
+        catch
+        {
+            return "Неизвестная должность";
+        }
+    }
+
+    // Метод для получения всех должностей
+    public static Dictionary<int, string> GetAllPosts()
+    {
+        var posts = new Dictionary<int, string>();
+
+        try
+        {
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+
+                string query = "SELECT IdPost, Post FROM post ORDER BY IdPost";
+
+                using (var cmd = new MySqlCommand(query, conn))
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        posts.Add(reader.GetInt32("IdPost"), reader.GetString("Post"));
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Ошибка получения должностей: {ex.Message}");
+        }
+
+        return posts;
+    }
+
+    // Метод для получения всех пользователей
+    public static List<User> GetAllUsers()
+    {
+        try
+        {
+            string query = @"
+            SELECT u.*, p.Post as PostName, r.Role as RoleName 
+            FROM user u
+            LEFT JOIN post p ON u.IdPost = p.IdPost
+            LEFT JOIN role r ON p.IdRole = r.IdRole
+            ORDER BY u.LastName, u.FirstName";
 
             return GetData(query, reader => new User
             {
@@ -289,96 +900,120 @@ public static class DbService
                 }
             });
         }
-
-        // Метод для добавления товара в корзину
-        public static bool AddToCart(int userId, int productId, int amount = 1)
+        catch (Exception ex)
         {
-            try
-            {
-                // 1. Проверяем есть ли активный заказ
-                string findOrderQuery = "SELECT IdOrder FROM `orders` WHERE IdUserClient = @userId AND IsCompleted = 0";
-                int orderId = 0;
+            MessageBox.Show($"Ошибка получения пользователей: {ex.Message}");
+            return new List<User>();
+        }
+    }
 
-                using (var connection = GetConnection())
+    // Метод для добавления товара в корзину
+    public static bool AddToCart(int userId, int productId, int amount = 1)
+    {
+        try
+        {
+            // Проверяем, существует ли пользователь
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+
+                string checkUserQuery = "SELECT COUNT(*) FROM user WHERE IdUser = @userId";
+
+                using (var checkCmd = new MySqlCommand(checkUserQuery, conn))
                 {
+                    checkCmd.Parameters.AddWithValue("@userId", userId);
+                    long userCount = (long)checkCmd.ExecuteScalar();
+
+                    if (userCount == 0)
+                    {
+                        MessageBox.Show($"Ошибка: пользователь с ID {userId} не найден",
+                                      "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return false;
+                    }
+                }
+            }
+
+            // 1. Проверяем есть ли активный заказ
+            string findOrderQuery = "SELECT IdOrder FROM `orders` WHERE IdUserClient = @userId AND IsCompleted = 0";
+            int orderId = 0;
+
+            using (var connection = GetConnection())
+            {
                 connection.Open();
 
                 using (var command = new MySqlCommand(findOrderQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@userId", userId);
+                    var result = command.ExecuteScalar();
+                    if (result != null)
                     {
-                        command.Parameters.AddWithValue("@userId", userId);
-                        var result = command.ExecuteScalar();
-                        if (result != null)
-                        {
-                            orderId = Convert.ToInt32(result);
-                        }
+                        orderId = Convert.ToInt32(result);
                     }
+                }
 
-                    // 2. Если нет активного заказа - создаем новый
+                // 2. Если нет активного заказа - создаем новый
+                if (orderId == 0)
+                {
+                    // Используем метод CreateNewOrder, который проверяет пользователя
+                    orderId = CreateNewOrder(userId);
+
                     if (orderId == 0)
                     {
-                        string createOrderQuery = @"
-                            INSERT INTO `orders` (IdUserClient, TotalSum, NeedDelivery, IsCompleted, OrderDate) 
-                            VALUES (@userId, 0, 0, 0, NOW());
-                            SELECT LAST_INSERT_ID();";
-
-                        using (var command = new MySqlCommand(createOrderQuery, connection))
-                        {
-                            command.Parameters.AddWithValue("@userId", userId);
-                            orderId = Convert.ToInt32(command.ExecuteScalar());
-                        }
+                        return false; // Не удалось создать заказ
                     }
+                }
 
-                    // 3. Проверяем есть ли товар уже в корзине
-                    string checkItemQuery = "SELECT IdOrderProduct, Amount FROM order_product WHERE IdOrder = @orderId AND IdProduct = @productId";
-                    int existingId = 0;
-                    int existingAmount = 0;
+                // 3. Проверяем есть ли товар уже в корзине
+                string checkItemQuery = "SELECT IdOrderProduct, Amount FROM order_product WHERE IdOrder = @orderId AND IdProduct = @productId";
+                int existingId = 0;
+                int existingAmount = 0;
 
-                    using (var command = new MySqlCommand(checkItemQuery, connection))
+                using (var command = new MySqlCommand(checkItemQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@orderId", orderId);
+                    command.Parameters.AddWithValue("@productId", productId);
+
+                    using (var reader = command.ExecuteReader())
                     {
-                        command.Parameters.AddWithValue("@orderId", orderId);
-                        command.Parameters.AddWithValue("@productId", productId);
-
-                        using (var reader = command.ExecuteReader())
+                        if (reader.Read())
                         {
-                            if (reader.Read())
-                            {
-                                existingId = reader.GetInt32("IdOrderProduct");
-                                existingAmount = reader.GetInt32("Amount");
-                            }
-                        }
-                    }
-
-                    // 4. Обновляем или добавляем товар
-                    if (existingId > 0)
-                    {
-                        string updateQuery = "UPDATE order_product SET Amount = @amount WHERE IdOrderProduct = @id";
-                        using (var command = new MySqlCommand(updateQuery, connection))
-                        {
-                            command.Parameters.AddWithValue("@amount", existingAmount + amount);
-                            command.Parameters.AddWithValue("@id", existingId);
-                            command.ExecuteNonQuery();
-                        }
-                    }
-                    else
-                    {
-                        string insertQuery = "INSERT INTO order_product (IdOrder, IdProduct, Amount, IsFavourited) VALUES (@orderId, @productId, @amount, 0)";
-                        using (var command = new MySqlCommand(insertQuery, connection))
-                        {
-                            command.Parameters.AddWithValue("@orderId", orderId);
-                            command.Parameters.AddWithValue("@productId", productId);
-                            command.Parameters.AddWithValue("@amount", amount);
-                            command.ExecuteNonQuery();
+                            existingId = reader.GetInt32("IdOrderProduct");
+                            existingAmount = reader.GetInt32("Amount");
                         }
                     }
                 }
-                return true;
+
+                // 4. Обновляем или добавляем товар
+                if (existingId > 0)
+                {
+                    string updateQuery = "UPDATE order_product SET Amount = @amount WHERE IdOrderProduct = @id";
+                    using (var command = new MySqlCommand(updateQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@amount", existingAmount + amount);
+                        command.Parameters.AddWithValue("@id", existingId);
+                        command.ExecuteNonQuery();
+                    }
+                }
+                else
+                {
+                    string insertQuery = "INSERT INTO order_product (IdOrder, IdProduct, Amount, IsFavourited) VALUES (@orderId, @productId, @amount, 0)";
+                    using (var command = new MySqlCommand(insertQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@orderId", orderId);
+                        command.Parameters.AddWithValue("@productId", productId);
+                        command.Parameters.AddWithValue("@amount", amount);
+                        command.ExecuteNonQuery();
+                    }
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка добавления в корзину: {ex.Message}");
-                return false;
-            }
+            return true;
         }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Ошибка добавления в корзину: {ex.Message}");
+            return false;
+        }
+    }
 
     // Метод для получения избранных товаров пользователя
     // Метод для получения только избранных товаров
@@ -615,8 +1250,122 @@ public static class DbService
             }
         }
 
-        // Метод для получения всех товаров
-        public static List<Product> GetAllProducts()
+    public static List<Order_Product> GetOrderDetailsWithReturns(int orderId)
+    {
+        try
+        {
+            string query = @"
+            SELECT op.*, 
+                   p.Name, 
+                   p.Price, 
+                   p.ImagePath,
+                   (op.Amount - op.ReturnedQuantity) as RemainingQuantity
+            FROM order_product op
+            JOIN product p ON op.IdProduct = p.IdProduct
+            WHERE op.IdOrder = @orderId";
+
+            var parameters = new Dictionary<string, object>
+            {
+                ["@orderId"] = orderId
+            };
+
+            return GetData(query, reader => new Order_Product
+            {
+                IdOrderProduct = reader.GetInt32("IdOrderProduct"),
+                IdOrder = reader.GetInt32("IdOrder"),
+                IdProduct = reader.GetInt32("IdProduct"),
+                Amount = reader.GetInt32("Amount"),
+                ReturnedQuantity = reader.IsDBNull(reader.GetOrdinal("ReturnedQuantity")) ?
+                                 0 : reader.GetInt32("ReturnedQuantity"),
+                IsFavourited = reader.GetBoolean("IsFavourited"),
+                IsReturned = reader.IsDBNull(reader.GetOrdinal("IsReturned")) ?
+                            false : reader.GetBoolean("IsReturned"),
+                Product = new Product
+                {
+                    IdProduct = reader.GetInt32("IdProduct"),
+                    Name = reader.GetString("Name"),
+                    Price = reader.GetDecimal("Price"),
+                    ImagePath = reader.IsDBNull(reader.GetOrdinal("ImagePath")) ?
+                        "/materials/2/3/1.png" : reader.GetString("ImagePath")
+                }
+            }, parameters);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Ошибка получения деталей заказа: {ex.Message}");
+            return new List<Order_Product>();
+        }
+    }
+
+    // Метод для получения всех завершенных заказов
+    // Метод для получения всех завершенных заказов
+    public static List<Order> GetAllOrders()
+    {
+        try
+        {
+            string query = @"
+            SELECT o.*, 
+                   u.LastName, 
+                   u.FirstName, 
+                   u.Patronymic
+            FROM orders o
+            JOIN user u ON o.IdUserClient = u.IdUser
+            WHERE o.IsCompleted = 1
+            ORDER BY o.IdOrder DESC";
+
+            return GetData(query, reader => new Order
+            {
+                IdOrder = reader.GetInt32("IdOrder"),
+                IdUserClient = reader.GetInt32("IdUserClient"),
+                Check = reader.GetDecimal("TotalSum"), // Оригинальная сумма заказа
+                Delivery = reader.GetBoolean("NeedDelivery"),
+                IsCompleted = true,
+                OrderDate = reader.GetDateTime("OrderDate"),
+                UserClient = new User
+                {
+                    IdUser = reader.GetInt32("IdUserClient"),
+                    LastName = reader.GetString("LastName"),
+                    FirstName = reader.GetString("FirstName"),
+                    Patronymic = reader.GetString("Patronymic")
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Ошибка получения заказов: {ex.Message}");
+            return new List<Order>();
+        }
+    }
+
+    private static bool CheckReturnColumnsExist()
+    {
+        try
+        {
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+
+                string query = @"
+                SELECT COUNT(*) 
+                FROM information_schema.COLUMNS 
+                WHERE TABLE_SCHEMA = DATABASE() 
+                AND TABLE_NAME = 'order_product' 
+                AND COLUMN_NAME IN ('ReturnedQuantity', 'IsReturned')";
+
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    return Convert.ToInt32(cmd.ExecuteScalar()) == 2;
+                }
+            }
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    // Метод для получения всех товаров
+    public static List<Product> GetAllProducts()
         {
             string query = "SELECT * FROM product ORDER BY IdProduct";
 
@@ -631,25 +1380,25 @@ public static class DbService
         }
 
         // Метод для получения товара по ID
-        public static Product GetProductById(int productId)
-        {
-            string query = "SELECT * FROM product WHERE IdProduct = @id";
-            var parameters = new Dictionary<string, object>
-            {
-                ["@id"] = productId
-            };
+        //public static Product GetProductById(int productId)
+        //{
+        //    string query = "SELECT * FROM product WHERE IdProduct = @id";
+        //    var parameters = new Dictionary<string, object>
+        //    {
+        //        ["@id"] = productId
+        //    };
 
-            var products = GetData(query, reader => new Product
-            {
-                IdProduct = reader.GetInt32("IdProduct"),
-                IdCategory = reader.GetInt32("IdCategory"),
-                Name = reader.GetString("Name"),
-                Price = reader.GetDecimal("Price"),
-                ImagePath = reader.IsDBNull(reader.GetOrdinal("ImagePath")) ? "" : reader.GetString("ImagePath")
-            }, parameters);
+        //    var products = GetData(query, reader => new Product
+        //    {
+        //        IdProduct = reader.GetInt32("IdProduct"),
+        //        IdCategory = reader.GetInt32("IdCategory"),
+        //        Name = reader.GetString("Name"),
+        //        Price = reader.GetDecimal("Price"),
+        //        ImagePath = reader.IsDBNull(reader.GetOrdinal("ImagePath")) ? "" : reader.GetString("ImagePath")
+        //    }, parameters);
 
-            return products.FirstOrDefault();
-        }
+        //    return products.FirstOrDefault();
+        //}
 
 
 
@@ -1083,12 +1832,27 @@ public static class DbService
         {
             using (var conn = GetConnection())
             {
-                conn.Open(); // ← ДОБАВИТЬ ЭТУ СТРОКУ
+                conn.Open();
 
+                // Проверяем, существует ли пользователь
+                string checkUserQuery = "SELECT COUNT(*) FROM user WHERE IdUser = @userId";
+
+                using (var checkCmd = new MySqlCommand(checkUserQuery, conn))
+                {
+                    checkCmd.Parameters.AddWithValue("@userId", userId);
+                    long userCount = (long)checkCmd.ExecuteScalar();
+
+                    if (userCount == 0)
+                    {
+                        throw new Exception($"Пользователь с ID {userId} не найден в базе данных");
+                    }
+                }
+
+                // Создаем заказ
                 string query = @"
-                INSERT INTO `orders` (IdUserClient, TotalSum, NeedDelivery, IsCompleted, OrderDate) 
-                VALUES (@userId, 0, 0, 0, NOW());
-                SELECT LAST_INSERT_ID();";
+            INSERT INTO `orders` (IdUserClient, TotalSum, NeedDelivery, IsCompleted, OrderDate) 
+            VALUES (@userId, 0, 0, 0, NOW());
+            SELECT LAST_INSERT_ID();";
 
                 using (var cmd = new MySqlCommand(query, conn))
                 {
@@ -1096,6 +1860,10 @@ public static class DbService
                     return Convert.ToInt32(cmd.ExecuteScalar());
                 }
             }
+        }
+        catch (MySqlException ex) when (ex.Number == 1452) // Ошибка внешнего ключа
+        {
+            throw new Exception($"Не удалось создать заказ. Пользователь с ID {userId} не существует.");
         }
         catch (Exception ex)
         {

@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Practice.Panel.Sales"
         mc:Ignorable="d"
-        Title="HistoryOrdersSales">
+        Title="История заказов">
     <Grid>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="133" VerticalAlignment="Top" Width="391" Background="#FFB70000"/>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="875" VerticalAlignment="Top" Width="391" Background="#33343D" Margin="0,133,0,0"/>
-        <Label x:Name="GWAN" Content="GWAN-Sales" HorizontalAlignment="Left" Height="65" Margin="32,34,0,0" VerticalAlignment="Top" Width="327" FontSize="48" Foreground="Black" FontFamily="Georgia"/>
+        <Label x:Name="GWAN" Content="GWAN-Sales" HorizontalAlignment="Left" Height="65" Margin="51,34,0,0" VerticalAlignment="Top" Width="288" FontSize="48" Foreground="Black" FontFamily="Georgia"/>
 
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="48" Margin="-1,253,0,0" VerticalAlignment="Top" Width="392" Background="#FFB70000"/>
 
@@ -19,8 +19,17 @@
 
         <Image HorizontalAlignment="Left" Height="56" Margin="174,941,0,0" VerticalAlignment="Top" Width="56" Source="/materials/2/3/Logout.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Exit"/>
 
-        <DataGrid Margin="435,167,33,147" Name="OrdersDataGrid" ItemsSource="{Binding Orderss}" ColumnWidth="180" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserAddRows="False" IsReadOnly="True"/>
-
+        <!-- Простая таблица с заказами -->
+        <DataGrid Margin="435,167,33,147" 
+                  Name="OrdersDataGrid" 
+                  ItemsSource="{Binding Orderss}" 
+                  AutoGenerateColumns="True"
+                  CanUserReorderColumns="False" 
+                  CanUserResizeColumns="True" 
+                  CanUserAddRows="False" 
+                  IsReadOnly="True"
+                  FontSize="14">
+        </DataGrid>
 
     </Grid>
 </Window>

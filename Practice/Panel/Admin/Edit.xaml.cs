@@ -1,51 +1,14 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using Practice.Models;
+using MySql.Data.MySqlClient;
 
 namespace Practice.Panel.Admin
 {
     public partial class Edit : Window
     {
         private User _currentUser;
-
-        // Локальная коллекция пользователей (дублируем из Register)
-        private static ObservableCollection<User> _localUsers = new ObservableCollection<User>();
-
-        static Edit()
-        {
-            // Инициализируем теми же данными, что и в Register
-            _localUsers.Add(new User
-            {
-                IdUser = 1,
-                IdPost = 4,
-                Login = "nope",
-                Password = "nope1",
-                LastName = "Сусович",
-                FirstName = "Сус",
-                Patronymic = "Суснов",
-                Phone = "89119998473",
-                Email = "sus@gmail.com",
-                Birthday = new DateTime(2004, 9, 14),
-                Address = "Улица Бобова, д. 7, кв. 66"
-            });
-
-            _localUsers.Add(new User
-            {
-                IdUser = 2,
-                IdPost = 5,
-                Login = "bob",
-                Password = "bob1",
-                LastName = "Великий",
-                FirstName = "Владимир",
-                Patronymic = "Павлович",
-                Phone = "89112410026",
-                Email = "megabob@gmail.com",
-                Birthday = new DateTime(2006, 9, 14),
-                Address = "Шоссе Гвардейцев, д. 7, кв. 66"
-            });
-        }
 
         public Edit()
         {
@@ -54,9 +17,6 @@ namespace Practice.Panel.Admin
             // Изначально показываем только поле UserID и кнопку поиска
             ShowUserIdSection();
             HideEditFields();
-
-            // Для отладки: покажем всех пользователей в консоль
-            PrintAllUsers();
         }
 
         // Показываем секцию ввода UserID
@@ -65,7 +25,6 @@ namespace Practice.Panel.Admin
             UserID.Visibility = Visibility.Visible;
             FindUserButton.Visibility = Visibility.Visible;
             UserIDLabel.Visibility = Visibility.Visible;
-
             EnterID.Visibility = Visibility.Visible;
         }
 
@@ -75,7 +34,6 @@ namespace Practice.Panel.Admin
             UserID.Visibility = Visibility.Hidden;
             FindUserButton.Visibility = Visibility.Hidden;
             UserIDLabel.Visibility = Visibility.Hidden;
-
             EnterID.Visibility = Visibility.Hidden;
         }
 
@@ -100,6 +58,9 @@ namespace Practice.Panel.Admin
 
             EditButton.Visibility = Visibility.Visible;
             CancelEditButton.Visibility = Visibility.Visible;
+
+            // Поле Salary будем использовать для Email
+            SalaryLabel.Content = "Email:";
         }
 
         // Скрываем поля для редактирования
@@ -131,7 +92,7 @@ namespace Practice.Panel.Admin
             FindUser();
         }
 
-        // Поиск пользователя по ID
+        // Поиск пользователя по ID в БД
         private void FindUser()
         {
             try
@@ -142,49 +103,49 @@ namespace Practice.Panel.Admin
                     return;
                 }
 
-                if (int.TryParse(UserID.Text, out int userId))
+                if (!int.TryParse(UserID.Text, out int userId))
                 {
-                    // Ищем пользователя в локальной коллекции
-                    _currentUser = _localUsers.FirstOrDefault(u => u.IdUser == userId);
+                    MessageBox.Show("ID должен быть числом!");
+                    return;
+                }
 
-                    if (_currentUser != null)
-                    {
-                        // Заполняем поля данными
-                        LastName.Text = _currentUser.LastName;
-                        FirstName.Text = _currentUser.FirstName;
-                        Patronymic.Text = _currentUser.Patronymic;
-                        Birthday.Text = _currentUser.Birthday.ToString("yyyy-MM-dd");
-                        Phone.Text = _currentUser.Phone;
-                        Post.Text = _currentUser.IdPost.ToString();
+                // Ищем пользователя в БД
+                var allUsers = DbService.GetAllUsers();
+                _currentUser = allUsers.FirstOrDefault(u => u.IdUser == userId);
 
-                        // Меняем видимость элементов
-                        HideUserIdSection();
-                        ShowEditFields();
+                if (_currentUser != null)
+                {
+                    // Заполняем поля данными
+                    LastName.Text = _currentUser.LastName;
+                    FirstName.Text = _currentUser.FirstName;
+                    Patronymic.Text = _currentUser.Patronymic;
+                    Birthday.Text = _currentUser.Birthday.ToString("yyyy-MM-dd");
+                    Phone.Text = _currentUser.Phone;
+                    Salary.Text = _currentUser.Email; // Используем Salary поле для Email
+                    Post.Text = _currentUser.IdPost.ToString();
 
-                        // Фокус на первое поле для редактирования
-                        LastName.Focus();
-                    }
-                    else
-                    {
-                        MessageBox.Show($"Пользователь с ID {userId} не найден!\nДоступные ID: {string.Join(", ", _localUsers.Select(u => u.IdUser))}");
-                        UserID.Focus();
-                        UserID.SelectAll();
-                    }
+                    // Меняем видимость элементов
+                    HideUserIdSection();
+                    ShowEditFields();
+
+                    // Фокус на первое поле для редактирования
+                    LastName.Focus();
+                    LastName.SelectAll();
                 }
                 else
                 {
-                    MessageBox.Show("ID должен быть числом!");
+                    MessageBox.Show($"Пользователь с ID {userId} не найден в базе данных!");
                     UserID.Focus();
                     UserID.SelectAll();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка: {ex.Message}");
+                MessageBox.Show($"Ошибка поиска пользователя: {ex.Message}");
             }
         }
 
-        // Кнопка "Изменить"
+        // Кнопка "Изменить" - сохранение изменений в БД
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -199,7 +160,6 @@ namespace Practice.Panel.Admin
                 // Проверка обязательных полей
                 if (string.IsNullOrWhiteSpace(LastName.Text) ||
                     string.IsNullOrWhiteSpace(FirstName.Text) ||
-                    string.IsNullOrWhiteSpace(Patronymic.Text) ||
                     string.IsNullOrWhiteSpace(Birthday.Text) ||
                     string.IsNullOrWhiteSpace(Phone.Text))
                 {
@@ -216,48 +176,151 @@ namespace Practice.Panel.Admin
                 }
 
                 // Проверка уникальности телефона (кроме текущего пользователя)
-                if (_localUsers.Any(u => u.Phone == Phone.Text && u.IdUser != _currentUser.IdUser))
+                if (IsPhoneExists(Phone.Text, _currentUser.IdUser))
                 {
                     MessageBox.Show("Телефон уже используется другим пользователем!");
                     Phone.Focus();
                     return;
                 }
 
-                // Обновляем данные пользователя
-                _currentUser.LastName = LastName.Text;
-                _currentUser.FirstName = FirstName.Text;
-                _currentUser.Patronymic = Patronymic.Text;
-                _currentUser.Birthday = birthday;
-                _currentUser.Phone = Phone.Text;
-
-                if (int.TryParse(Post.Text, out int postId))
+                // Проверка email если указан
+                string email = Salary.Text?.Trim();
+                if (!string.IsNullOrEmpty(email) && IsEmailExists(email, _currentUser.IdUser))
                 {
-                    _currentUser.IdPost = postId;
+                    MessageBox.Show("Email уже используется другим пользователем!");
+                    Salary.Focus();
+                    return;
                 }
 
-                // Также обновляем в общей коллекции Register если пользователь там есть
-                var userInRegister = Register.TempUsers.FirstOrDefault(u => u.IdUser == _currentUser.IdUser);
-                if (userInRegister != null)
+                // Проверка IdPost
+                if (!int.TryParse(Post.Text, out int postId) || postId < 1 || postId > 5)
                 {
-                    userInRegister.LastName = _currentUser.LastName;
-                    userInRegister.FirstName = _currentUser.FirstName;
-                    userInRegister.Patronymic = _currentUser.Patronymic;
-                    userInRegister.Birthday = _currentUser.Birthday;
-                    userInRegister.Phone = _currentUser.Phone;
-                    userInRegister.IdPost = _currentUser.IdPost;
+                    MessageBox.Show("ID должности должен быть числом от 1 до 5!");
+                    Post.Focus();
+                    return;
                 }
 
-                MessageBox.Show($"Данные пользователя {_currentUser.LastName} {_currentUser.FirstName} успешно обновлены!\nID: {_currentUser.IdUser}");
+                // Обновляем данные пользователя в БД
+                if (UpdateUserInDatabase(_currentUser.IdUser, LastName.Text, FirstName.Text,
+                    Patronymic.Text, Phone.Text, email, birthday, Post.Text))
+                {
+                    MessageBox.Show($"Данные пользователя {LastName.Text} {FirstName.Text} успешно обновлены!\nID: {_currentUser.IdUser}");
 
-                // Сбрасываем форму
-                ResetForm();
-
-                // Для отладки
-                PrintAllUsers();
+                    // Сбрасываем форму
+                    ResetForm();
+                }
+                else
+                {
+                    MessageBox.Show("Ошибка при обновлении данных пользователя!");
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка при сохранении: {ex.Message}");
+            }
+        }
+
+        // Обновление пользователя в БД
+        private bool UpdateUserInDatabase(int userId, string lastName, string firstName,
+            string patronymic, string phone, string email, DateTime birthday, string post)
+        {
+            try
+            {
+                using (var connection = DbService.GetConnection())
+                {
+                    connection.Open();
+
+                    string query = @"
+                        UPDATE user 
+                        SET LastName = @lastName,
+                            FirstName = @firstName,
+                            Patronymic = @patronymic,
+                            Phone = @phone,
+                            Email = @email,
+                            Birthday = @birthday,
+                            IdPost = @postId
+                        WHERE IdUser = @userId";
+
+                    using (var command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@userId", userId);
+                        command.Parameters.AddWithValue("@lastName", lastName);
+                        command.Parameters.AddWithValue("@firstName", firstName);
+                        command.Parameters.AddWithValue("@patronymic", patronymic ?? "");
+                        command.Parameters.AddWithValue("@phone", phone);
+                        command.Parameters.AddWithValue("@email", email ?? "");
+                        command.Parameters.AddWithValue("@birthday", birthday);
+                        command.Parameters.AddWithValue("@postId", int.Parse(post));
+
+                        int rowsAffected = command.ExecuteNonQuery();
+                        return rowsAffected > 0;
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show($"Ошибка MySQL: {ex.Message}\nКод: {ex.Number}", "Ошибка БД");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка обновления: {ex.Message}", "Ошибка");
+                return false;
+            }
+        }
+
+        // Проверка существования телефона у других пользователей
+        private bool IsPhoneExists(string phone, int excludeUserId)
+        {
+            try
+            {
+                using (var connection = DbService.GetConnection())
+                {
+                    connection.Open();
+
+                    string query = "SELECT COUNT(*) FROM user WHERE Phone = @phone AND IdUser != @excludeUserId";
+
+                    using (var command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@phone", phone);
+                        command.Parameters.AddWithValue("@excludeUserId", excludeUserId);
+                        long count = (long)command.ExecuteScalar();
+                        return count > 0;
+                    }
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        // Проверка существования email у других пользователей
+        private bool IsEmailExists(string email, int excludeUserId)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return false;
+
+            try
+            {
+                using (var connection = DbService.GetConnection())
+                {
+                    connection.Open();
+
+                    string query = "SELECT COUNT(*) FROM user WHERE Email = @email AND IdUser != @excludeUserId";
+
+                    using (var command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@email", email);
+                        command.Parameters.AddWithValue("@excludeUserId", excludeUserId);
+                        long count = (long)command.ExecuteScalar();
+                        return count > 0;
+                    }
+                }
+            }
+            catch
+            {
+                return false;
             }
         }
 
@@ -283,17 +346,6 @@ namespace Practice.Panel.Admin
             HideEditFields();
             ShowUserIdSection();
             UserID.Focus();
-        }
-
-        // Метод для отладки
-        private void PrintAllUsers()
-        {
-            Console.WriteLine("\n=== ЛОКАЛЬНЫЕ ПОЛЬЗОВАТЕЛИ В EDIT ===");
-            foreach (var user in _localUsers)
-            {
-                Console.WriteLine($"ID: {user.IdUser}, ФИО: {user.LastName} {user.FirstName} {user.Patronymic}, Телефон: {user.Phone}");
-            }
-            Console.WriteLine("=====================================\n");
         }
 
         // Навигационные методы

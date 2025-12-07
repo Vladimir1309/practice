@@ -5,18 +5,122 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Practice.Panel.Delivery"
         mc:Ignorable="d"
-        Title="HistoryOrdersDelivery">
+        Title="Заказы доставки" 
+        Height="1024" Width="1440"
+        Loaded="Window_Loaded">
+
     <Grid>
+        <!-- Левая панель меню -->
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="133" VerticalAlignment="Top" Width="391" Background="#FFB70000"/>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="875" VerticalAlignment="Top" Width="391" Background="#33343D" Margin="0,133,0,0"/>
         <Label x:Name="GWAN" Content="GWAN-Delivery" HorizontalAlignment="Left" Height="65" Margin="16,34,0,0" VerticalAlignment="Top" Width="360" FontSize="48" Foreground="Black" FontFamily="Georgia"/>
 
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="48" Margin="-1,207,0,0" VerticalAlignment="Top" Width="392" Background="#FFB70000"/>
 
-        <Button Content="Информация о заказе" HorizontalAlignment="Left" Margin="6,167,0,0" VerticalAlignment="Top" Width="380" Height="36" Background="White" FontSize="20" Cursor="Hand" Click="Info"/>
-        <Button Content="История выполненных заказов" HorizontalAlignment="Left" Margin="6,213,0,0" VerticalAlignment="Top" Width="380" Height="36" Background="White" FontSize="20" Cursor="Hand" Click="History"/>
+        <Button Content="Текущие заказы" HorizontalAlignment="Left" Margin="6,167,0,0" VerticalAlignment="Top" Width="380" Height="36" Background="White" FontSize="20" Cursor="Hand" Click="CurrentOrders_Click"/>
+        <Button Content="История заказов" HorizontalAlignment="Left" Margin="6,213,0,0" VerticalAlignment="Top" Width="380" Height="36" Background="White" FontSize="20" Cursor="Hand" Click="HistoryOrders_Click"/>
 
+        <!-- Кнопка выхода -->
         <Image HorizontalAlignment="Left" Height="56" Margin="174,941,0,0" VerticalAlignment="Top" Width="56" Source="/materials/2/3/Logout.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Exit"/>
-        <Label Content="Table" HorizontalAlignment="Left" Margin="865,253,0,0" VerticalAlignment="Top" FontSize="48"/>
+
+        <!-- Основной контент -->
+        <Label Content="Заказы на доставку" HorizontalAlignment="Left" Margin="450,100,0,0" VerticalAlignment="Top" FontSize="36" FontWeight="Bold"/>
+
+        <!-- Фильтры -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="450,160,0,0" VerticalAlignment="Top">
+            <Button Content="Все" Width="80" Height="30" Margin="0,0,10,0" Click="FilterAll_Click" Cursor="Hand"/>
+            <Button Content="Текущие" Width="100" Height="30" Margin="0,0,10,0" Click="FilterCurrent_Click" Cursor="Hand"/>
+            <Button Content="Выполненные" Width="120" Height="30" Click="FilterCompleted_Click" Cursor="Hand"/>
+        </StackPanel>
+
+        <!-- Таблица заказов -->
+        <DataGrid x:Name="DeliveriesGrid" 
+                  HorizontalAlignment="Left" 
+                  Margin="450,200,0,0" 
+                  VerticalAlignment="Top" 
+                  Height="600" 
+                  Width="900"
+                  AutoGenerateColumns="False"
+                  SelectionMode="Single"
+                  SelectionChanged="DeliveriesGrid_SelectionChanged"
+                  CanUserAddRows="False"
+                  IsReadOnly="True">
+
+            <DataGrid.Columns>
+                <!-- ID -->
+                <DataGridTextColumn Header="ID" 
+                                    Binding="{Binding IdDelivery}" 
+                                    Width="50"/>
+
+                <!-- Клиент -->
+                <DataGridTextColumn Header="Клиент" 
+                                    Binding="{Binding UserClient.FullName}" 
+                                    Width="150"/>
+
+                <!-- Телефон -->
+                <DataGridTextColumn Header="Телефон" 
+                                    Binding="{Binding UserClient.Phone}" 
+                                    Width="120"/>
+
+                <!-- Адрес -->
+                <DataGridTextColumn Header="Адрес" 
+                                    Binding="{Binding AddressDelivery}" 
+                                    Width="200"/>
+
+                <!-- Дата -->
+                <DataGridTextColumn Header="Дата" 
+                                    Binding="{Binding Date, StringFormat=dd.MM.yyyy}" 
+                                    Width="100"/>
+
+                <!-- Сумма -->
+                <DataGridTextColumn Header="Сумма" 
+                                    Binding="{Binding Order.Check, StringFormat={}{0} ₽}" 
+                                    Width="100"/>
+
+                <!-- Статус -->
+                <DataGridTemplateColumn Header="Статус" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Border CornerRadius="5" Padding="5,2" Background="{Binding StatusColor}">
+                                <TextBlock Text="{Binding StatusText}" 
+                                           HorizontalAlignment="Center"
+                                           FontWeight="SemiBold"/>
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Панель кнопок -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="450,820,0,0" VerticalAlignment="Top">
+            <Button Content="Просмотреть" 
+                    Width="150" 
+                    Height="40"
+                    Margin="0,0,20,0"
+                    Click="ViewDetails_Click"
+                    Background="#FFB70000"
+                    Foreground="White"
+                    FontSize="16"
+                    Cursor="Hand"/>
+
+            <Button Content="Обновить" 
+                    Width="150" 
+                    Height="40"
+                    Click="Refresh_Click"
+                    FontSize="16"
+                    Cursor="Hand"/>
+        </StackPanel>
+
+        <!-- Кнопка возврата -->
+        <Button Content="← Назад" 
+                HorizontalAlignment="Left" 
+                Margin="450,880,0,0" 
+                VerticalAlignment="Top" 
+                Width="150" 
+                Height="40"
+                Click="BackButton_Click"
+                FontSize="16"
+                Cursor="Hand"/>
     </Grid>
 </Window>

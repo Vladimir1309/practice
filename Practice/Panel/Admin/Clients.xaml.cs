@@ -23,44 +23,43 @@ namespace Practice.Panel.Admin
     {
         public ObservableCollection<User> Users { get; set; }
 
-        // Используем статическую коллекцию из Register
-        public ObservableCollection<User> UsersTemp => Register.TempUsers;
         public Clients()
         {
             InitializeComponent();
 
-            Users = new ObservableCollection<User>()
-            {
-                new User
-                {
-                    IdUser = 1,
-                    IdPost = 4,
-                    Login = "nope",
-                    Password = "nope1",
-                    LastName = "Сусович",
-                    FirstName = "Сус",
-                    Patronymic = "Суснов",
-                    Phone = "89119998473",
-                    Email = "sus@gmail.com",
-                    Birthday = new DateTime(2004, 9, 14),
-                    Address = "Улица Бобова, д. 7, кв. 66"
-                },
-                new User
-                {
-                    IdUser = 2,
-                    IdPost = 5,
-                    Login = "bob",
-                    Password = "bob1",
-                    LastName = "Великий",
-                    FirstName = "Владимир",
-                    Patronymic = "Павлович",
-                    Phone = "89112410026",
-                    Email = "megabob@gmail.com",
-                    Birthday = new DateTime(2006, 9, 14),
-                    Address = "Шоссе Гвардейцев, д. 7, кв. 66"
-                }
-            };
+            Users = new ObservableCollection<User>();
             DataContext = this;
+
+            // Загружаем пользователей из БД
+            LoadUsersFromDatabase();
+        }
+
+        // Загрузка пользователей из БД
+        private void LoadUsersFromDatabase()
+        {
+            try
+            {
+                Users.Clear();
+
+                // Получаем всех пользователей из БД
+                var usersFromDb = DbService.GetAllUsers();
+
+                // Фильтруем только клиентов (IdPost = 5 - Покупатель)
+                foreach (var user in usersFromDb)
+                {
+                    if (user.IdPost == 5) // Покупатель
+                    {
+                        Users.Add(user);
+                    }
+                }
+
+                Console.WriteLine($"Загружено {Users.Count} клиентов из БД");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка загрузки клиентов из БД: {ex.Message}", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void Registration(object sender, RoutedEventArgs e)
@@ -86,9 +85,8 @@ namespace Practice.Panel.Admin
 
         private void Client(object sender, RoutedEventArgs e)
         {
-            Panel.Admin.Clients clients = new Panel.Admin.Clients();
-            clients.Show();
-            this.Close();
+            // Уже на этой странице
+            LoadUsersFromDatabase(); // Обновляем список
         }
 
         private void Employees(object sender, RoutedEventArgs e)
@@ -111,6 +109,7 @@ namespace Practice.Panel.Admin
             supplies.Show();
             this.Close();
         }
+
         private void MLBD_Exit(object sender, EventArgs e)
         {
             Login login = new Login();

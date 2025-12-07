@@ -25,7 +25,19 @@
 
         <Image HorizontalAlignment="Left" Height="56" Margin="174,941,0,0" VerticalAlignment="Top" Width="56" Source="/materials/2/3/Logout.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Exit"/>
 
-        <DataGrid Margin="435,167,33,147" Name="OrdersDataGrid" ItemsSource="{Binding Orderss}" ColumnWidth="180" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserAddRows="False" IsReadOnly="True"/>
+        <!-- В HistoryOrders.xaml обновите DataGrid: -->
+        <DataGrid Margin="435,167,33,147" Name="OrdersDataGrid" ItemsSource="{Binding Orderss}" 
+          ColumnWidth="180" CanUserReorderColumns="False" CanUserResizeColumns="False" 
+          CanUserAddRows="False" IsReadOnly="True" AutoGenerateColumns="False">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID заказа" Binding="{Binding IdOrder}" Width="80"/>
+                <DataGridTextColumn Header="ID клиента" Binding="{Binding IdUserClient}" Width="80"/>
+                <DataGridTextColumn Header="Сумма" Binding="{Binding Check, StringFormat={}{0:C}}" Width="100"/>
+                <DataGridCheckBoxColumn Header="Доставка" Binding="{Binding Delivery}" Width="80"/>
+                <DataGridTextColumn Header="Дата заказа" Binding="{Binding OrderDate, StringFormat={}{0:dd.MM.yyyy}}" Width="100"/>
+            </DataGrid.Columns>
+        </DataGrid>
 
 
     </Grid>

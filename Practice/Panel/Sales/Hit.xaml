@@ -9,7 +9,7 @@
     <Grid>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="133" VerticalAlignment="Top" Width="391" Background="#FFB70000"/>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="875" VerticalAlignment="Top" Width="391" Background="#33343D" Margin="0,133,0,0"/>
-        <Label x:Name="GWAN" Content="GWAN-Sales" HorizontalAlignment="Left" Height="65" Margin="32,34,0,0" VerticalAlignment="Top" Width="327" FontSize="48" Foreground="Black" FontFamily="Georgia"/>
+        <Label x:Name="GWAN" Content="GWAN-Sales" HorizontalAlignment="Left" Height="65" Margin="51,34,0,0" VerticalAlignment="Top" Width="288" FontSize="48" Foreground="Black" FontFamily="Georgia"/>
 
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="48" Margin="-1,161,0,0" VerticalAlignment="Top" Width="392" Background="#FFB70000"/>
 
@@ -19,18 +19,59 @@
 
         <Image HorizontalAlignment="Left" Height="56" Margin="174,941,0,0" VerticalAlignment="Top" Width="56" Source="/materials/2/3/Logout.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Exit"/>
 
-        <Label Content="Id товара:" HorizontalAlignment="Left" Height="60" Margin="593,272,0,0" VerticalAlignment="Top" Width="254" FontSize="36"/>
-        <Label Content="Наименование:" HorizontalAlignment="Left" Height="60" Margin="593,337,0,0" VerticalAlignment="Top" Width="269" FontSize="36"/>
-        <Label Content="Стоимость:" HorizontalAlignment="Left" Height="60" Margin="593,397,0,0" VerticalAlignment="Top" Width="254" FontSize="36"/>
-        <Label Content="Количество:" HorizontalAlignment="Left" Height="60" Margin="593,457,0,0" VerticalAlignment="Top" Width="254" FontSize="36"/>
+        <!-- Заменяем TextBox на ComboBox для клиентов -->
+        <Label Content="Клиент:" HorizontalAlignment="Left" Height="60" Margin="593,227,0,0" VerticalAlignment="Top" Width="254" FontSize="36"/>
 
-        <TextBox x:Name="IdProductText" HorizontalAlignment="Left" Height="51" Margin="928,286,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="111" VerticalContentAlignment="Center"/>
+        <ComboBox x:Name="ClientComboBox" 
+                  HorizontalAlignment="Left" 
+                  Height="51" 
+                  Margin="928,241,0,0" 
+                  VerticalAlignment="Top" 
+                  Width="300" 
+                  FontSize="16"
+                  SelectionChanged="ClientComboBox_SelectionChanged"
+                  VerticalContentAlignment="Center">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding IdUser}" Width="50" FontWeight="Bold"/>
+                        <TextBlock Text=" - " Margin="5,0,5,0"/>
+                        <TextBlock Text="{Binding LastName}" Width="100"/>
+                        <TextBlock Text=" " />
+                        <TextBlock Text="{Binding FirstName}" Width="100"/>
+                        <TextBlock Text=" ( " Margin="5,0,0,0"/>
+                        <TextBlock Text="{Binding Phone}" Width="100"/>
+                        <TextBlock Text=")" />
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <Label Content="Id товара:" HorizontalAlignment="Left" Height="60" Margin="593,297,0,0" VerticalAlignment="Top" Width="254" FontSize="36"/>
+        <Label Content="Наименование:" HorizontalAlignment="Left" Height="60" Margin="593,362,0,0" VerticalAlignment="Top" Width="269" FontSize="36"/>
+        <Label Content="Стоимость:" HorizontalAlignment="Left" Height="60" Margin="593,422,0,0" VerticalAlignment="Top" Width="254" FontSize="36"/>
+
+        <!-- Добавленный Label для остатка на складе -->
+        <Label x:Name="StockLabel" 
+               Content="" 
+               HorizontalAlignment="Left" 
+               Height="40" 
+               Margin="928,485,0,0" 
+               VerticalAlignment="Top" 
+               Width="300" 
+               FontSize="16"
+               Foreground="#FF008000"
+               Visibility="Collapsed"/>
+
+        <Label Content="Количество:" HorizontalAlignment="Left" Height="60" Margin="593,532,0,0" VerticalAlignment="Top" Width="254" FontSize="36"/>
+
+        <TextBox x:Name="IdProductText" HorizontalAlignment="Left" Height="51" Margin="928,311,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" VerticalContentAlignment="Center"/>
 
         <Label x:Name="ProductNameLabel" 
                Content="-" 
                HorizontalAlignment="Left" 
                Height="60" 
-               Margin="928,337,0,0" 
+               Margin="928,362,0,0" 
                VerticalAlignment="Top" 
                Width="400" 
                FontSize="36"
@@ -40,7 +81,7 @@
                Content="0 ₽" 
                HorizontalAlignment="Left" 
                Height="60" 
-               Margin="928,397,0,0" 
+               Margin="928,422,0,0" 
                VerticalAlignment="Top" 
                Width="200" 
                FontSize="36"
@@ -49,7 +90,7 @@
         <TextBox x:Name="Amount" 
                  HorizontalAlignment="Left" 
                  Height="50" 
-                 Margin="928,467,0,0" 
+                 Margin="928,542,0,0" 
                  TextWrapping="Wrap" 
                  Text="1" 
                  VerticalAlignment="Top" 
@@ -57,11 +98,10 @@
                  VerticalContentAlignment="Center"
                  TextChanged="Amount_TextChanged"/>
 
-        <!-- Добавьте Label для суммы заказа -->
         <Label Content="Сумма заказа:" 
                HorizontalAlignment="Left" 
                Height="60" 
-               Margin="593,531,0,0" 
+               Margin="593,606,0,0" 
                VerticalAlignment="Top" 
                Width="254" 
                FontSize="36"/>
@@ -70,29 +110,29 @@
                Content="0 ₽" 
                HorizontalAlignment="Left" 
                Height="60" 
-               Margin="928,531,0,0" 
+               Margin="928,606,0,0" 
                VerticalAlignment="Top" 
                Width="200" 
                FontSize="36"
                Foreground="#FFB70000"
                FontWeight="Bold"/>
 
-        <Button Content="Оформить заказ" 
+        <Button Content="Оформить продажу" 
                 HorizontalAlignment="Left" 
                 Height="45" 
-                Margin="593,647,0,0" 
+                Margin="593,722,0,0" 
                 VerticalAlignment="Top" 
                 Width="446" 
                 Background="#FFB70000" 
                 Foreground="White" 
                 Cursor="Hand" 
                 FontSize="20" 
-                Click="GetBack"/>
+                Click="ProcessSaleButton_Click"/>
 
         <Button Content="Отмена" 
                 HorizontalAlignment="Left" 
                 Height="45" 
-                Margin="593,697,0,0" 
+                Margin="593,772,0,0" 
                 VerticalAlignment="Top" 
                 Width="446" 
                 Background="#FFB70000" 
@@ -103,7 +143,7 @@
 
         <TextBlock Text="Введите ID и нажмите 'Найти'" 
                    HorizontalAlignment="Left" 
-                   Margin="928,270,0,0" 
+                   Margin="928,295,0,0" 
                    VerticalAlignment="Top" 
                    Foreground="Gray" 
                    FontSize="12"/>
@@ -111,7 +151,7 @@
         <Button Content="Найти" 
                 HorizontalAlignment="Left" 
                 Height="34" 
-                Margin="1055,294,0,0" 
+                Margin="1055,319,0,0" 
                 VerticalAlignment="Top" 
                 Width="80" 
                 Background="#FFB70000" 
@@ -120,20 +160,33 @@
                 FontSize="14"
                 Click="FindProductButton_Click"/>
 
-        <!-- Подсказки -->
         <TextBlock Text="Введите количество" 
                    HorizontalAlignment="Left" 
-                   Margin="928,520,0,0" 
+                   Margin="928,595,0,0" 
                    VerticalAlignment="Top" 
                    Foreground="Gray" 
                    FontSize="12"/>
 
         <TextBlock Text="Сумма обновится автоматически" 
                    HorizontalAlignment="Left" 
-                   Margin="928,594,0,0" 
+                   Margin="928,669,0,0" 
                    VerticalAlignment="Top" 
                    Foreground="Gray" 
                    FontSize="12"/>
+
+        <!-- Кнопка обновления списка клиентов -->
+        <Button Content="🔄" 
+                HorizontalAlignment="Left" 
+                Height="34" 
+                Margin="1235,244,0,0" 
+                VerticalAlignment="Top" 
+                Width="34" 
+                Background="#FFB70000" 
+                Foreground="White" 
+                Cursor="Hand" 
+                FontSize="14"
+                ToolTip="Обновить список клиентов"
+                Click="RefreshClientsButton_Click"/>
 
     </Grid>
 </Window>

@@ -1,57 +1,21 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using Practice.Models;
+using MySql.Data.MySqlClient;
 
 namespace Practice.Panel.Admin
 {
     public partial class Remove : Window
     {
-        // Локальная коллекция пользователей
-        private static ObservableCollection<User> _localUsers = new ObservableCollection<User>();
-        private User _currentUser; // Текущий пользователь для удаления
-
-        static Remove()
-        {
-            // Инициализируем теми же данными
-            _localUsers.Add(new User
-            {
-                IdUser = 1,
-                IdPost = 4,
-                Login = "nope",
-                Password = "nope1",
-                LastName = "Сусович",
-                FirstName = "Сус",
-                Patronymic = "Суснов",
-                Phone = "89119998473",
-                Email = "sus@gmail.com",
-                Birthday = new DateTime(2004, 9, 14),
-                Address = "Улица Бобова, д. 7, кв. 66"
-            });
-
-            _localUsers.Add(new User
-            {
-                IdUser = 2,
-                IdPost = 5,
-                Login = "bob",
-                Password = "bob1",
-                LastName = "Великий",
-                FirstName = "Владимир",
-                Patronymic = "Павлович",
-                Phone = "89112410026",
-                Email = "megabob@gmail.com",
-                Birthday = new DateTime(2006, 9, 14),
-                Address = "Шоссе Гвардейцев, д. 7, кв. 66"
-            });
-        }
+        private User _currentUser;
 
         public Remove()
         {
             InitializeComponent();
         }
 
-        // Кнопка "Найти" (заполняет фамилию по ID)
+        // Кнопка "Найти" (заполняет фамилию по ID из БД)
         private void FindUserButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -68,28 +32,30 @@ namespace Practice.Panel.Admin
                     return;
                 }
 
-                // Ищем пользователя
-                _currentUser = _localUsers.FirstOrDefault(u => u.IdUser == userId);
+                // Ищем пользователя в БД
+                var allUsers = DbService.GetAllUsers();
+                _currentUser = allUsers.FirstOrDefault(u => u.IdUser == userId);
 
                 if (_currentUser != null)
                 {
-                    // Заполняем поле фамилии (оно неактивное, но показывает данные)
+                    // Заполняем поле фамилии
                     LastName.Text = _currentUser.LastName;
 
                     // Показываем информацию о пользователе
+                    string postName = GetPostName(_currentUser.IdPost);
+
                     string info = $"Найден пользователь:\n" +
                                  $"ID: {_currentUser.IdUser}\n" +
                                  $"ФИО: {_currentUser.LastName} {_currentUser.FirstName} {_currentUser.Patronymic}\n" +
                                  $"Телефон: {_currentUser.Phone}\n" +
-                                 $"Должность: {_currentUser.IdPost}";
+                                 $"Должность: {postName} (ID: {_currentUser.IdPost})";
 
                     MessageBox.Show(info, "Пользователь найден",
                         MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
-                    MessageBox.Show($"Пользователь с ID {userId} не найден!\n" +
-                                  $"Доступные ID: {string.Join(", ", _localUsers.Select(u => u.IdUser))}");
+                    MessageBox.Show($"Пользователь с ID {userId} не найден в базе данных!");
                     LastName.Text = "";
                     _currentUser = null;
                     UserID.Focus();
@@ -102,7 +68,21 @@ namespace Practice.Panel.Admin
             }
         }
 
-        // Кнопка "Удалить"
+        // Получение названия должности по ID
+        private string GetPostName(int postId)
+        {
+            return postId switch
+            {
+                1 => "Продавец-консультант",
+                2 => "Охранник",
+                3 => "Курьер",
+                4 => "Администратор",
+                5 => "Покупатель",
+                _ => "Неизвестная должность"
+            };
+        }
+
+        // Кнопка "Удалить" - удаление из БД
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -120,37 +100,103 @@ namespace Practice.Panel.Admin
                     return;
                 }
 
+                // Нельзя удалить текущего администратора
+                if (AuthManager.CurrentUserId == _currentUser.IdUser)
+                {
+                    MessageBox.Show("Вы не можете удалить себя! Попросите другого администратора.");
+                    return;
+                }
+
                 // Подтверждение удаления
+                string postName = GetPostName(_currentUser.IdPost);
+
                 string message = $"Вы уверены, что хотите удалить пользователя?\n\n" +
                                $"ID: {_currentUser.IdUser}\n" +
                                $"ФИО: {_currentUser.LastName} {_currentUser.FirstName} {_currentUser.Patronymic}\n" +
                                $"Телефон: {_currentUser.Phone}\n" +
-                               $"Должность: {_currentUser.IdPost}";
+                               $"Должность: {postName}";
 
                 var result = MessageBox.Show(message, "Подтверждение удаления",
                     MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    // Удаляем из локальной коллекции
-                    _localUsers.Remove(_currentUser);
-
-                    // Также удаляем из коллекции Register если там есть
-                    var userInRegister = Register.TempUsers.FirstOrDefault(u => u.IdUser == _currentUser.IdUser);
-                    if (userInRegister != null)
+                    // Удаляем пользователя из БД
+                    if (DeleteUserFromDatabase(_currentUser.IdUser))
                     {
-                        Register.TempUsers.Remove(userInRegister);
+                        MessageBox.Show($"Пользователь {_currentUser.LastName} {_currentUser.FirstName} успешно удален из базы данных!",
+                            "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                        // Очищаем поля
+                        ClearFields();
                     }
-
-                    MessageBox.Show($"Пользователь {_currentUser.LastName} {_currentUser.FirstName} успешно удален!");
-
-                    // Очищаем поля
-                    ClearFields();
+                    else
+                    {
+                        MessageBox.Show("Ошибка при удалении пользователя из базы данных!",
+                            "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка: {ex.Message}");
+            }
+        }
+
+        // Удаление пользователя из БД
+        private bool DeleteUserFromDatabase(int userId)
+        {
+            try
+            {
+                using (var connection = DbService.GetConnection())
+                {
+                    connection.Open();
+
+                    // Проверяем, есть ли у пользователя активные заказы
+                    string checkOrdersQuery = "SELECT COUNT(*) FROM orders WHERE IdUserClient = @userId AND IsCompleted = 0";
+
+                    using (var checkCommand = new MySqlCommand(checkOrdersQuery, connection))
+                    {
+                        checkCommand.Parameters.AddWithValue("@userId", userId);
+                        long activeOrders = (long)checkCommand.ExecuteScalar();
+
+                        if (activeOrders > 0)
+                        {
+                            MessageBox.Show("Нельзя удалить пользователя с активными заказами!", "Ошибка",
+                                MessageBoxButton.OK, MessageBoxImage.Error);
+                            return false;
+                        }
+                    }
+
+                    // Удаляем пользователя
+                    string deleteQuery = "DELETE FROM user WHERE IdUser = @userId";
+
+                    using (var deleteCommand = new MySqlCommand(deleteQuery, connection))
+                    {
+                        deleteCommand.Parameters.AddWithValue("@userId", userId);
+                        int rowsAffected = deleteCommand.ExecuteNonQuery();
+                        return rowsAffected > 0;
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                // Ошибка внешнего ключа - у пользователя есть связанные данные
+                if (ex.Number == 1451)
+                {
+                    MessageBox.Show("Нельзя удалить пользователя, у которого есть история заказов!\n" +
+                                  "Сначала удалите все связанные записи.", "Ошибка",
+                                  MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+
+                MessageBox.Show($"Ошибка MySQL: {ex.Message}\nКод: {ex.Number}", "Ошибка БД");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Общая ошибка: {ex.Message}", "Ошибка");
+                return false;
             }
         }
 

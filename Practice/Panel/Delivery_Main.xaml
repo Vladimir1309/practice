@@ -11,8 +11,8 @@
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="875" VerticalAlignment="Top" Width="391" Background="#33343D" Margin="0,133,0,0"/>
         <Label x:Name="GWAN" Content="GWAN-Delivery" HorizontalAlignment="Left" Height="65" Margin="18,34,0,0" VerticalAlignment="Top" Width="356" FontSize="48" Foreground="Black" FontFamily="Georgia"/>
 
-        <Button Content="Информация о заказе" HorizontalAlignment="Left" Margin="6,167,0,0" VerticalAlignment="Top" Width="380" Height="36" Background="White" FontSize="20" Cursor="Hand" Click="Info"/>
-        <Button Content="История выполненных заказов" HorizontalAlignment="Left" Margin="6,213,0,0" VerticalAlignment="Top" Width="380" Height="36" Background="White" FontSize="20" Cursor="Hand" Click="History"/>
+        <Button Content="Текущие заказы" HorizontalAlignment="Left" Margin="6,167,0,0" VerticalAlignment="Top" Width="380" Height="36" Background="White" FontSize="20" Cursor="Hand" Click="Info"/>
+        <Button Content="История заказов" HorizontalAlignment="Left" Margin="6,213,0,0" VerticalAlignment="Top" Width="380" Height="36" Background="White" FontSize="20" Cursor="Hand" Click="History"/>
 
         <Image HorizontalAlignment="Left" Height="56" Margin="174,941,0,0" VerticalAlignment="Top" Width="56" Source="/materials/2/3/Logout.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Exit"/>
     </Grid>

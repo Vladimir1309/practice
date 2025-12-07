@@ -410,14 +410,14 @@ namespace Practice
             BorderBeer.Opacity = 1;
         }
 
+        // В Main1.xaml.cs, Vodka.xaml.cs и других:
         private void AddToBasket1_Click(object sender, RoutedEventArgs e)
         {
             if (int.TryParse(count1.Content?.ToString(), out int amount))
             {
                 if (AuthManager.IsAuthenticated)
                 {
-                    // Товар 1: Syrah Toscana IGT Tenuta Mordini
-                    // Используем правильный ID товара (например, ID=1)
+                    // Добавляем в БД корзину
                     if (DbService.AddToCart(AuthManager.CurrentUserId, 1, amount))
                     {
                         MessageBox.Show("Товар добавлен в корзину!");
@@ -429,22 +429,23 @@ namespace Practice
                 }
                 else
                 {
-                    LocalCartService.AddToLocalCart(1, amount); // ID=1
+                    // Добавляем в локальную корзину
+                    LocalCartService.AddToLocalCart(1, amount);
                     MessageBox.Show("Товар добавлен в корзину!\nАвторизуйтесь для сохранения корзины.",
                                   "Корзина", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
         }
 
+        // В Main1.xaml.cs, Vodka.xaml.cs и других:
         private void AddToBasket2_Click(object sender, RoutedEventArgs e)
         {
-            if (int.TryParse(count2.Content?.ToString(), out int amount))
+            if (int.TryParse(count1.Content?.ToString(), out int amount))
             {
                 if (AuthManager.IsAuthenticated)
                 {
-                    // Товар 2: 7 Zlakov (Водка)
-                    // Используем правильный ID товара (например, ID=7)
-                    if (DbService.AddToCart(AuthManager.CurrentUserId, 7, amount))
+                    // Добавляем в БД корзину
+                    if (DbService.AddToCart(AuthManager.CurrentUserId, 1, amount))
                     {
                         MessageBox.Show("Товар добавлен в корзину!");
                     }
@@ -455,22 +456,23 @@ namespace Practice
                 }
                 else
                 {
-                    LocalCartService.AddToLocalCart(7, amount); // ID=7
+                    // Добавляем в локальную корзину
+                    LocalCartService.AddToLocalCart(7, amount);
                     MessageBox.Show("Товар добавлен в корзину!\nАвторизуйтесь для сохранения корзины.",
                                   "Корзина", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
         }
 
+        // В Main1.xaml.cs, Vodka.xaml.cs и других: 
         private void AddToBasket3_Click(object sender, RoutedEventArgs e)
         {
-            if (int.TryParse(count3.Content?.ToString(), out int amount))
+            if (int.TryParse(count1.Content?.ToString(), out int amount))
             {
                 if (AuthManager.IsAuthenticated)
                 {
-                    // Товар 3: Vodka Polugar
-                    // Используем правильный ID товара (например, ID=10)
-                    if (DbService.AddToCart(AuthManager.CurrentUserId, 10, amount))
+                    // Добавляем в БД корзину
+                    if (DbService.AddToCart(AuthManager.CurrentUserId, 1, amount))
                     {
                         MessageBox.Show("Товар добавлен в корзину!");
                     }
@@ -481,7 +483,8 @@ namespace Practice
                 }
                 else
                 {
-                    LocalCartService.AddToLocalCart(10, amount); // ID=10
+                    // Добавляем в локальную корзину
+                    LocalCartService.AddToLocalCart(10, amount);
                     MessageBox.Show("Товар добавлен в корзину!\nАвторизуйтесь для сохранения корзины.",
                                   "Корзина", MessageBoxButton.OK, MessageBoxImage.Information);
                 }

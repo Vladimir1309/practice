@@ -5,25 +5,187 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Practice.Panel.Delivery"
         mc:Ignorable="d"
-        Title="OrderInfo">
+        Title="Информация о заказе" 
+        Height="1024" Width="1440"
+        Loaded="Window_Loaded">
+
     <Grid>
+        <!-- Левая панель меню -->
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="133" VerticalAlignment="Top" Width="391" Background="#FFB70000"/>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="875" VerticalAlignment="Top" Width="391" Background="#33343D" Margin="0,133,0,0"/>
         <Label x:Name="GWAN" Content="GWAN-Delivery" HorizontalAlignment="Left" Height="65" Margin="17,34,0,0" VerticalAlignment="Top" Width="358" FontSize="48" Foreground="Black" FontFamily="Georgia"/>
 
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="48" Margin="-1,161,0,0" VerticalAlignment="Top" Width="392" Background="#FFB70000"/>
 
-        <Button Content="Информация о заказе" HorizontalAlignment="Left" Margin="6,167,0,0" VerticalAlignment="Top" Width="380" Height="36" Background="White" FontSize="20" Cursor="Hand" Click="Info"/>
-        <Button Content="История выполненных заказов" HorizontalAlignment="Left" Margin="6,213,0,0" VerticalAlignment="Top" Width="380" Height="36" Background="White" FontSize="20" Cursor="Hand" Click="History"/>
+        <Button Content="Текущие заказы" HorizontalAlignment="Left" Margin="6,167,0,0" VerticalAlignment="Top" Width="380" Height="36" Background="White" FontSize="20" Cursor="Hand" Click="CurrentOrders_Click"/>
+        <Button Content="История заказов" HorizontalAlignment="Left" Margin="6,213,0,0" VerticalAlignment="Top" Width="380" Height="36" Background="White" FontSize="20" Cursor="Hand" Click="HistoryOrders_Click"/>
 
+        <!-- Кнопка выхода -->
         <Image HorizontalAlignment="Left" Height="56" Margin="174,941,0,0" VerticalAlignment="Top" Width="56" Source="/materials/2/3/Logout.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Exit"/>
-        
-        <Label Content="Информация о заказе" HorizontalAlignment="Left" Margin="530,231,0,0" VerticalAlignment="Top" FontSize="48"/>
-        <Label Content="Адрес доставки: " HorizontalAlignment="Left" Margin="530,377,0,0" VerticalAlignment="Top" FontSize="48"/>
-        <Label Content="Телефон заказчика:" HorizontalAlignment="Left" Margin="530,451,0,0" VerticalAlignment="Top" FontSize="48"/>
-        <Label Content="улица" HorizontalAlignment="Left" Margin="998,377,0,0" VerticalAlignment="Top" FontSize="48"/>
-        <Label Content="+0" HorizontalAlignment="Left" Margin="998,451,0,0" VerticalAlignment="Top" FontSize="48"/>
 
-        <Button Content="Подтвердить выполнение" HorizontalAlignment="Left" Height="45" Margin="530,639,0,0" VerticalAlignment="Top" Width="446" Background="#FFB70000" Foreground="White" Cursor="Hand" FontSize="20"/>
+        <!-- Сообщение при отсутствии выбранного заказа -->
+        <Border x:Name="NoOrderMessage" 
+                Background="#FFF0F0F0" 
+                BorderBrush="#FFB70000" 
+                BorderThickness="2" 
+                CornerRadius="10"
+                HorizontalAlignment="Left" 
+                Margin="450,200,0,0" 
+                VerticalAlignment="Top" 
+                Width="800" 
+                Height="400"
+                Visibility="Visible">
+
+            <StackPanel HorizontalAlignment="Center" 
+                        VerticalAlignment="Center">
+
+                <Image Source="/materials/2/3/Warning.png" 
+                       Width="100" 
+                       Height="100" 
+                       Margin="0,0,0,20"/>
+
+                <TextBlock Text="Заказ не выбран" 
+                           FontSize="32" 
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,20"/>
+
+                <TextBlock Text="Для просмотра информации о заказе:" 
+                           FontSize="20"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,10"/>
+
+                <TextBlock Text="1. Перейдите в 'История заказов'" 
+                           FontSize="18"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,5"/>
+
+                <TextBlock Text="2. Выберите заказ из списка" 
+                           FontSize="18"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,5"/>
+
+                <TextBlock Text="3. Нажмите 'Просмотреть'" 
+                           FontSize="18"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,30"/>
+
+                <Button Content="Перейти к заказам" 
+                        Width="200" 
+                        Height="40"
+                        Click="GoToOrders_Click"
+                        Background="#FFB70000"
+                        Foreground="White"
+                        FontSize="16"
+                        Cursor="Hand"
+                        HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Контент при наличии выбранного заказа -->
+        <Border x:Name="OrderContent" 
+                Visibility="Collapsed">
+
+            <Grid>
+                <!-- Основной контент -->
+                <Label Content="Информация о заказе" 
+                       HorizontalAlignment="Left" 
+                       Margin="530,100,0,0" 
+                       VerticalAlignment="Top" 
+                       FontSize="36" 
+                       FontWeight="Bold"/>
+
+                <!-- ID заказа -->
+                <Label Content="Номер заказа:" 
+                       HorizontalAlignment="Left" 
+                       Margin="530,180,0,0" 
+                       VerticalAlignment="Top" 
+                       FontSize="24"/>
+                <Label x:Name="OrderIdLabel" 
+                       Content="" 
+                       HorizontalAlignment="Left" 
+                       Margin="750,180,0,0" 
+                       VerticalAlignment="Top" 
+                       FontSize="24" 
+                       FontWeight="Bold"/>
+
+                <!-- Клиент -->
+                <Label Content="Клиент:" 
+                       HorizontalAlignment="Left" 
+                       Margin="530,230,0,0" 
+                       VerticalAlignment="Top" 
+                       FontSize="24"/>
+                <Label x:Name="ClientNameLabel" 
+                       Content="" 
+                       HorizontalAlignment="Left" 
+                       Margin="650,230,0,0" 
+                       VerticalAlignment="Top" 
+                       FontSize="24" 
+                       FontWeight="Bold"/>
+
+                <!-- Контактная информация -->
+                <Border BorderBrush="#FFB70000" 
+                        BorderThickness="1" 
+                        CornerRadius="10"
+                        HorizontalAlignment="Left" 
+                        Margin="530,290,0,0" 
+                        VerticalAlignment="Top" 
+                        Width="400" 
+                        Height="120"
+                        Padding="10">
+                    <StackPanel>
+                        <TextBlock Text="Контактная информация" 
+                                   FontWeight="Bold" 
+                                   FontSize="18"
+                                   Margin="0,0,0,10"/>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,5">
+                            <TextBlock Text="Телефон:" Width="100"/>
+                            <TextBlock x:Name="PhoneText" Text="" FontWeight="Bold"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,5">
+                            <TextBlock Text="Email:" Width="100"/>
+                            <TextBlock x:Name="EmailText" Text=""/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Адрес доставки -->
+                <Label Content="Адрес доставки:" 
+                       HorizontalAlignment="Left" 
+                       Margin="530,430,0,0" 
+                       VerticalAlignment="Top" 
+                       FontSize="24"/>
+                <Border BorderBrush="#FFB70000" 
+                        BorderThickness="1" 
+                        CornerRadius="10"
+                        HorizontalAlignment="Left" 
+                        Margin="530,470,0,0" 
+                        VerticalAlignment="Top" 
+                        Width="400" 
+                        Height="80"
+                        Padding="10">
+                    <TextBlock x:Name="AddressText" 
+                               Text="" 
+                               FontSize="18"
+                               TextWrapping="Wrap"/>
+                </Border>
+
+                <!-- Кнопка подтверждения -->
+                <Button x:Name="CompleteButton" 
+                        Content="Подтвердить выполнение" 
+                        HorizontalAlignment="Left" 
+                        Height="45" 
+                        Margin="530,570,0,0" 
+                        VerticalAlignment="Top" 
+                        Width="446" 
+                        Background="#FFB70000" 
+                        Foreground="White" 
+                        Cursor="Hand" 
+                        FontSize="20"
+                        Click="CompleteButton_Click"/>
+            </Grid>
+        </Border>
     </Grid>
 </Window>

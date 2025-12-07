@@ -17,5 +17,9 @@
         // Навигационные свойства
         public Post Post { get; set; }
         public Role Role => Post?.Role;
+
+
+        // Вычисляемое свойство для полного имени
+        public string FullName => $"{LastName} {FirstName} {Patronymic}".Trim();
     }
 }

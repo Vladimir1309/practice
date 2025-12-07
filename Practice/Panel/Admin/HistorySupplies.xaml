@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Practice.Panel.Admin"
         mc:Ignorable="d"
-        Title="HistorySupplies">
+        Title="История поставок" Height="1000" Width="1400">
     <Grid>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="133" VerticalAlignment="Top" Width="391" Background="#FFB70000"/>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="875" VerticalAlignment="Top" Width="391" Background="#33343D" Margin="0,133,0,0"/>
@@ -25,8 +25,31 @@
 
         <Image HorizontalAlignment="Left" Height="56" Margin="174,941,0,0" VerticalAlignment="Top" Width="56" Source="/materials/2/3/Logout.png" Cursor="Hand" MouseLeftButtonDown="MLBD_Exit"/>
 
-        <DataGrid Margin="435,167,33,147" Name="AccountingsDataGrid" ItemsSource="{Binding Accountings}" ColumnWidth="150" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserAddRows="False" IsReadOnly="True"/>
+        <!-- DataGrid для истории поставок на склад -->
+        <DataGrid Margin="435,167,33,400" Name="AccountingsDataGrid" ItemsSource="{Binding Accountings}" 
+                  ColumnWidth="150" CanUserReorderColumns="False" CanUserResizeColumns="False" 
+                  CanUserAddRows="False" IsReadOnly="True" AutoGenerateColumns="False">
 
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding IdAccounting}" Width="60"/>
+                <DataGridTextColumn Header="Товар" Binding="{Binding Product.Name}" Width="150"/>
+                <DataGridTextColumn Header="Кол-во" Binding="{Binding AmountOfProduct}" Width="80"/>
+                <DataGridTextColumn Header="Склад" Binding="{Binding Storage.Address}" Width="200"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Дополнительная информация -->
+
+        <Label Content="Количество записей:" 
+               HorizontalAlignment="Left" 
+               Margin="435,580,0,0" 
+               VerticalAlignment="Top"/>
+
+        <Label Content="{Binding Accountings.Count, StringFormat={}{0} записей}" 
+               HorizontalAlignment="Left" 
+               Margin="600,580,0,0" 
+               VerticalAlignment="Top" 
+               FontWeight="Bold"/>
 
     </Grid>
 </Window>

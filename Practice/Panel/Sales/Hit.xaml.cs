@@ -1,33 +1,85 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using Practice.Models;
+using MySql.Data.MySqlClient;
 
 namespace Practice.Panel.Delivery
 {
     public partial class Hit : Window
     {
-        private static ObservableCollection<Product> _products = new ObservableCollection<Product>();
         private Product _currentProduct;
-        private int _quantity = 1;
-
-        static Hit()
-        {
-            // Инициализируем товары
-            _products.Add(new Product { IdProduct = 1, IdCategory = 1, Name = "Ноутбук HP Pavilion", Price = 54999 });
-            _products.Add(new Product { IdProduct = 2, IdCategory = 1, Name = "Смартфон Samsung Galaxy S21", Price = 67999 });
-            _products.Add(new Product { IdProduct = 3, IdCategory = 2, Name = "Наушники Sony WH-1000XM4", Price = 22999 });
-            _products.Add(new Product { IdProduct = 4, IdCategory = 3, Name = "Кофеварка De'Longhi", Price = 15999 });
-            _products.Add(new Product { IdProduct = 5, IdCategory = 4, Name = "Книга 'Война и мир'", Price = 899 });
-            _products.Add(new Product { IdProduct = 6, IdCategory = 1, Name = "Планшет Apple iPad Air", Price = 72999 });
-            _products.Add(new Product { IdProduct = 7, IdCategory = 2, Name = "Клавиатура Logitech MX Keys", Price = 10999 });
-        }
+        private User _selectedClient;
+        public ObservableCollection<User> Clients { get; set; }
 
         public Hit()
         {
             InitializeComponent();
             Amount.Text = "1";
+
+            // Инициализируем коллекцию клиентов
+            Clients = new ObservableCollection<User>();
+            ClientComboBox.ItemsSource = Clients;
+
+            // Подписываемся на событие загрузки
+            this.Loaded += Hit_Loaded;
+        }
+
+        private void Hit_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Все элементы теперь инициализированы
+            CalculateOrderTotal();
+
+            // Загружаем список клиентов
+            LoadClients();
+        }
+
+        private void LoadClients()
+        {
+            try
+            {
+                Clients.Clear();
+
+                // Получаем всех пользователей из БД через DbService
+                var users = DbService.GetAllUsers();
+
+                // Фильтруем только клиентов (покупателей) или всех пользователей
+                foreach (var user in users)
+                {
+                    // Можно добавить фильтр по роли, если нужно
+                    // if (user.Post?.Role?.RoleName == "Пользователь" || user.Post?.Role?.RoleName == "Покупатель")
+                    Clients.Add(user);
+                }
+
+                // Выбираем охранника (ID=6) по умолчанию
+                foreach (User client in Clients)
+                {
+                    if (client.IdUser == 6) // Охранник
+                    {
+                        ClientComboBox.SelectedItem = client;
+                        _selectedClient = client;
+                        break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка загрузки клиентов: {ex.Message}");
+            }
+        }
+
+        private void RefreshClientsButton_Click(object sender, RoutedEventArgs e)
+        {
+            LoadClients();
+        }
+
+        private void ClientComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ClientComboBox.SelectedItem is User selectedUser)
+            {
+                _selectedClient = selectedUser;
+            }
         }
 
         private void FindProductButton_Click(object sender, RoutedEventArgs e)
@@ -41,32 +93,40 @@ namespace Practice.Panel.Delivery
             {
                 if (string.IsNullOrWhiteSpace(IdProductText.Text))
                 {
-                    MessageBox.Show("Введите ID товара!");
+                    MessageBox.Show("Введите ID товара!", "Внимание");
                     return;
                 }
 
                 if (!int.TryParse(IdProductText.Text, out int productId))
                 {
-                    MessageBox.Show("ID должен быть числом!");
+                    MessageBox.Show("ID должен быть числом!", "Ошибка");
                     return;
                 }
 
-                _currentProduct = _products.FirstOrDefault(p => p.IdProduct == productId);
+                // Получаем товар из БД через DbService
+                _currentProduct = DbService.GetProductById(productId);
 
                 if (_currentProduct != null)
                 {
                     ProductNameLabel.Content = _currentProduct.Name;
-                    ProductPriceLabel.Content = $"{_currentProduct.Price:N0} ₽";
-                    ProductNameLabel.Foreground = System.Windows.Media.Brushes.Black;
-                    ProductPriceLabel.Foreground = System.Windows.Media.Brushes.Black;
+                    ProductPriceLabel.Content = $"{_currentProduct.Price:N2} ₽";
 
-                    CalculateOrderTotal(); // Рассчитываем сумму
+                    // Показываем остаток на складе через DbService
+                    int stockAmount = GetProductStock(productId);
+
+                    // Проверяем, существует ли StockLabel
+                    if (StockLabel != null)
+                    {
+                        StockLabel.Content = $"Остаток на складе: {stockAmount} шт.";
+                        StockLabel.Visibility = Visibility.Visible;
+                    }
+
+                    CalculateOrderTotal();
                     Amount.Focus();
-                    Amount.SelectAll();
                 }
                 else
                 {
-                    MessageBox.Show($"Товар с ID {productId} не найден!");
+                    MessageBox.Show($"Товар с ID {productId} не найден!", "Ошибка");
                     ClearProductInfo();
                 }
             }
@@ -76,24 +136,47 @@ namespace Practice.Panel.Delivery
             }
         }
 
-        // Безопасный метод расчета суммы
+        private int GetProductStock(int productId)
+        {
+            try
+            {
+                // Используем DbService.GetConnection()
+                using (var connection = DbService.GetConnection())
+                {
+                    connection.Open();
+
+                    string query = "SELECT AmountOfProduct FROM accounting WHERE IdProduct = @productId LIMIT 1";
+
+                    using (var command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@productId", productId);
+                        var result = command.ExecuteScalar();
+                        return result != DBNull.Value && result != null ? Convert.ToInt32(result) : 0;
+                    }
+                }
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
         private void CalculateOrderTotal()
         {
             try
             {
-                if (_currentProduct != null && int.TryParse(Amount.Text, out int quantity) && quantity > 0)
-                {
-                    _quantity = quantity;
-                    decimal total = _currentProduct.Price * quantity;
+                // Безопасная проверка всех элементов
+                if (OrderTotalLabel == null || _currentProduct == null || Amount == null)
+                    return;
 
-                    // Безопасное обновление Label
-                    if (OrderTotalLabel != null)
-                        OrderTotalLabel.Content = $"{total:N0} ₽";
+                if (int.TryParse(Amount.Text, out int quantity) && quantity > 0)
+                {
+                    decimal total = _currentProduct.Price * quantity;
+                    OrderTotalLabel.Content = $"{total:N2} ₽";
                 }
                 else
                 {
-                    if (OrderTotalLabel != null)
-                        OrderTotalLabel.Content = "0 ₽";
+                    OrderTotalLabel.Content = "0 ₽";
                 }
             }
             catch
@@ -103,54 +186,79 @@ namespace Practice.Panel.Delivery
             }
         }
 
-        private void Amount_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        private void Amount_TextChanged(object sender, TextChangedEventArgs e)
         {
             CalculateOrderTotal();
         }
 
-        private void ClearProductInfo()
-        {
-            _currentProduct = null;
-            _quantity = 1;
-
-            ProductNameLabel.Content = "-";
-            ProductPriceLabel.Content = "0 ₽";
-            ProductNameLabel.Foreground = System.Windows.Media.Brushes.Gray;
-            ProductPriceLabel.Foreground = System.Windows.Media.Brushes.Gray;
-
-            if (OrderTotalLabel != null)
-                OrderTotalLabel.Content = "0 ₽";
-
-            Amount.Text = "1";
-        }
-
-        private void GetBack(object sender, RoutedEventArgs e)
+        private void ProcessSaleButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (_currentProduct == null)
+                // 1. Проверяем выбран ли клиент
+                if (_selectedClient == null)
                 {
-                    MessageBox.Show("Сначала найдите товар!");
+                    MessageBox.Show("Выберите клиента из списка!", "Внимание");
+                    ClientComboBox.Focus();
                     return;
                 }
 
+                // 2. Проверяем товар
+                if (_currentProduct == null)
+                {
+                    MessageBox.Show("Сначала найдите товар!", "Внимание");
+                    IdProductText.Focus();
+                    return;
+                }
+
+                // 3. Проверяем количество
                 if (!int.TryParse(Amount.Text, out int quantity) || quantity <= 0)
                 {
-                    MessageBox.Show("Введите корректное количество!");
+                    MessageBox.Show("Введите корректное количество!", "Ошибка");
+                    Amount.Focus();
+                    return;
+                }
+
+                // 4. Проверяем наличие на складе
+                int stockAmount = GetProductStock(_currentProduct.IdProduct);
+                if (stockAmount <= 0)
+                {
+                    MessageBox.Show("Товара нет на складе!", "Ошибка");
+                    return;
+                }
+
+                if (quantity > stockAmount)
+                {
+                    MessageBox.Show($"Недостаточно товара! Доступно: {stockAmount} шт.", "Ошибка");
                     return;
                 }
 
                 decimal total = _currentProduct.Price * quantity;
 
-                string message = $"Оформить заказ?\n\n" +
-                               $"Товар: {_currentProduct.Name}\n" +
-                               $"Количество: {quantity}\n" +
-                               $"Сумма: {total:N0} ₽";
+                // 5. Подтверждение с информацией о клиенте
+                string clientInfo = $"{_selectedClient.LastName} {_selectedClient.FirstName}";
+                if (!string.IsNullOrEmpty(_selectedClient.Patronymic))
+                    clientInfo += $" {_selectedClient.Patronymic}";
 
-                if (MessageBox.Show(message, "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                string confirmationMessage = $"Оформить продажу?\n\n" +
+                                           $"Клиент: {clientInfo}\n" +
+                                           $"Телефон: {_selectedClient.Phone}\n" +
+                                           $"Товар: {_currentProduct.Name}\n" +
+                                           $"Количество: {quantity}\n" +
+                                           $"Сумма: {total:N2} ₽";
+
+                if (MessageBox.Show(confirmationMessage, "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    MessageBox.Show($"Заказ на сумму {total:N0} ₽ оформлен!");
-                    ClearForm();
+                    // 6. Используем метод ProcessSale с clientId
+                    if (DbService.ProcessSale(_selectedClient.IdUser, _currentProduct.IdProduct, quantity, total))
+                    {
+                        MessageBox.Show("✅ Продажа оформлена!", "Успех");
+                        ClearForm();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка оформления!", "Ошибка");
+                    }
                 }
             }
             catch (Exception ex)
@@ -159,31 +267,65 @@ namespace Practice.Panel.Delivery
             }
         }
 
+        private void ClearForm()
+        {
+            // Очищаем только товар, клиента не сбрасываем
+            IdProductText.Text = "";
+            Amount.Text = "1";
+            ClearProductInfo();
+            IdProductText.Focus();
+        }
+
+        private void ClearProductInfo()
+        {
+            _currentProduct = null;
+
+            if (ProductNameLabel != null)
+                ProductNameLabel.Content = "-";
+
+            if (ProductPriceLabel != null)
+                ProductPriceLabel.Content = "0 ₽";
+
+            if (ProductNameLabel != null)
+                ProductNameLabel.Foreground = System.Windows.Media.Brushes.Gray;
+
+            if (ProductPriceLabel != null)
+                ProductPriceLabel.Foreground = System.Windows.Media.Brushes.Gray;
+
+            if (StockLabel != null)
+            {
+                StockLabel.Content = "";
+                StockLabel.Visibility = Visibility.Collapsed;
+            }
+
+            if (OrderTotalLabel != null)
+                OrderTotalLabel.Content = "0 ₽";
+        }
+
         private void Cancel(object sender, RoutedEventArgs e)
         {
             ClearForm();
         }
 
-        private void ClearForm()
+        // Методы навигации
+        private void Hitt(object sender, RoutedEventArgs e)
         {
-            IdProductText.Text = "";
-            ClearProductInfo();
-            IdProductText.Focus();
+            // Уже на этой странице
         }
 
-        // Навигационные методы
-        private void Hitt(object sender, RoutedEventArgs e) { }
         private void Back(object sender, RoutedEventArgs e)
         {
             new Reload().Show();
             this.Close();
         }
+
         private void History(object sender, RoutedEventArgs e)
         {
             new Sales.HistoryOrdersSales().Show();
             this.Close();
         }
-        private void MLBD_Exit(object sender, EventArgs e)
+
+        private void MLBD_Exit(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             new Login().Show();
             this.Close();
