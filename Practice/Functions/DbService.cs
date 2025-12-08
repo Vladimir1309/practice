@@ -17,17 +17,6 @@ public static class DbService
     // Метод для создания и открытия подключения к БД
     public static MySqlConnection GetConnection()
     {
-        //try
-        //{
-        //    MySqlConnection connection = new MySqlConnection(_connectionString);
-        //    connection.Open();
-        //    return connection;
-        //}
-        //catch (Exception ex)
-        //{
-        //    Console.WriteLine($"Ошибка подключения: {ex.Message}");
-        //    throw;
-        //}
 
         try
         {
@@ -178,7 +167,6 @@ public static class DbService
     }
 
     // Метод для аутентификации пользователя
-    // Метод для аутентификации пользователя
     public static User AuthenticateUser(string login, string password)
     {
         try
@@ -325,54 +313,6 @@ public static class DbService
             return new List<Accounting>();
         }
     }
-
-    // Метод для получения статистики
-    //public static Dictionary<string, int> GetAdminStatistics()
-    //{
-    //    var stats = new Dictionary<string, int>();
-
-    //    try
-    //    {
-    //        using (var conn = GetConnection())
-    //        {
-    //            conn.Open();
-
-    //            // Количество пользователей
-    //            string usersQuery = "SELECT COUNT(*) FROM user";
-    //            using (var cmd = new MySqlCommand(usersQuery, conn))
-    //            {
-    //                stats["TotalUsers"] = Convert.ToInt32(cmd.ExecuteScalar());
-    //            }
-
-    //            // Количество активных заказов
-    //            string activeOrdersQuery = "SELECT COUNT(*) FROM orders WHERE IsCompleted = 0";
-    //            using (var cmd = new MySqlCommand(activeOrdersQuery, conn))
-    //            {
-    //                stats["ActiveOrders"] = Convert.ToInt32(cmd.ExecuteScalar());
-    //            }
-
-    //            // Количество товаров
-    //            string productsQuery = "SELECT COUNT(*) FROM product";
-    //            using (var cmd = new MySqlCommand(productsQuery, conn))
-    //            {
-    //                stats["TotalProducts"] = Convert.ToInt32(cmd.ExecuteScalar());
-    //            }
-
-    //            // Общая выручка
-    //            string revenueQuery = "SELECT COALESCE(SUM(TotalSum), 0) FROM orders WHERE IsCompleted = 1";
-    //            using (var cmd = new MySqlCommand(revenueQuery, conn))
-    //            {
-    //                stats["TotalRevenue"] = Convert.ToInt32(cmd.ExecuteScalar());
-    //            }
-    //        }
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        Console.WriteLine($"Ошибка получения статистики: {ex.Message}");
-    //    }
-
-    //    return stats;
-    //}
 
     // Получение информации о товаре по ID
     public static Product GetProductById(int productId)
@@ -908,114 +848,227 @@ public static class DbService
     }
 
     // Метод для добавления товара в корзину
+
+
     public static bool AddToCart(int userId, int productId, int amount = 1)
     {
         try
         {
-            // Проверяем, существует ли пользователь
             using (var conn = GetConnection())
             {
                 conn.Open();
 
-                string checkUserQuery = "SELECT COUNT(*) FROM user WHERE IdUser = @userId";
+                // 1. Получаем или создаем активный заказ
+                int orderId = GetActiveOrderId(userId);
 
-                using (var checkCmd = new MySqlCommand(checkUserQuery, conn))
+                if (orderId == 0)
                 {
-                    checkCmd.Parameters.AddWithValue("@userId", userId);
-                    long userCount = (long)checkCmd.ExecuteScalar();
-
-                    if (userCount == 0)
+                    orderId = CreateNewOrder(userId);
+                    if (orderId == 0)
                     {
-                        MessageBox.Show($"Ошибка: пользователь с ID {userId} не найден",
-                                      "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Не удалось создать заказ", "Ошибка",
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                         return false;
                     }
                 }
-            }
 
-            // 1. Проверяем есть ли активный заказ
-            string findOrderQuery = "SELECT IdOrder FROM `orders` WHERE IdUserClient = @userId AND IsCompleted = 0";
-            int orderId = 0;
+                // 2. Проверяем, есть ли уже этот товар в order_product для этого заказа
+                string checkQuery = @"
+                SELECT IdOrderProduct, Amount, IsFavourited 
+                FROM order_product 
+                WHERE IdOrder = @orderId AND IdProduct = @productId";
 
-            using (var connection = GetConnection())
-            {
-                connection.Open();
-
-                using (var command = new MySqlCommand(findOrderQuery, connection))
-                {
-                    command.Parameters.AddWithValue("@userId", userId);
-                    var result = command.ExecuteScalar();
-                    if (result != null)
-                    {
-                        orderId = Convert.ToInt32(result);
-                    }
-                }
-
-                // 2. Если нет активного заказа - создаем новый
-                if (orderId == 0)
-                {
-                    // Используем метод CreateNewOrder, который проверяет пользователя
-                    orderId = CreateNewOrder(userId);
-
-                    if (orderId == 0)
-                    {
-                        return false; // Не удалось создать заказ
-                    }
-                }
-
-                // 3. Проверяем есть ли товар уже в корзине
-                string checkItemQuery = "SELECT IdOrderProduct, Amount FROM order_product WHERE IdOrder = @orderId AND IdProduct = @productId";
-                int existingId = 0;
+                int orderProductId = 0;
                 int existingAmount = 0;
+                bool isFavourite = false;
 
-                using (var command = new MySqlCommand(checkItemQuery, connection))
+                using (var checkCmd = new MySqlCommand(checkQuery, conn))
                 {
-                    command.Parameters.AddWithValue("@orderId", orderId);
-                    command.Parameters.AddWithValue("@productId", productId);
+                    checkCmd.Parameters.AddWithValue("@orderId", orderId);
+                    checkCmd.Parameters.AddWithValue("@productId", productId);
 
-                    using (var reader = command.ExecuteReader())
+                    using (var reader = checkCmd.ExecuteReader())
                     {
                         if (reader.Read())
                         {
-                            existingId = reader.GetInt32("IdOrderProduct");
+                            orderProductId = reader.GetInt32("IdOrderProduct");
                             existingAmount = reader.GetInt32("Amount");
+                            isFavourite = reader.GetBoolean("IsFavourited");
                         }
                     }
                 }
 
-                // 4. Обновляем или добавляем товар
-                if (existingId > 0)
+                // 3. Обновляем или добавляем запись
+                if (orderProductId > 0)
                 {
-                    string updateQuery = "UPDATE order_product SET Amount = @amount WHERE IdOrderProduct = @id";
-                    using (var command = new MySqlCommand(updateQuery, connection))
+                    // Если товар уже есть, увеличиваем количество
+                    int newAmount = existingAmount + amount;
+
+                    // Если товар был в избранном (Amount = 0), теперь он будет в корзине
+                    string updateQuery = @"
+                    UPDATE order_product 
+                    SET Amount = @amount 
+                    WHERE IdOrderProduct = @id";
+
+                    using (var updateCmd = new MySqlCommand(updateQuery, conn))
                     {
-                        command.Parameters.AddWithValue("@amount", existingAmount + amount);
-                        command.Parameters.AddWithValue("@id", existingId);
-                        command.ExecuteNonQuery();
+                        updateCmd.Parameters.AddWithValue("@amount", newAmount);
+                        updateCmd.Parameters.AddWithValue("@id", orderProductId);
+
+                        bool result = updateCmd.ExecuteNonQuery() > 0;
+
+                        // Обновляем общую сумму заказа
+                        if (result)
+                        {
+                            UpdateOrderTotal(orderId);
+                        }
+
+                        return result;
                     }
                 }
                 else
                 {
-                    string insertQuery = "INSERT INTO order_product (IdOrder, IdProduct, Amount, IsFavourited) VALUES (@orderId, @productId, @amount, 0)";
-                    using (var command = new MySqlCommand(insertQuery, connection))
+                    // Создаем новую запись для корзины
+                    string insertQuery = @"
+                    INSERT INTO order_product 
+                    (IdOrder, IdProduct, Amount, IsFavourited, IsReturned, ReturnedQuantity) 
+                    VALUES (@orderId, @productId, @amount, 0, 0, 0)";
+
+                    using (var insertCmd = new MySqlCommand(insertQuery, conn))
                     {
-                        command.Parameters.AddWithValue("@orderId", orderId);
-                        command.Parameters.AddWithValue("@productId", productId);
-                        command.Parameters.AddWithValue("@amount", amount);
-                        command.ExecuteNonQuery();
+                        insertCmd.Parameters.AddWithValue("@orderId", orderId);
+                        insertCmd.Parameters.AddWithValue("@productId", productId);
+                        insertCmd.Parameters.AddWithValue("@amount", amount);
+
+                        bool result = insertCmd.ExecuteNonQuery() > 0;
+
+                        // Обновляем общую сумму заказа
+                        if (result)
+                        {
+                            UpdateOrderTotal(orderId);
+                        }
+
+                        return result;
                     }
                 }
             }
-            return true;
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Ошибка добавления в корзину: {ex.Message}");
+            MessageBox.Show($"Ошибка добавления в корзину: {ex.Message}\n\n{ex.StackTrace}",
+                "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             return false;
         }
     }
 
-    // Метод для получения избранных товаров пользователя
+
+    //public static bool AddToCart(int userId, int productId, int amount = 1)
+    //{
+    //    try
+    //    {
+    //        // Проверяем, существует ли пользователь
+    //        using (var conn = GetConnection())
+    //        {
+    //            conn.Open();
+
+    //            string checkUserQuery = "SELECT COUNT(*) FROM user WHERE IdUser = @userId";
+
+    //            using (var checkCmd = new MySqlCommand(checkUserQuery, conn))
+    //            {
+    //                checkCmd.Parameters.AddWithValue("@userId", userId);
+    //                long userCount = (long)checkCmd.ExecuteScalar();
+
+    //                if (userCount == 0)
+    //                {
+    //                    MessageBox.Show($"Ошибка: пользователь с ID {userId} не найден",
+    //                                  "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+    //                    return false;
+    //                }
+    //            }
+    //        }
+
+    //        // 1. Проверяем есть ли активный заказ
+    //        string findOrderQuery = "SELECT IdOrder FROM `orders` WHERE IdUserClient = @userId AND IsCompleted = 0";
+    //        int orderId = 0;
+
+    //        using (var connection = GetConnection())
+    //        {
+    //            connection.Open();
+
+    //            using (var command = new MySqlCommand(findOrderQuery, connection))
+    //            {
+    //                command.Parameters.AddWithValue("@userId", userId);
+    //                var result = command.ExecuteScalar();
+    //                if (result != null)
+    //                {
+    //                    orderId = Convert.ToInt32(result);
+    //                }
+    //            }
+
+    //            // 2. Если нет активного заказа - создаем новый
+    //            if (orderId == 0)
+    //            {
+    //                // Используем метод CreateNewOrder, который проверяет пользователя
+    //                orderId = CreateNewOrder(userId);
+
+    //                if (orderId == 0)
+    //                {
+    //                    return false; // Не удалось создать заказ
+    //                }
+    //            }
+
+    //            // 3. Проверяем есть ли товар уже в корзине
+    //            string checkItemQuery = "SELECT IdOrderProduct, Amount FROM order_product WHERE IdOrder = @orderId AND IdProduct = @productId";
+    //            int existingId = 0;
+    //            int existingAmount = 0;
+
+    //            using (var command = new MySqlCommand(checkItemQuery, connection))
+    //            {
+    //                command.Parameters.AddWithValue("@orderId", orderId);
+    //                command.Parameters.AddWithValue("@productId", productId);
+
+    //                using (var reader = command.ExecuteReader())
+    //                {
+    //                    if (reader.Read())
+    //                    {
+    //                        existingId = reader.GetInt32("IdOrderProduct");
+    //                        existingAmount = reader.GetInt32("Amount");
+    //                    }
+    //                }
+    //            }
+
+    //            // 4. Обновляем или добавляем товар
+    //            if (existingId > 0)
+    //            {
+    //                string updateQuery = "UPDATE order_product SET Amount = @amount WHERE IdOrderProduct = @id";
+    //                using (var command = new MySqlCommand(updateQuery, connection))
+    //                {
+    //                    command.Parameters.AddWithValue("@amount", existingAmount + amount);
+    //                    command.Parameters.AddWithValue("@id", existingId);
+    //                    command.ExecuteNonQuery();
+    //                }
+    //            }
+    //            else
+    //            {
+    //                string insertQuery = "INSERT INTO order_product (IdOrder, IdProduct, Amount, IsFavourited) VALUES (@orderId, @productId, @amount, 0)";
+    //                using (var command = new MySqlCommand(insertQuery, connection))
+    //                {
+    //                    command.Parameters.AddWithValue("@orderId", orderId);
+    //                    command.Parameters.AddWithValue("@productId", productId);
+    //                    command.Parameters.AddWithValue("@amount", amount);
+    //                    command.ExecuteNonQuery();
+    //                }
+    //            }
+    //        }
+    //        return true;
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        MessageBox.Show($"Ошибка добавления в корзину: {ex.Message}");
+    //        return false;
+    //    }
+    //}
+
     // Метод для получения только избранных товаров
     public static List<Order_Product> GetFavourites(int userId)
     {
@@ -1051,9 +1104,6 @@ public static class DbService
         }, parameters);
     }
 
-    // Метод для переключения состояния "избранное"
-
-    // Метод для добавления товара в избранное
     // Метод для добавления ТОЛЬКО в избранное (БЕЗ корзины)
     public static bool AddToFavouriteOnly(int userId, int productId)
     {
@@ -1195,40 +1245,6 @@ public static class DbService
         }
     }
 
-    //public static bool ToggleFavourite(int orderProductId)
-    //    {
-    //        try
-    //        {
-    //            // Сначала получаем текущее состояние
-    //            string getQuery = "SELECT IsFavourited FROM order_product WHERE IdOrderProduct = @id";
-    //            bool currentState = false;
-
-    //            using (var connection = GetConnection())
-    //            {
-    //            connection.Open();
-    //            using (var getCommand = new MySqlCommand(getQuery, connection))
-    //                {
-    //                    getCommand.Parameters.AddWithValue("@id", orderProductId);
-    //                    currentState = Convert.ToBoolean(getCommand.ExecuteScalar());
-    //                }
-
-    //                // Инвертируем состояние
-    //                string updateQuery = "UPDATE order_product SET IsFavourited = @state WHERE IdOrderProduct = @id";
-    //                using (var updateCommand = new MySqlCommand(updateQuery, connection))
-    //                {
-    //                    updateCommand.Parameters.AddWithValue("@state", !currentState);
-    //                    updateCommand.Parameters.AddWithValue("@id", orderProductId);
-    //                    return updateCommand.ExecuteNonQuery() > 0;
-    //                }
-    //            }
-    //        }
-    //        catch (Exception ex)
-    //        {
-    //            MessageBox.Show($"Ошибка изменения избранного: {ex.Message}");
-    //            return false;
-    //        }
-    //    }
-
     // Метод для обновления количества товара в корзине
     public static bool UpdateCartItemAmount(int orderProductId, int newAmount)
         {
@@ -1298,7 +1314,6 @@ public static class DbService
     }
 
     // Метод для получения всех завершенных заказов
-    // Метод для получения всех завершенных заказов
     public static List<Order> GetAllOrders()
     {
         try
@@ -1337,33 +1352,6 @@ public static class DbService
         }
     }
 
-    private static bool CheckReturnColumnsExist()
-    {
-        try
-        {
-            using (var conn = GetConnection())
-            {
-                conn.Open();
-
-                string query = @"
-                SELECT COUNT(*) 
-                FROM information_schema.COLUMNS 
-                WHERE TABLE_SCHEMA = DATABASE() 
-                AND TABLE_NAME = 'order_product' 
-                AND COLUMN_NAME IN ('ReturnedQuantity', 'IsReturned')";
-
-                using (var cmd = new MySqlCommand(query, conn))
-                {
-                    return Convert.ToInt32(cmd.ExecuteScalar()) == 2;
-                }
-            }
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
     // Метод для получения всех товаров
     public static List<Product> GetAllProducts()
         {
@@ -1378,31 +1366,6 @@ public static class DbService
                 ImagePath = reader.IsDBNull(reader.GetOrdinal("ImagePath")) ? "" : reader.GetString("ImagePath")
             });
         }
-
-        // Метод для получения товара по ID
-        //public static Product GetProductById(int productId)
-        //{
-        //    string query = "SELECT * FROM product WHERE IdProduct = @id";
-        //    var parameters = new Dictionary<string, object>
-        //    {
-        //        ["@id"] = productId
-        //    };
-
-        //    var products = GetData(query, reader => new Product
-        //    {
-        //        IdProduct = reader.GetInt32("IdProduct"),
-        //        IdCategory = reader.GetInt32("IdCategory"),
-        //        Name = reader.GetString("Name"),
-        //        Price = reader.GetDecimal("Price"),
-        //        ImagePath = reader.IsDBNull(reader.GetOrdinal("ImagePath")) ? "" : reader.GetString("ImagePath")
-        //    }, parameters);
-
-        //    return products.FirstOrDefault();
-        //}
-
-
-
-    // В классе DbService добавьте следующие методы:
 
     // Метод для удаления из корзины (НЕ удаляет из избранного)
     public static bool RemoveFromCartOnly(int orderProductId)
@@ -1486,39 +1449,89 @@ public static class DbService
 
     // Метод для получения товаров из корзины пользователя
     // Метод для получения только товаров корзины (для покупки)
+
     public static List<Order_Product> GetUserCart(int userId)
     {
-        string query = @"
-    SELECT op.*, p.Name, p.Price, p.ImagePath 
-    FROM order_product op
-    JOIN `orders` o ON op.IdOrder = o.IdOrder
-    JOIN product p ON op.IdProduct = p.IdProduct
-    WHERE o.IdUserClient = @userId
-      AND o.IsCompleted = 0
-      AND op.Amount > 0  -- Только товары с количеством > 0
-    ORDER BY op.IdOrderProduct DESC";
-
-        var parameters = new Dictionary<string, object>
+        try
         {
-            ["@userId"] = userId
-        };
+            Console.WriteLine($"Получение корзины для пользователя {userId}");
 
-        return GetData(query, reader => new Order_Product
-        {
-            IdOrderProduct = reader.GetInt32("IdOrderProduct"),
-            IdOrder = reader.GetInt32("IdOrder"),
-            IdProduct = reader.GetInt32("IdProduct"),
-            Amount = reader.GetInt32("Amount"),
-            IsFavourited = reader.GetBoolean("IsFavourited"),
-            Product = new Product
+            string query = @"
+            SELECT op.*, p.Name, p.Price, p.ImagePath 
+            FROM order_product op
+            JOIN `orders` o ON op.IdOrder = o.IdOrder
+            JOIN product p ON op.IdProduct = p.IdProduct
+            WHERE o.IdUserClient = @userId
+              AND o.IsCompleted = 0
+              AND op.Amount > 0
+            ORDER BY op.IdOrderProduct DESC";
+
+            var parameters = new Dictionary<string, object>
             {
+                ["@userId"] = userId
+            };
+
+            var result = GetData(query, reader => new Order_Product
+            {
+                IdOrderProduct = reader.GetInt32("IdOrderProduct"),
+                IdOrder = reader.GetInt32("IdOrder"),
                 IdProduct = reader.GetInt32("IdProduct"),
-                Name = reader.GetString("Name"),
-                Price = reader.GetDecimal("Price"),
-                ImagePath = reader.IsDBNull(reader.GetOrdinal("ImagePath")) ? "" : reader.GetString("ImagePath")
-            }
-        }, parameters);
+                Amount = reader.GetInt32("Amount"),
+                IsFavourited = reader.GetBoolean("IsFavourited"),
+                Product = new Product
+                {
+                    IdProduct = reader.GetInt32("IdProduct"),
+                    Name = reader.GetString("Name"),
+                    Price = reader.GetDecimal("Price"),
+                    ImagePath = reader.IsDBNull(reader.GetOrdinal("ImagePath")) ?
+                        "/materials/2/3/1.png" : reader.GetString("ImagePath")
+                }
+            }, parameters);
+
+            Console.WriteLine($"Найдено {result.Count} товаров в корзине");
+
+            return result;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Ошибка получения корзины: {ex.Message}");
+            return new List<Order_Product>();
+        }
     }
+
+    //public static List<Order_Product> GetUserCart(int userId)
+    //{
+    //    string query = @"
+    //SELECT op.*, p.Name, p.Price, p.ImagePath 
+    //FROM order_product op
+    //JOIN `orders` o ON op.IdOrder = o.IdOrder
+    //JOIN product p ON op.IdProduct = p.IdProduct
+    //WHERE o.IdUserClient = @userId
+    //  AND o.IsCompleted = 0
+    //  AND op.Amount > 0  -- Только товары с количеством > 0
+    //ORDER BY op.IdOrderProduct DESC";
+
+    //    var parameters = new Dictionary<string, object>
+    //    {
+    //        ["@userId"] = userId
+    //    };
+
+    //    return GetData(query, reader => new Order_Product
+    //    {
+    //        IdOrderProduct = reader.GetInt32("IdOrderProduct"),
+    //        IdOrder = reader.GetInt32("IdOrder"),
+    //        IdProduct = reader.GetInt32("IdProduct"),
+    //        Amount = reader.GetInt32("Amount"),
+    //        IsFavourited = reader.GetBoolean("IsFavourited"),
+    //        Product = new Product
+    //        {
+    //            IdProduct = reader.GetInt32("IdProduct"),
+    //            Name = reader.GetString("Name"),
+    //            Price = reader.GetDecimal("Price"),
+    //            ImagePath = reader.IsDBNull(reader.GetOrdinal("ImagePath")) ? "" : reader.GetString("ImagePath")
+    //        }
+    //    }, parameters);
+    //}
 
     public static bool DeleteCartItem(int orderProductId)
     {

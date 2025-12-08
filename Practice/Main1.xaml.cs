@@ -204,29 +204,6 @@ namespace Practice
             }
         }
 
-        // Удалить товар из избранного
-        private bool RemoveFromFavourite(int productId)
-        {
-            if (!AuthManager.IsAuthenticated) return false;
-
-            try
-            {
-                // Находим товар в избранном
-                var favourites = DbService.GetFavourites(AuthManager.CurrentUserId);
-                var favouriteItem = favourites.FirstOrDefault(f => f.IdProduct == productId);
-
-                if (favouriteItem != null)
-                {
-                    return DbService.ToggleFavourite(favouriteItem.IdOrderProduct);
-                }
-                return false;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
         private void MLBD_GWAN(object sender, RoutedEventArgs e)
         {
             Main1 main1 = new Main1();
@@ -445,7 +422,7 @@ namespace Practice
                 if (AuthManager.IsAuthenticated)
                 {
                     // Добавляем в БД корзину
-                    if (DbService.AddToCart(AuthManager.CurrentUserId, 1, amount))
+                    if (DbService.AddToCart(AuthManager.CurrentUserId, 7, amount))
                     {
                         MessageBox.Show("Товар добавлен в корзину!");
                     }
@@ -472,7 +449,7 @@ namespace Practice
                 if (AuthManager.IsAuthenticated)
                 {
                     // Добавляем в БД корзину
-                    if (DbService.AddToCart(AuthManager.CurrentUserId, 1, amount))
+                    if (DbService.AddToCart(AuthManager.CurrentUserId, 10, amount))
                     {
                         MessageBox.Show("Товар добавлен в корзину!");
                     }

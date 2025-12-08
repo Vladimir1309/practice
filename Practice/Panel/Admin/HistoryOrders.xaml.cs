@@ -69,10 +69,6 @@ namespace Practice.Panel.Admin
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
-        // Обновленный DataGrid в XAML для отображения заказов
-        // Добавьте в HistoryOrders.xaml:
-
         private void Registration(object sender, RoutedEventArgs e)
         {
             Register register = new Register();
